@@ -1,0 +1,191 @@
+<project name="ardor3d" default="jars">
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="lib.dir" value="${build.dir}/lib" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="src.dir" value="${basedir}/src" />
+	
+	<!-- paths used for compilation and run  -->
+	<path id="lib.path.id">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+	</path>
+	
+	<path id="run.path.id">
+		<path refid="lib.path.id" />
+		<path location="${classes.dir}" />
+	</path>
+	
+	<target name="init" depends="" description="--> initialize">
+		<tstamp>
+			<format property="compile.time" pattern="MMddyyyy-HHmm" />
+		</tstamp>
+		
+		<delete quiet="true">
+			<fileset dir="${lib.dir}" />
+			<fileset dir="${classes.dir}" />
+		</delete>
+		
+		<mkdir dir="${lib.dir}" />
+		
+		<copy todir="${lib.dir}">
+			<fileset dir="lib/extensions" includes="*.jar"/>
+			<fileset dir="lib/jogl" includes="*.jar"/>
+			<fileset dir="lib/lwjgl" includes="*.jar"/>
+			<fileset dir="lib/swt/windows" includes="*.jar"/>
+			<fileset dir="lib/test" includes="*.jar"/>
+		</copy>
+	</target>
+	
+	<target name="jar_core" depends="init" description="--> compile core">	
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+		
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/core" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/core" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-core-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+	
+	<target name="jar_coreimpl_dummy" depends="jar_core" description="--> compile coreimpl dummy">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+		
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/coreimpl_dummy" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/coreimpl_dummy" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-coreimpl_dummy-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+		
+	<target name="jar_coreimpl_lwjgl" depends="jar_coreimpl_dummy" description="--> compile coreimpl lwjgl">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+		
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/coreimpl_lwjgl" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/coreimpl_lwjgl" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-coreimpl_lwjgl-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+	
+	<target name="jar_coreimpl_awt" depends="jar_coreimpl_lwjgl" description="--> compile coreimpl awt">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+				
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/coreimpl_awt" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/coreimpl_awt" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-coreimpl_awt-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+	
+	<target name="jar_coreimpl_jogl" depends="jar_coreimpl_awt" description="--> compile coreimpl jogl">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+				
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/coreimpl_jogl" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/coreimpl_jogl" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-coreimpl_jogl-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+	
+	<target name="jar_primitives" depends="jar_coreimpl_jogl" description="--> compile primitives">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+				
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/primitives" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/primitives" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-primitives-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+
+	<target name="jar_coreimpl_swt" depends="jar_primitives" description="--> compile coreimpl swt">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+				
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/coreimpl_swt" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/coreimpl_swt" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-coreimpl_swt-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+	
+	<target name="jar_shadows" depends="jar_coreimpl_swt" description="--> compile shadows">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+				
+		<mkdir dir="${classes.dir}" />
+		
+		<javac srcdir="${src.dir}/shadows" destdir="${classes.dir}" classpathref="lib.path.id" />
+		
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/shadows" excludes="**/*.java"/>
+		</copy>
+		
+		<jar destfile="${lib.dir}/${ant.project.name}-shadows-${compile.time}.jar">
+			<fileset dir="${classes.dir}" />
+		</jar>
+	</target>
+
+	<target name="jars" depends="jar_shadows" description="--> jar it up">
+		<delete quiet="true">
+			<fileset dir="${classes.dir}" />
+		</delete>
+				
+		<copy todir="${build.dir}">
+			<fileset dir="${lib.dir}" includes="${ant.project.name}*.jar"/>
+		</copy>
+	</target>
+</project>
