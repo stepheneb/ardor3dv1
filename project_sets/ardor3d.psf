@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psf version="2.0">
+<provider id="org.tigris.subversion.subclipse.core.svnnature">
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-awt/trunk,ardor3d-awt"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-core/trunk,ardor3d-core"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-effects/trunk,ardor3d-effects"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-examples/trunk,ardor3d-examples"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-jogl/trunk,ardor3d-jogl"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-lwjgl/trunk,ardor3d-lwjgl"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-primitives/trunk,ardor3d-primitives"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-swt/trunk,ardor3d-swt"/>
+<project reference="0.9.3,http://ardorlabs-svn.cvsdude.com/Ardor3Dv1/ardor3d-unittests/trunk,ardor3d-unittests"/>
+</provider>
+</psf>
