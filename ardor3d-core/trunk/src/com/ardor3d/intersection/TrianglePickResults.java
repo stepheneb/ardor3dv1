@@ -13,8 +13,6 @@ package com.ardor3d.intersection;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.media.j3d.Geometry;
-
 import com.ardor3d.math.Ray3;
 import com.ardor3d.scenegraph.Mesh;
 
@@ -37,7 +35,6 @@ public class TrianglePickResults extends PickResults {
      *            the ray that is doing the picking.
      * @param mesh
      *            the Mesh to add to the pick list.
-     * @see com.ardor3d.intersection.PickResults#addPick(Ray3, Geometry)
      */
     @Override
     public void addPick(final Ray3 ray, final Mesh mesh) {

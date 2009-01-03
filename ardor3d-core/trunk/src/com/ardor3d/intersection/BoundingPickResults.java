@@ -10,8 +10,6 @@
 
 package com.ardor3d.intersection;
 
-import javax.media.j3d.Geometry;
-
 import com.ardor3d.math.Ray3;
 import com.ardor3d.scenegraph.Mesh;
 
@@ -25,8 +23,6 @@ public class BoundingPickResults extends PickResults {
 
     /**
      * adds a PickData object to this results list, the objects only refer to the picked meshes, not the triangles.
-     * 
-     * @see com.ardor3d.intersection.PickResults#addPick(Ray3, Geometry)
      */
     @Override
     public void addPick(final Ray3 ray, final Mesh g) {
