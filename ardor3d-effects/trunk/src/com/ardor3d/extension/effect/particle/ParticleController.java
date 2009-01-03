@@ -80,7 +80,7 @@ public class ParticleController extends Controller {
 
     /**
      * Update the particles managed by this manager. If any particles are "dead" recreate them at the origin position
-     * (which may be a point, line or rectangle.) See com.jme.scene.Controller.update(double)
+     * (which may be a point, line or rectangle.)
      * 
      * @param secondsPassed
      *            double
