@@ -22,8 +22,8 @@ import com.ardor3d.light.PointLight;
 import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Plane;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.state.LightState;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.scenegraph.Spatial;
@@ -276,7 +276,7 @@ public class MeshShadows {
     // Get the intersection of a line segment and a plane in terms of t>=0 t<=1
     // for positions within the segment
     protected double getIntersectTime(final Plane p, final Vector3 p0, final Vector3 v) {
-        final ReadableVector3 normal = p.getNormal();
+        final ReadOnlyVector3 normal = p.getNormal();
         final double divider = normal.dot(v);
         if (divider == 0) {
             return -Float.MAX_VALUE;
@@ -394,9 +394,9 @@ public class MeshShadows {
 
         final float passTime = System.currentTimeMillis() - lastTime;
 
-        final ReadableVector3 worldTranslation = target.getWorldTranslation();
-        final ReadableVector3 worldScale = target.getWorldScale();
-        final ReadableMatrix3 worldRotation = target.getWorldRotation();
+        final ReadOnlyVector3 worldTranslation = target.getWorldTranslation();
+        final ReadOnlyVector3 worldScale = target.getWorldScale();
+        final ReadOnlyMatrix3 worldRotation = target.getWorldRotation();
 
         if (nextTime) {
             if (passTime > throttle) {

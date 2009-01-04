@@ -22,7 +22,7 @@ import com.ardor3d.input.logical.TriggerConditions;
 import com.ardor3d.input.logical.TwoInputStates;
 import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -37,15 +37,15 @@ public class FirstPersonControl {
     private final Vector3 workerStoreA = new Vector3();
     private final Vector3 workerStoreB = new Vector3();
 
-    public FirstPersonControl(final ReadableVector3 upAxis) {
+    public FirstPersonControl(final ReadOnlyVector3 upAxis) {
         _upAxis.set(upAxis);
     }
 
-    public ReadableVector3 getUpAxis() {
+    public ReadOnlyVector3 getUpAxis() {
         return _upAxis;
     }
 
-    public void setUpAxis(final ReadableVector3 upAxis) {
+    public void setUpAxis(final ReadOnlyVector3 upAxis) {
         _upAxis.set(upAxis);
     }
 
@@ -148,7 +148,7 @@ public class FirstPersonControl {
      * @param impl
      * @return
      */
-    public static FirstPersonControl setupTriggers(final LogicalLayer layer, final ReadableVector3 upAxis,
+    public static FirstPersonControl setupTriggers(final LogicalLayer layer, final ReadOnlyVector3 upAxis,
             final boolean dragOnly) {
 
         final FirstPersonControl control = new FirstPersonControl(upAxis);

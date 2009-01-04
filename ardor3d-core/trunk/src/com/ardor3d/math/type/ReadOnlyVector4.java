@@ -12,7 +12,7 @@ package com.ardor3d.math.type;
 
 import com.ardor3d.math.Vector4;
 
-public interface ReadableVector4 {
+public interface ReadOnlyVector4 {
 
     public double getX();
 
@@ -34,27 +34,27 @@ public interface ReadableVector4 {
 
     public Vector4 add(final double x, final double y, final double z, final double w, final Vector4 store);
 
-    public Vector4 add(final ReadableVector4 source, final Vector4 store);
+    public Vector4 add(final ReadOnlyVector4 source, final Vector4 store);
 
     public Vector4 subtract(final double x, final double y, final double z, final double w, final Vector4 store);
 
-    public Vector4 subtract(final ReadableVector4 source, final Vector4 store);
+    public Vector4 subtract(final ReadOnlyVector4 source, final Vector4 store);
 
     public Vector4 multiply(final double scalar, final Vector4 store);
 
-    public Vector4 multiply(final ReadableVector4 scale, final Vector4 store);
+    public Vector4 multiply(final ReadOnlyVector4 scale, final Vector4 store);
 
     public Vector4 divide(final double scalar, final Vector4 store);
 
-    public Vector4 divide(final ReadableVector4 scale, final Vector4 store);
+    public Vector4 divide(final ReadOnlyVector4 scale, final Vector4 store);
 
-    public Vector4 scaleAdd(final double scale, final ReadableVector4 add, final Vector4 store);
+    public Vector4 scaleAdd(final double scale, final ReadOnlyVector4 add, final Vector4 store);
 
     public Vector4 negate(final Vector4 store);
 
     public Vector4 normalize(final Vector4 store);
 
-    public Vector4 lerp(final ReadableVector4 endVec, final double scalar, final Vector4 store);
+    public Vector4 lerp(final ReadOnlyVector4 endVec, final double scalar, final Vector4 store);
 
     public double length();
 
@@ -62,17 +62,17 @@ public interface ReadableVector4 {
 
     public double distanceSquared(final double x, final double y, final double z, final double w);
 
-    public double distanceSquared(final ReadableVector4 destination);
+    public double distanceSquared(final ReadOnlyVector4 destination);
 
     public double distance(final double x, final double y, final double z, final double w);
 
-    public double distance(final ReadableVector4 destination);
+    public double distance(final ReadOnlyVector4 destination);
 
     public double dot(final double x, final double y, final double z, final double w);
 
-    public double dot(final ReadableVector4 vec);
+    public double dot(final ReadOnlyVector4 vec);
 
     public double determinant(final double x, final double y, final double z, final double w);
 
-    public double determinant(final ReadableVector4 vec);
+    public double determinant(final ReadOnlyVector4 vec);
 }

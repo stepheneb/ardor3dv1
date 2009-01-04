@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableVector2;
+import com.ardor3d.math.type.ReadOnlyVector2;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -28,7 +28,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * Vector2 represents a point or vector in a two dimensional system. This implementation stores its data in
  * double-precision.
  */
-public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVector2 {
+public class Vector2 implements Cloneable, Savable, Externalizable, ReadOnlyVector2 {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,20 +37,20 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
     /**
      * 0, 0
      */
-    public final static ReadableVector2 ZERO = new Vector2(0, 0);
+    public final static ReadOnlyVector2 ZERO = new Vector2(0, 0);
 
     /**
      * 1, 0
      */
-    public final static ReadableVector2 UNIT_X = new Vector2(1, 0);
+    public final static ReadOnlyVector2 UNIT_X = new Vector2(1, 0);
     /**
      * 0, 1
      */
-    public final static ReadableVector2 UNIT_Y = new Vector2(0, 1);
+    public final static ReadOnlyVector2 UNIT_Y = new Vector2(0, 1);
     /**
      * 1, 1
      */
-    public final static ReadableVector2 UNIT_XY = new Vector2(1, 1);
+    public final static ReadOnlyVector2 UNIT_XY = new Vector2(1, 1);
 
     protected double _x = 0;
     protected double _y = 0;
@@ -67,7 +67,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * 
      * @param src
      */
-    public Vector2(final ReadableVector2 src) {
+    public Vector2(final ReadOnlyVector2 src) {
         this(src.getX(), src.getY());
     }
 
@@ -200,7 +200,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector2 set(final ReadableVector2 source) {
+    public Vector2 set(final ReadOnlyVector2 source) {
         setX(source.getX());
         setY(source.getY());
         return this;
@@ -255,7 +255,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector2 add(final ReadableVector2 source, final Vector2 store) {
+    public Vector2 add(final ReadOnlyVector2 source, final Vector2 store) {
         return add(source.getX(), source.getY(), store);
     }
 
@@ -267,7 +267,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector2 addLocal(final ReadableVector2 source) {
+    public Vector2 addLocal(final ReadOnlyVector2 source) {
         return addLocal(source.getX(), source.getY());
     }
 
@@ -310,7 +310,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector2 subtract(final ReadableVector2 source, final Vector2 store) {
+    public Vector2 subtract(final ReadOnlyVector2 source, final Vector2 store) {
         return subtract(source.getX(), source.getY(), store);
     }
 
@@ -322,7 +322,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector2 subtractLocal(final ReadableVector2 source) {
+    public Vector2 subtractLocal(final ReadOnlyVector2 source) {
         return subtractLocal(source.getX(), source.getY());
     }
 
@@ -361,7 +361,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to store the result in for return. If null, a new vector object is created and returned.
      * @return a new vector (this.x * scale.x, this.y * scale.y)
      */
-    public Vector2 multiply(final ReadableVector2 scale, final Vector2 store) {
+    public Vector2 multiply(final ReadOnlyVector2 scale, final Vector2 store) {
         Vector2 result = store;
         if (result == null) {
             result = new Vector2();
@@ -376,7 +376,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @param scale
      * @return this vector for chaining
      */
-    public Vector2 multiplyLocal(final ReadableVector2 scale) {
+    public Vector2 multiplyLocal(final ReadOnlyVector2 scale) {
         return set(getX() * scale.getX(), getY() * scale.getY());
     }
 
@@ -419,7 +419,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to store the result in for return. If null, a new vector object is created and returned.
      * @return a new vector (this.x / scale.x, this.y / scale.y)
      */
-    public Vector2 divide(final ReadableVector2 scale, final Vector2 store) {
+    public Vector2 divide(final ReadOnlyVector2 scale, final Vector2 store) {
         Vector2 result = store;
         if (result == null) {
             result = new Vector2();
@@ -434,7 +434,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @param scale
      * @return this vector for chaining
      */
-    public Vector2 divideLocal(final ReadableVector2 scale) {
+    public Vector2 divideLocal(final ReadOnlyVector2 scale) {
         return set(getX() / scale.getX(), getY() / scale.getY());
     }
 
@@ -449,7 +449,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the value to add to the result
      * @return this vector for chaining
      */
-    public Vector2 scaleAddLocal(final float scale, final ReadableVector2 add) {
+    public Vector2 scaleAddLocal(final float scale, final ReadOnlyVector2 add) {
         _x = _x * scale + add.getX();
         _y = _y * scale + add.getY();
         return this;
@@ -467,7 +467,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to store the result in for return. If null, a new vector object is created and returned.
      * @return the store variable
      */
-    public Vector2 scaleAdd(final double scale, final ReadableVector2 add, final Vector2 store) {
+    public Vector2 scaleAdd(final double scale, final ReadOnlyVector2 add, final Vector2 store) {
         Vector2 result = store;
         if (result == null) {
             result = new Vector2();
@@ -582,7 +582,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if endVec is null.
      */
-    public Vector2 lerp(final ReadableVector2 endVec, final double scalar, final Vector2 store) {
+    public Vector2 lerp(final ReadOnlyVector2 endVec, final double scalar, final Vector2 store) {
         Vector2 result = store;
         if (result == null) {
             result = new Vector2();
@@ -604,7 +604,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if endVec is null.
      */
-    public Vector2 lerpLocal(final ReadableVector2 endVec, final double scalar) {
+    public Vector2 lerpLocal(final ReadOnlyVector2 endVec, final double scalar) {
         setX((1.0 - scalar) * getX() + scalar * endVec.getX());
         setY((1.0 - scalar) * getY() + scalar * endVec.getY());
         return this;
@@ -625,7 +625,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if beginVec or endVec are null.
      */
-    public static Vector2 lerp(final ReadableVector2 beginVec, final ReadableVector2 endVec, final double scalar,
+    public static Vector2 lerp(final ReadOnlyVector2 beginVec, final ReadOnlyVector2 endVec, final double scalar,
             final Vector2 store) {
         Vector2 result = store;
         if (result == null) {
@@ -650,7 +650,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if beginVec or endVec are null.
      */
-    public Vector2 lerpLocal(final ReadableVector2 beginVec, final ReadableVector2 endVec, final double scalar) {
+    public Vector2 lerpLocal(final ReadOnlyVector2 beginVec, final ReadOnlyVector2 endVec, final double scalar) {
         setX((1.0 - scalar) * beginVec.getX() + scalar * endVec.getX());
         setY((1.0 - scalar) * beginVec.getY() + scalar * endVec.getY());
         return this;
@@ -692,7 +692,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if destination is null.
      */
-    public double distanceSquared(final ReadableVector2 destination) {
+    public double distanceSquared(final ReadOnlyVector2 destination) {
         return distanceSquared(destination.getX(), destination.getY());
     }
 
@@ -711,7 +711,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if destination is null.
      */
-    public double distance(final ReadableVector2 destination) {
+    public double distance(final ReadOnlyVector2 destination) {
         return Math.sqrt(distanceSquared(destination));
     }
 
@@ -730,7 +730,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if vec is null.
      */
-    public double dot(final ReadableVector2 vec) {
+    public double dot(final ReadOnlyVector2 vec) {
         return dot(vec.getX(), vec.getY());
     }
 
@@ -758,7 +758,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if vec is null.
      */
-    public Vector3 cross(final ReadableVector2 vec, final Vector3 store) {
+    public Vector3 cross(final ReadOnlyVector2 vec, final Vector3 store) {
         return cross(vec.getX(), vec.getY(), store);
     }
 
@@ -777,7 +777,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if destination is null.
      */
-    public double determinant(final ReadableVector2 vec) {
+    public double determinant(final ReadOnlyVector2 vec) {
         return determinant(vec.getX(), vec.getY());
     }
 
@@ -799,7 +799,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if otherVector is null.
      */
-    public double angleBetween(final ReadableVector2 otherVector) {
+    public double angleBetween(final ReadOnlyVector2 otherVector) {
         return Math.atan2(otherVector.getY(), otherVector.getX()) - Math.atan2(getY(), getX());
     }
 
@@ -811,7 +811,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if otherVector is null.
      */
-    public double smallestAngleBetween(final ReadableVector2 otherVector) {
+    public double smallestAngleBetween(final ReadOnlyVector2 otherVector) {
         final double dotProduct = dot(otherVector);
         return Math.acos(dotProduct);
     }
@@ -823,7 +823,7 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableVector2 vector) {
+    public static boolean isValid(final ReadOnlyVector2 vector) {
         if (vector == null) {
             return false;
         }
@@ -871,10 +871,10 @@ public class Vector2 implements Cloneable, Savable, Externalizable, ReadableVect
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableVector2)) {
+        if (!(o instanceof ReadOnlyVector2)) {
             return false;
         }
-        final ReadableVector2 comp = (ReadableVector2) o;
+        final ReadOnlyVector2 comp = (ReadOnlyVector2) o;
         if (Double.compare(getX(), comp.getX()) == 0 && Double.compare(getY(), comp.getY()) == 0) {
             return true;
         }

@@ -15,7 +15,7 @@ import java.io.IOException;
 import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
 import com.ardor3d.util.export.InputCapsule;
@@ -47,7 +47,7 @@ public class SwarmInfluence extends ParticleInfluence {
         _swarmRangeSQ = DEFAULT_SWARM_RANGE_SQ;
     }
 
-    public SwarmInfluence(final ReadableVector3 offset, final double swarmRange) {
+    public SwarmInfluence(final ReadOnlyVector3 offset, final double swarmRange) {
         super();
         _swarmRangeSQ = swarmRange * swarmRange;
         _swarmOffset.set(offset);
@@ -119,7 +119,7 @@ public class SwarmInfluence extends ParticleInfluence {
         return _swarmOffset;
     }
 
-    public void setSwarmOffset(final ReadableVector3 offset) {
+    public void setSwarmOffset(final ReadOnlyVector3 offset) {
         _swarmPoint.set(offset);
     }
 

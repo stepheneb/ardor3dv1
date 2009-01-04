@@ -24,10 +24,10 @@ import com.ardor3d.math.Ring;
 import com.ardor3d.math.Transform;
 import com.ardor3d.math.Triangle;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableColorRGBA;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableTransform;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyTransform;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.scenegraph.Controller;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.scenegraph.MeshData;
@@ -61,8 +61,8 @@ public abstract class ParticleSystem extends Node {
     protected static final double DEFAULT_MAX_LIFE = 3000;
     protected static final double DEFAULT_MIN_LIFE = 2000;
 
-    protected static final ReadableColorRGBA DEFAULT_START_COLOR = new ColorRGBA(1.0f, 0.0f, 0.0f, 1.0f);
-    protected static final ReadableColorRGBA DEFAULT_END_COLOR = new ColorRGBA(1.0f, 1.0f, 0.0f, 0.0f);
+    protected static final ReadOnlyColorRGBA DEFAULT_START_COLOR = new ColorRGBA(1.0f, 0.0f, 0.0f, 1.0f);
+    protected static final ReadOnlyColorRGBA DEFAULT_END_COLOR = new ColorRGBA(1.0f, 1.0f, 0.0f, 0.0f);
 
     protected ParticleType _particleType;
     protected EmitType _emitType = EmitType.Point;
@@ -256,7 +256,7 @@ public abstract class ParticleSystem extends Node {
         return _emissionDirection;
     }
 
-    public void setEmissionDirection(final ReadableVector3 emissionDirection) {
+    public void setEmissionDirection(final ReadOnlyVector3 emissionDirection) {
         _emissionDirection.set(emissionDirection);
         _worldEmit.set(emissionDirection);
     }
@@ -283,14 +283,14 @@ public abstract class ParticleSystem extends Node {
      * @param color
      *            The new start color.
      */
-    public void setStartColor(final ReadableColorRGBA color) {
+    public void setStartColor(final ReadOnlyColorRGBA color) {
         _startColor.set(color);
     }
 
     /**
      * @return The start color.
      */
-    public ReadableColorRGBA getStartColor() {
+    public ReadOnlyColorRGBA getStartColor() {
         return _startColor;
     }
 
@@ -301,7 +301,7 @@ public abstract class ParticleSystem extends Node {
      * @param color
      *            ColorRGBA The ending color.
      */
-    public void setEndColor(final ReadableColorRGBA color) {
+    public void setEndColor(final ReadOnlyColorRGBA color) {
         _endColor.set(color);
     }
 
@@ -310,7 +310,7 @@ public abstract class ParticleSystem extends Node {
      * 
      * @return The ending color
      */
-    public ReadableColorRGBA getEndColor() {
+    public ReadOnlyColorRGBA getEndColor() {
         return _endColor;
     }
 
@@ -329,7 +329,7 @@ public abstract class ParticleSystem extends Node {
         return _invScale;
     }
 
-    public void setInvScale(final ReadableVector3 invScale) {
+    public void setInvScale(final ReadOnlyVector3 invScale) {
         _invScale.set(invScale);
     }
 
@@ -455,19 +455,19 @@ public abstract class ParticleSystem extends Node {
         return _maximumLifeTime;
     }
 
-    public ReadableMatrix3 getRotMatrix() {
+    public ReadOnlyMatrix3 getRotMatrix() {
         return _rotMatrix;
     }
 
-    public void setRotMatrix(final ReadableMatrix3 rotMatrix) {
+    public void setRotMatrix(final ReadOnlyMatrix3 rotMatrix) {
         _rotMatrix.set(rotMatrix);
     }
 
-    public ReadableTransform getEmitterTransform() {
+    public ReadOnlyTransform getEmitterTransform() {
         return _emitterTransform;
     }
 
-    public void setEmitterTransform(final ReadableTransform emitterTransform) {
+    public void setEmitterTransform(final ReadOnlyTransform emitterTransform) {
         _emitterTransform.set(emitterTransform);
     }
 
@@ -505,7 +505,7 @@ public abstract class ParticleSystem extends Node {
      * @param offset
      *            new offset position
      */
-    public void setOriginOffset(final ReadableVector3 offset) {
+    public void setOriginOffset(final ReadOnlyVector3 offset) {
         _originOffset.set(offset);
     }
 
@@ -514,15 +514,15 @@ public abstract class ParticleSystem extends Node {
      * 
      * @return origin
      */
-    public ReadableVector3 getOriginOffset() {
+    public ReadOnlyVector3 getOriginOffset() {
         return _originOffset;
     }
 
-    public ReadableVector3 getWorldEmit() {
+    public ReadOnlyVector3 getWorldEmit() {
         return _worldEmit;
     }
 
-    public void setWorldEmit(final ReadableVector3 worldEmit) {
+    public void setWorldEmit(final ReadOnlyVector3 worldEmit) {
         _worldEmit.set(worldEmit);
     }
 
@@ -822,23 +822,23 @@ public abstract class ParticleSystem extends Node {
         _controller.setControlFlow(b);
     }
 
-    public ReadableVector3 getOriginCenter() {
+    public ReadOnlyVector3 getOriginCenter() {
         return _originCenter;
     }
 
-    public ReadableVector3 getUpVector() {
+    public ReadOnlyVector3 getUpVector() {
         return _upVector;
     }
 
-    public void setUpVector(final ReadableVector3 upVector) {
+    public void setUpVector(final ReadOnlyVector3 upVector) {
         _upVector.set(upVector);
     }
 
-    public ReadableVector3 getLeftVector() {
+    public ReadOnlyVector3 getLeftVector() {
         return _leftVector;
     }
 
-    public void setLeftVector(final ReadableVector3 leftVector) {
+    public void setLeftVector(final ReadOnlyVector3 leftVector) {
         _leftVector.set(leftVector);
     }
 

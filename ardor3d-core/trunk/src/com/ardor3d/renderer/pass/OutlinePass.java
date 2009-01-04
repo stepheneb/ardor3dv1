@@ -11,7 +11,7 @@
 package com.ardor3d.renderer.pass;
 
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.state.BlendState;
 import com.ardor3d.renderer.state.CullState;
@@ -29,7 +29,7 @@ public class OutlinePass extends RenderPass {
     private static final long serialVersionUID = 1L;
 
     public static final float DEFAULT_LINE_WIDTH = 3f;
-    public static final ReadableColorRGBA DEFAULT_OUTLINE_COLOR = new ColorRGBA(ColorRGBA.BLACK);
+    public static final ReadOnlyColorRGBA DEFAULT_OUTLINE_COLOR = new ColorRGBA(ColorRGBA.BLACK);
 
     // render states needed to draw the outline
     private final CullState frontCull;
@@ -103,11 +103,11 @@ public class OutlinePass extends RenderPass {
         return wireframeState.getLineWidth();
     }
 
-    public void setOutlineColor(final ReadableColorRGBA outlineColor) {
+    public void setOutlineColor(final ReadOnlyColorRGBA outlineColor) {
         noLights.setGlobalAmbient(outlineColor);
     }
 
-    public ReadableColorRGBA getOutlineColor() {
+    public ReadOnlyColorRGBA getOutlineColor() {
         return noLights.getGlobalAmbient();
     }
 

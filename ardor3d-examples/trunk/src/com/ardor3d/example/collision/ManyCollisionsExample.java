@@ -98,7 +98,7 @@ public class ManyCollisionsExample extends ExampleBase {
 
         final TextureState ts = new TextureState();
         ts.setEnabled(true);
-        ts.setTexture(TextureManager.load("images/ArdorLogo.jpg", Texture.MinificationFilter.Trilinear, Format.Guess,
+        ts.setTexture(TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear, Format.Guess,
                 true));
 
         n1 = new Node("n1");

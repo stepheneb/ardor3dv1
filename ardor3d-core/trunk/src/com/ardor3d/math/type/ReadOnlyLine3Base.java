@@ -10,18 +10,13 @@
 
 package com.ardor3d.math.type;
 
-public interface ReadableTriangle {
-    public int getIndex();
+import com.ardor3d.math.Vector3;
 
-    public ReadableVector3 get(final int index);
+public interface ReadOnlyLine3Base {
+    public ReadOnlyVector3 getOrigin();
 
-    public ReadableVector3 getA();
+    public ReadOnlyVector3 getDirection();
 
-    public ReadableVector3 getB();
+    public double distanceSquared(final ReadOnlyVector3 point, Vector3 store);
 
-    public ReadableVector3 getC();
-
-    public ReadableVector3 getNormal();
-
-    public ReadableVector3 getCenter();
 }

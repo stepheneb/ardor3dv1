@@ -13,7 +13,7 @@ package com.ardor3d.scene.state.jogl;
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
 import com.ardor3d.renderer.jogl.JoglRenderer;
@@ -79,7 +79,7 @@ public class JoglMaterialStateUtil {
         }
     }
 
-    private static void applyColor(final ColorMaterial glMatColor, final ReadableColorRGBA color,
+    private static void applyColor(final ColorMaterial glMatColor, final ReadOnlyColorRGBA color,
             final MaterialFace face, final MaterialStateRecord record) {
         final GL gl = GLU.getCurrentGL();
 

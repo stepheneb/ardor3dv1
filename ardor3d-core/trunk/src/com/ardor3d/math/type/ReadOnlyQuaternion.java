@@ -15,7 +15,7 @@ import com.ardor3d.math.Matrix4;
 import com.ardor3d.math.Quaternion;
 import com.ardor3d.math.Vector3;
 
-public interface ReadableQuaternion {
+public interface ReadOnlyQuaternion {
 
     public double getX();
 
@@ -49,19 +49,19 @@ public interface ReadableQuaternion {
 
     public Quaternion invert(final Quaternion store);
 
-    public Quaternion add(final ReadableQuaternion quat, final Quaternion store);
+    public Quaternion add(final ReadOnlyQuaternion quat, final Quaternion store);
 
-    public Quaternion subtract(final ReadableQuaternion quat, final Quaternion store);
+    public Quaternion subtract(final ReadOnlyQuaternion quat, final Quaternion store);
 
     public Quaternion multiply(final double scalar, final Quaternion store);
 
-    public Quaternion multiply(final ReadableQuaternion quat, Quaternion store);
+    public Quaternion multiply(final ReadOnlyQuaternion quat, Quaternion store);
 
-    public Vector3 apply(final ReadableVector3 vec, Vector3 store);
+    public Vector3 apply(final ReadOnlyVector3 vec, Vector3 store);
 
     public void toAxes(final Vector3 axes[]);
 
-    public Quaternion slerp(final ReadableQuaternion endQuat, final double changeAmnt, final Quaternion store);
+    public Quaternion slerp(final ReadOnlyQuaternion endQuat, final double changeAmnt, final Quaternion store);
 
     public double magnitudeSquared();
 
@@ -69,7 +69,7 @@ public interface ReadableQuaternion {
 
     public double dot(final double x, final double y, final double z, final double w);
 
-    public double dot(final ReadableQuaternion quat);
+    public double dot(final ReadOnlyQuaternion quat);
 
     public boolean isIdentity();
 }

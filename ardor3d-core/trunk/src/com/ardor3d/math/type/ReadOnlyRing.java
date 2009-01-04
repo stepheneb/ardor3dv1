@@ -12,11 +12,15 @@ package com.ardor3d.math.type;
 
 import com.ardor3d.math.Vector3;
 
-public interface ReadableLine3Base {
-    public ReadableVector3 getOrigin();
+public interface ReadOnlyRing {
+    public ReadOnlyVector3 getCenter();
 
-    public ReadableVector3 getDirection();
+    public ReadOnlyVector3 getUp();
 
-    public double distanceSquared(final ReadableVector3 point, Vector3 store);
+    public double getInnerRadius();
+
+    public double getOuterRadius();
+
+    public Vector3 random(final Vector3 store);
 
 }

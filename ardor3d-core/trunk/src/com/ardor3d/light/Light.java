@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
 import com.ardor3d.util.export.InputCapsule;
@@ -41,17 +41,17 @@ public abstract class Light implements Serializable, Savable {
     /**
      * dark grey (.4, .4, .4, 1)
      */
-    public static final ReadableColorRGBA DEFAULT_AMBIENT = new ColorRGBA(0.4f, 0.4f, 0.4f, 1.0f);
+    public static final ReadOnlyColorRGBA DEFAULT_AMBIENT = new ColorRGBA(0.4f, 0.4f, 0.4f, 1.0f);
 
     /**
      * white (1, 1, 1, 1)
      */
-    public static final ReadableColorRGBA DEFAULT_DIFFUSE = new ColorRGBA(1, 1, 1, 1);
+    public static final ReadOnlyColorRGBA DEFAULT_DIFFUSE = new ColorRGBA(1, 1, 1, 1);
 
     /**
      * white (1, 1, 1, 1)
      */
-    public static final ReadableColorRGBA DEFAULT_SPECULAR = new ColorRGBA(1, 1, 1, 1);
+    public static final ReadOnlyColorRGBA DEFAULT_SPECULAR = new ColorRGBA(1, 1, 1, 1);
 
     public enum Type {
         Directional, Point, Spot

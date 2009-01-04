@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableTriangle;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyTriangle;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -28,7 +28,7 @@ import com.ardor3d.util.pool.ObjectPool;
 /**
  * Triangle is a math class defining a three sided polygon by three points in space.
  */
-public class Triangle implements Cloneable, Savable, Externalizable, ReadableTriangle {
+public class Triangle implements Cloneable, Savable, Externalizable, ReadOnlyTriangle {
 
     private static final long serialVersionUID = 1L;
 
@@ -82,7 +82,7 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
         return _index;
     }
 
-    public ReadableVector3 get(final int index) {
+    public ReadOnlyVector3 get(final int index) {
         switch (index) {
             case 0:
                 return getA();
@@ -94,15 +94,15 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
         throw new IllegalArgumentException("invalid index: " + index);
     }
 
-    public ReadableVector3 getA() {
+    public ReadOnlyVector3 getA() {
         return _pointA;
     }
 
-    public ReadableVector3 getB() {
+    public ReadOnlyVector3 getB() {
         return _pointA;
     }
 
-    public ReadableVector3 getC() {
+    public ReadOnlyVector3 getC() {
         return _pointA;
     }
 
@@ -114,7 +114,7 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
      * @throws NullPointerException
      *             if store is null.
      */
-    public ReadableVector3 getNormal() {
+    public ReadOnlyVector3 getNormal() {
         if (_dirtyNormal) {
             calculateNormal();
         }
@@ -125,7 +125,7 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
      * Obtains the center point of this triangle... Will create and recalculate this point if this is the first request,
      * or if one of the points on the triangle has changed since the last request.
      */
-    public ReadableVector3 getCenter() {
+    public ReadOnlyVector3 getCenter() {
         if (_dirtyCenter) {
             calculateCenter();
         }
@@ -146,7 +146,7 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
      * 
      * @param pointA
      */
-    public void setA(final ReadableVector3 pointA) {
+    public void setA(final ReadOnlyVector3 pointA) {
         _pointA.set(pointA);
         _dirtyCenter = _dirtyNormal = true;
     }
@@ -156,7 +156,7 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
      * 
      * @param pointB
      */
-    public void setB(final ReadableVector3 pointB) {
+    public void setB(final ReadOnlyVector3 pointB) {
         _pointB.set(pointB);
         _dirtyCenter = _dirtyNormal = true;
     }
@@ -166,7 +166,7 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
      * 
      * @param pointC
      */
-    public void setC(final ReadableVector3 pointC) {
+    public void setC(final ReadOnlyVector3 pointC) {
         _pointC.set(pointC);
         _dirtyCenter = _dirtyNormal = true;
     }
@@ -181,7 +181,7 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
      * @throws IllegalArgumentException
      *             if index is not in [0, 2]
      */
-    public void set(final int index, final ReadableVector3 point) {
+    public void set(final int index, final ReadOnlyVector3 point) {
         switch (index) {
             case 0:
                 setA(point);
@@ -278,10 +278,10 @@ public class Triangle implements Cloneable, Savable, Externalizable, ReadableTri
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableTriangle)) {
+        if (!(o instanceof ReadOnlyTriangle)) {
             return false;
         }
-        final ReadableTriangle comp = (ReadableTriangle) o;
+        final ReadOnlyTriangle comp = (ReadOnlyTriangle) o;
         if (_index == comp.getIndex() && _pointA.equals(comp.getA()) && _pointB.equals(comp.getB())
                 && _pointC.equals(comp.getC())) {
             return true;

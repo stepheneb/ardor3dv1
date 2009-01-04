@@ -73,16 +73,16 @@ public class ExportImportExample extends ExampleBase {
     protected void initExample() {
         _canvas.setTitle("TestExportImport");
 
-        final Texture bg = TextureManager.load("images/ArdorLogo.jpg", Texture.MinificationFilter.Trilinear,
+        final Texture bg = TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear,
                 Format.GuessNoCompression, true);
         final TextureState bgts = new TextureState();
         bgts.setTexture(bg);
         bgts.setEnabled(true);
 
         final TextureState ts = new TextureState();
-        final Texture t0 = TextureManager.load("images/ArdorLogo.jpg", Texture.MinificationFilter.Trilinear,
+        final Texture t0 = TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear,
                 Format.GuessNoCompression, true);
-        final Texture tex = TextureManager.load("images/ArdorLogo.jpg", Texture.MinificationFilter.Trilinear,
+        final Texture tex = TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear,
                 Format.GuessNoCompression, true);
         tex.setEnvironmentalMapMode(Texture.EnvironmentalMapMode.SphereMap);
         ts.setTexture(t0, 0);

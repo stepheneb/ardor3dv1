@@ -17,10 +17,10 @@ import java.io.ObjectOutput;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableMatrix4;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableVector4;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyMatrix4;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyVector4;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -37,7 +37,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * Note: some algorithms in this class were ported from Eberly, Wolfram, Game Gems and others to Java by myself and
  * others, originally for jMonkeyEngine.
  */
-public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatrix4 {
+public class Matrix4 implements Cloneable, Savable, Externalizable, ReadOnlyMatrix4 {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * 0, 0, 0, 1
      * </pre>
      */
-    public final static ReadableMatrix4 IDENTITY = new Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    public final static ReadOnlyMatrix4 IDENTITY = new Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
     protected final double[][] _data = new double[4][4];
 
@@ -109,7 +109,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * 
      * @param source
      */
-    public Matrix4(final ReadableMatrix4 source) {
+    public Matrix4(final ReadOnlyMatrix4 source) {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 _data[i][j] = source.getValue(i, j);
@@ -229,7 +229,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if source is null.
      */
-    public Matrix4 set(final ReadableMatrix4 source) {
+    public Matrix4 set(final ReadOnlyMatrix4 source) {
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -247,7 +247,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if source is null.
      */
-    public Matrix4 set(final ReadableMatrix3 source) {
+    public Matrix4 set(final ReadOnlyMatrix3 source) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 _data[i][j] = source.getValue(i, j);
@@ -263,7 +263,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @param quaternion
      * @return this matrix for chaining
      */
-    public Matrix4 set(final ReadableQuaternion quaternion) {
+    public Matrix4 set(final ReadOnlyQuaternion quaternion) {
         return quaternion.toRotationMatrix(this);
     }
 
@@ -670,7 +670,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vec is null
      */
-    public Matrix4 multiplyDiagonalPre(final ReadableVector4 vec, final Matrix4 store) {
+    public Matrix4 multiplyDiagonalPre(final ReadOnlyVector4 vec, final Matrix4 store) {
         Matrix4 result = store;
         if (result == null) {
             result = new Matrix4();
@@ -697,7 +697,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vec is null
      */
-    public Matrix4 multiplyDiagonalPost(final ReadableVector4 vec, final Matrix4 store) {
+    public Matrix4 multiplyDiagonalPost(final ReadOnlyVector4 vec, final Matrix4 store) {
         Matrix4 result = store;
         if (result == null) {
             result = new Matrix4();
@@ -718,7 +718,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if matrix is null
      */
-    public Matrix4 multiplyLocal(final ReadableMatrix4 matrix) {
+    public Matrix4 multiplyLocal(final ReadOnlyMatrix4 matrix) {
         return multiply(matrix, this);
     }
 
@@ -731,7 +731,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if matrix is null.
      */
-    public Matrix4 multiply(final ReadableMatrix4 matrix, final Matrix4 store) {
+    public Matrix4 multiply(final ReadOnlyMatrix4 matrix, final Matrix4 store) {
         Matrix4 result = store;
         if (result == null) {
             result = new Matrix4();
@@ -805,7 +805,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if matrix is null
      */
-    public Matrix4 add(final ReadableMatrix4 matrix, final Matrix4 store) {
+    public Matrix4 add(final ReadOnlyMatrix4 matrix, final Matrix4 store) {
         Matrix4 result = store;
         if (result == null) {
             result = new Matrix4();
@@ -842,7 +842,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if scale is null.
      */
-    public Matrix4 scale(final ReadableVector4 scale, final Matrix4 store) {
+    public Matrix4 scale(final ReadOnlyVector4 scale, final Matrix4 store) {
         Matrix4 result = store;
         if (result == null) {
             result = new Matrix4();
@@ -864,7 +864,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if scale is null.
      */
-    public Matrix4 scaleLocal(final ReadableVector4 scale) {
+    public Matrix4 scaleLocal(final ReadOnlyVector4 scale) {
         return set(_data[0][0] * scale.getX(), _data[0][1] * scale.getY(), _data[0][2] * scale.getZ(), _data[0][3]
                 * scale.getW(), _data[1][0] * scale.getX(), _data[1][1] * scale.getY(), _data[1][2] * scale.getZ(),
                 _data[1][3] * scale.getW(), _data[2][0] * scale.getX(), _data[2][1] * scale.getY(), _data[2][2]
@@ -1072,7 +1072,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vector is null
      */
-    public Vector4 applyPre(final ReadableVector4 vector, Vector4 store) {
+    public Vector4 applyPre(final ReadOnlyVector4 vector, Vector4 store) {
         if (store == null) {
             store = new Vector4();
         }
@@ -1103,7 +1103,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vector is null
      */
-    public Vector4 applyPost(final ReadableVector4 vector, Vector4 store) {
+    public Vector4 applyPost(final ReadOnlyVector4 vector, Vector4 store) {
         if (store == null) {
             store = new Vector4();
         }
@@ -1128,7 +1128,7 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
      *            the vector to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableMatrix4 matrix) {
+    public static boolean isValid(final ReadOnlyMatrix4 matrix) {
         if (matrix == null) {
             return false;
         }
@@ -1189,10 +1189,10 @@ public class Matrix4 implements Cloneable, Savable, Externalizable, ReadableMatr
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableMatrix4)) {
+        if (!(o instanceof ReadOnlyMatrix4)) {
             return false;
         }
-        final ReadableMatrix4 comp = (ReadableMatrix4) o;
+        final ReadOnlyMatrix4 comp = (ReadOnlyMatrix4) o;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (Double.compare(_data[i][j], comp.getValue(i, j)) != 0) {

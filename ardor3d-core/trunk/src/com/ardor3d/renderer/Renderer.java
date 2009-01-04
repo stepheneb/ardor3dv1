@@ -22,7 +22,7 @@ import com.ardor3d.image.Image;
 import com.ardor3d.image.Texture;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Transform;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.queue.RenderQueue;
 import com.ardor3d.renderer.state.RenderState;
 import com.ardor3d.renderer.state.RenderState.StateType;
@@ -64,7 +64,7 @@ public abstract class Renderer {
      * @param c
      *            the color to set the background to.
      */
-    public abstract void setBackgroundColor(ReadableColorRGBA c);
+    public abstract void setBackgroundColor(ReadOnlyColorRGBA c);
 
     /**
      * <code>getBackgroundColor</code> retrieves the clear color of the current OpenGL context.

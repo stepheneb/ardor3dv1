@@ -19,8 +19,8 @@ import com.ardor3d.light.PointLight;
 import com.ardor3d.light.SpotLight;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableColorRGBA;
-import com.ardor3d.math.type.ReadableMatrix4;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
+import com.ardor3d.math.type.ReadOnlyMatrix4;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
 import com.ardor3d.renderer.lwjgl.LwjglRenderer;
@@ -213,7 +213,7 @@ public class LwjglLightStateUtil {
         }
     }
 
-    private static void setModelAmbient(final LightStateRecord record, final ReadableColorRGBA color) {
+    private static void setModelAmbient(final LightStateRecord record, final ReadOnlyColorRGBA color) {
         if (!record.isValid() || !record.globalAmbient.equals(color)) {
             record.lightBuffer.clear();
             record.lightBuffer.put(color.getRed());
@@ -226,7 +226,7 @@ public class LwjglLightStateUtil {
         }
     }
 
-    private static void setAmbient(final int index, final LightStateRecord record, final ReadableColorRGBA ambient,
+    private static void setAmbient(final int index, final LightStateRecord record, final ReadOnlyColorRGBA ambient,
             final LightRecord lr) {
         if (!record.isValid() || !lr.ambient.equals(ambient)) {
             record.lightBuffer.clear();
@@ -240,7 +240,7 @@ public class LwjglLightStateUtil {
         }
     }
 
-    private static void setDiffuse(final int index, final LightStateRecord record, final ReadableColorRGBA diffuse,
+    private static void setDiffuse(final int index, final LightStateRecord record, final ReadOnlyColorRGBA diffuse,
             final LightRecord lr) {
         if (!record.isValid() || !lr.diffuse.equals(diffuse)) {
             record.lightBuffer.clear();
@@ -254,7 +254,7 @@ public class LwjglLightStateUtil {
         }
     }
 
-    private static void setSpecular(final int index, final LightStateRecord record, final ReadableColorRGBA specular,
+    private static void setSpecular(final int index, final LightStateRecord record, final ReadOnlyColorRGBA specular,
             final LightRecord lr) {
         if (!record.isValid() || !lr.specular.equals(specular)) {
             record.lightBuffer.clear();
@@ -281,7 +281,7 @@ public class LwjglLightStateUtil {
         // call to glLightfv(GL_LIGHT_POSITION,…).
 
         // XXX: This is a hack until we get a better lighting model up
-        final ReadableMatrix4 modelViewMatrix = ContextManager.getCurrentContext().getCurrentCamera()
+        final ReadOnlyMatrix4 modelViewMatrix = ContextManager.getCurrentContext().getCurrentCamera()
                 .getModelViewMatrix();
 
         if (!record.isValid() || Float.compare(lr.position[0], positionX) != 0

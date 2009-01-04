@@ -26,9 +26,9 @@ import com.ardor3d.math.Ray3;
 import com.ardor3d.math.Vector2;
 import com.ardor3d.math.Vector3;
 import com.ardor3d.math.Vector4;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableMatrix4;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyMatrix4;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
 import com.ardor3d.util.export.InputCapsule;
@@ -381,7 +381,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * 
      * @return the position of the camera.
      */
-    public ReadableVector3 getLocation() {
+    public ReadOnlyVector3 getLocation() {
         return _location;
     }
 
@@ -390,7 +390,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * 
      * @return the direction the camera is facing.
      */
-    public ReadableVector3 getDirection() {
+    public ReadOnlyVector3 getDirection() {
         return _direction;
     }
 
@@ -399,7 +399,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * 
      * @return the left axis of the camera.
      */
-    public ReadableVector3 getLeft() {
+    public ReadOnlyVector3 getLeft() {
         return _left;
     }
 
@@ -408,7 +408,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * 
      * @return the up axis of the camera.
      */
-    public ReadableVector3 getUp() {
+    public ReadOnlyVector3 getUp() {
         return _up;
     }
 
@@ -589,7 +589,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * @param worldUpVector
      *            a normalized vector indicating the up direction of the world. (typically {0, 1, 0} in ardor3d.)
      */
-    public void lookAt(final ReadableVector3 pos, final ReadableVector3 worldUpVector) {
+    public void lookAt(final ReadOnlyVector3 pos, final ReadOnlyVector3 worldUpVector) {
         _newDirection.set(pos).subtractLocal(_location).normalizeLocal();
 
         // check to see if we haven't really updated camera -- no need to call
@@ -623,7 +623,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * @param axes
      *            the orientation of the camera.
      */
-    public void setFrame(final ReadableVector3 location, final ReadableMatrix3 axes) {
+    public void setFrame(final ReadOnlyVector3 location, final ReadOnlyMatrix3 axes) {
         _location.set(location);
         axes.getColumn(0, _left);
         axes.getColumn(1, _up);
@@ -981,7 +981,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
         _parallelProjection = value;
     }
 
-    public ReadableMatrix4 getProjectionMatrix() {
+    public ReadOnlyMatrix4 getProjectionMatrix() {
         if (isParallelProjection()) {
             _projection.loadIdentity();
             _projection.setValue(0, 0, 2.0 / (_frustumRight - _frustumLeft));
@@ -1006,7 +1006,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
         return _projection;
     }
 
-    public ReadableMatrix4 getModelViewMatrix() {
+    public ReadOnlyMatrix4 getModelViewMatrix() {
         // XXX: Cache results or is this low cost enough to happen every time it is called?
         _modelView.loadIdentity();
         _modelView.setValue(0, 0, -_left.getX());
@@ -1107,7 +1107,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
         return store;
     }
 
-    public double distanceToCam(final ReadableVector3 position) {
+    public double distanceToCam(final ReadOnlyVector3 position) {
         Vector3 tempVector = Vector3.fetchTempInstance();
         position.subtract(_location, tempVector);
 

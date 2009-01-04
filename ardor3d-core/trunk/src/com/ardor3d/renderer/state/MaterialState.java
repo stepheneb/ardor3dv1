@@ -13,7 +13,7 @@ package com.ardor3d.renderer.state;
 import java.io.IOException;
 
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.state.record.MaterialStateRecord;
 import com.ardor3d.renderer.state.record.StateRecord;
 import com.ardor3d.util.export.Ardor3DExporter;
@@ -60,16 +60,16 @@ public class MaterialState extends RenderState {
     }
 
     /** Default ambient color for all material states. (.2, .2, .2, 1) */
-    public static final ReadableColorRGBA DEFAULT_AMBIENT = new ColorRGBA(0.2f, 0.2f, 0.2f, 1.0f);
+    public static final ReadOnlyColorRGBA DEFAULT_AMBIENT = new ColorRGBA(0.2f, 0.2f, 0.2f, 1.0f);
 
     /** Default diffuse color for all material states. (.8, .8, .8, 1) */
-    public static final ReadableColorRGBA DEFAULT_DIFFUSE = new ColorRGBA(0.8f, 0.8f, 0.8f, 1.0f);
+    public static final ReadOnlyColorRGBA DEFAULT_DIFFUSE = new ColorRGBA(0.8f, 0.8f, 0.8f, 1.0f);
 
     /** Default specular color for all material states. (0, 0, 0, 1) */
-    public static final ReadableColorRGBA DEFAULT_SPECULAR = new ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f);
+    public static final ReadOnlyColorRGBA DEFAULT_SPECULAR = new ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f);
 
     /** Default emissive color for all material states. (0, 0, 0, 1) */
-    public static final ReadableColorRGBA DEFAULT_EMISSIVE = new ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f);
+    public static final ReadOnlyColorRGBA DEFAULT_EMISSIVE = new ColorRGBA(0.0f, 0.0f, 0.0f, 1.0f);
 
     /** Default shininess for all material states. */
     public static final float DEFAULT_SHININESS = 0.0f;
@@ -97,7 +97,7 @@ public class MaterialState extends RenderState {
     /**
      * @return the color of the ambient value for this material.
      */
-    public ReadableColorRGBA getAmbient() {
+    public ReadOnlyColorRGBA getAmbient() {
         return _ambient;
     }
 
@@ -105,7 +105,7 @@ public class MaterialState extends RenderState {
      * @param ambient
      *            the new ambient color to copy into this material.
      */
-    public void setAmbient(final ReadableColorRGBA ambient) {
+    public void setAmbient(final ReadOnlyColorRGBA ambient) {
         _ambient.set(ambient);
         setNeedsRefresh(true);
     }
@@ -113,7 +113,7 @@ public class MaterialState extends RenderState {
     /**
      * @return the color of the diffuse value for this material.
      */
-    public ReadableColorRGBA getDiffuse() {
+    public ReadOnlyColorRGBA getDiffuse() {
         return _diffuse;
     }
 
@@ -121,7 +121,7 @@ public class MaterialState extends RenderState {
      * @param diffuse
      *            the new diffuse color to copy into this material.
      */
-    public void setDiffuse(final ReadableColorRGBA diffuse) {
+    public void setDiffuse(final ReadOnlyColorRGBA diffuse) {
         _diffuse.set(diffuse);
         setNeedsRefresh(true);
     }
@@ -129,7 +129,7 @@ public class MaterialState extends RenderState {
     /**
      * @return the color of the emissive value for this material.
      */
-    public ReadableColorRGBA getEmissive() {
+    public ReadOnlyColorRGBA getEmissive() {
         return _emissive;
     }
 
@@ -137,7 +137,7 @@ public class MaterialState extends RenderState {
      * @param emissive
      *            the new emmisive color to copy into this material.
      */
-    public void setEmissive(final ReadableColorRGBA emissive) {
+    public void setEmissive(final ReadOnlyColorRGBA emissive) {
         _emissive.set(emissive);
         setNeedsRefresh(true);
     }
@@ -145,7 +145,7 @@ public class MaterialState extends RenderState {
     /**
      * @return the color of the specular value for this material.
      */
-    public ReadableColorRGBA getSpecular() {
+    public ReadOnlyColorRGBA getSpecular() {
         return _specular;
     }
 
@@ -153,7 +153,7 @@ public class MaterialState extends RenderState {
      * @param specular
      *            the new specular color to copy into this material.
      */
-    public void setSpecular(final ReadableColorRGBA specular) {
+    public void setSpecular(final ReadOnlyColorRGBA specular) {
         _specular.set(specular);
         setNeedsRefresh(true);
     }

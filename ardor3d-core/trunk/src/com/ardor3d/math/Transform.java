@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableMatrix4;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableTransform;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyMatrix4;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyTransform;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -34,7 +34,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * positive scale vector. For non-uniform scales and reflections, use setMatrix, which will consider M as being a
  * general 3x3 matrix and disregard anything set in scale.
  */
-public class Transform implements Cloneable, Savable, Externalizable, ReadableTransform {
+public class Transform implements Cloneable, Savable, Externalizable, ReadOnlyTransform {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,7 +43,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
     /**
      * Identity transform.
      */
-    public static final ReadableTransform IDENTITY = new Transform(Matrix3.IDENTITY, Vector3.UNIT_XYZ, Vector3.ZERO,
+    public static final ReadOnlyTransform IDENTITY = new Transform(Matrix3.IDENTITY, Vector3.UNIT_XYZ, Vector3.ZERO,
             true, true, true);
 
     protected final Matrix3 _matrix = new Matrix3(Matrix3.IDENTITY);
@@ -82,7 +82,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if source is null.
      */
-    public Transform(final ReadableTransform source) {
+    public Transform(final ReadOnlyTransform source) {
         _matrix.set(source.getMatrix());
         _scale.set(source.getScale());
         _translation.set(source.getTranslation());
@@ -105,7 +105,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if a param is null.
      */
-    protected Transform(final ReadableMatrix3 matrix, final ReadableVector3 scale, final ReadableVector3 translation,
+    protected Transform(final ReadOnlyMatrix3 matrix, final ReadOnlyVector3 scale, final ReadOnlyVector3 translation,
             final boolean identity, final boolean rotationMatrix, final boolean uniformScale) {
         _matrix.set(matrix);
         _scale.set(scale);
@@ -116,15 +116,15 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
         _uniformScale = uniformScale;
     }
 
-    public ReadableMatrix3 getMatrix() {
+    public ReadOnlyMatrix3 getMatrix() {
         return _matrix;
     }
 
-    public ReadableVector3 getTranslation() {
+    public ReadOnlyVector3 getTranslation() {
         return _translation;
     }
 
-    public ReadableVector3 getScale() {
+    public ReadOnlyVector3 getScale() {
         return _scale;
     }
 
@@ -169,7 +169,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if rotation is null.
      */
-    public void setRotation(final ReadableMatrix3 rotation) {
+    public void setRotation(final ReadOnlyMatrix3 rotation) {
         _matrix.set(rotation);
         _identity = false;
         _rotationMatrix = true;
@@ -183,7 +183,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if rotation is null.
      */
-    public void setRotation(final ReadableQuaternion rotation) {
+    public void setRotation(final ReadOnlyQuaternion rotation) {
         _matrix.set(rotation);
         _identity = false;
         _rotationMatrix = true;
@@ -198,7 +198,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if matrix is null.
      */
-    public void setMatrix(final ReadableMatrix3 matrix) {
+    public void setMatrix(final ReadOnlyMatrix3 matrix) {
         _matrix.set(matrix);
         _identity = false;
         _rotationMatrix = false;
@@ -212,7 +212,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if translation is null.
      */
-    public void setTranslation(final ReadableVector3 translation) {
+    public void setTranslation(final ReadOnlyVector3 translation) {
         _translation.set(translation);
         _identity = false;
     }
@@ -240,7 +240,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws IllegalArgumentException
      *             if scale is (0,0,0)
      */
-    public void setScale(final ReadableVector3 scale) {
+    public void setScale(final ReadOnlyVector3 scale) {
         if (!_rotationMatrix) {
             throw new TransformException(
                     "Scale is already provided by 3x3 matrix.  If this is a mistake, consider using setRotation instead of setMatrix.");
@@ -312,7 +312,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if source is null.
      */
-    public Transform set(final ReadableTransform source) {
+    public Transform set(final ReadOnlyTransform source) {
         if (source.isIdentity()) {
             setIdentity();
         } else {
@@ -386,7 +386,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if point is null.
      */
-    public Vector3 applyForward(final ReadableVector3 point, final Vector3 store) {
+    public Vector3 applyForward(final ReadOnlyVector3 point, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -449,7 +449,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if point is null.
      */
-    public Vector3 applyInverse(final ReadableVector3 point, final Vector3 store) {
+    public Vector3 applyInverse(final ReadOnlyVector3 point, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -502,7 +502,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if vector is null.
      */
-    public Vector3 applyForwardVector(final ReadableVector3 vector, final Vector3 store) {
+    public Vector3 applyForwardVector(final ReadOnlyVector3 vector, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -562,7 +562,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if vector is null.
      */
-    public Vector3 applyInverseVector(final ReadableVector3 vector, final Vector3 store) {
+    public Vector3 applyInverseVector(final ReadOnlyVector3 vector, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -583,7 +583,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if transformBy is null.
      */
-    public Transform multiply(final ReadableTransform transformBy, final Transform store) {
+    public Transform multiply(final ReadOnlyTransform transformBy, final Transform store) {
         Transform result = store;
         if (result == null) {
             result = new Transform();
@@ -628,10 +628,10 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
         }
 
         // In all remaining cases, the matrix cannot be written as R*S*X+T.
-        final ReadableMatrix3 matrixA = (_rotationMatrix ? _matrix.multiplyDiagonalPost(_scale, Matrix3
+        final ReadOnlyMatrix3 matrixA = (_rotationMatrix ? _matrix.multiplyDiagonalPost(_scale, Matrix3
                 .fetchTempInstance()) : _matrix);
 
-        final ReadableMatrix3 matrixB = (transformBy.isRotationMatrix() ? transformBy.getMatrix().multiplyDiagonalPost(
+        final ReadOnlyMatrix3 matrixB = (transformBy.isRotationMatrix() ? transformBy.getMatrix().multiplyDiagonalPost(
                 transformBy.getScale(), Matrix3.fetchTempInstance()) : transformBy.getMatrix());
 
         final Matrix3 newMatrix = result._matrix;
@@ -754,7 +754,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if matrix is null.
      */
-    public Transform fromHomogeneousMatrix(final ReadableMatrix4 matrix) {
+    public Transform fromHomogeneousMatrix(final ReadOnlyMatrix4 matrix) {
         return fromHomogeneousMatrix(matrix, false);
     }
 
@@ -768,7 +768,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * @throws NullPointerException
      *             if matrix is null.
      */
-    public Transform fromHomogeneousMatrix(final ReadableMatrix4 matrix, final boolean orthonormal) {
+    public Transform fromHomogeneousMatrix(final ReadOnlyMatrix4 matrix, final boolean orthonormal) {
         _matrix.set(matrix.getValue(0, 0), matrix.getValue(0, 1), matrix.getValue(0, 2), matrix.getValue(1, 0), matrix
                 .getValue(1, 1), matrix.getValue(1, 2), matrix.getValue(2, 0), matrix.getValue(2, 1), matrix.getValue(
                 2, 2));
@@ -788,7 +788,7 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
      * 
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableTransform transform) {
+    public static boolean isValid(final ReadOnlyTransform transform) {
         if (transform == null) {
             return false;
         }
@@ -832,10 +832,10 @@ public class Transform implements Cloneable, Savable, Externalizable, ReadableTr
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableTransform)) {
+        if (!(o instanceof ReadOnlyTransform)) {
             return false;
         }
-        final ReadableTransform comp = (ReadableTransform) o;
+        final ReadOnlyTransform comp = (ReadOnlyTransform) o;
         return (_matrix.equals(comp.getMatrix()) && _scale.equals(comp.getScale()) && _translation.equals(comp
                 .getTranslation()));
     }

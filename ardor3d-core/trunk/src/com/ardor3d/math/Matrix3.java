@@ -17,9 +17,9 @@ import java.io.ObjectOutput;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;
 
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -35,7 +35,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * Note: some algorithms in this class were ported from Eberly, Wolfram, Game Gems and others to Java by myself and
  * others, originally for jMonkeyEngine.
  */
-public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatrix3 {
+public class Matrix3 implements Cloneable, Savable, Externalizable, ReadOnlyMatrix3 {
 
     private static final long serialVersionUID = 1L;
 
@@ -48,7 +48,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * 0, 0, 1
      * </pre>
      */
-    public final static ReadableMatrix3 IDENTITY = new Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+    public final static ReadOnlyMatrix3 IDENTITY = new Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
 
     protected final double[][] _data = new double[3][3];
 
@@ -91,7 +91,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * 
      * @param source
      */
-    public Matrix3(final ReadableMatrix3 source) {
+    public Matrix3(final ReadOnlyMatrix3 source) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 _data[i][j] = source.getValue(i, j);
@@ -202,7 +202,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if source is null.
      */
-    public Matrix3 set(final ReadableMatrix3 source) {
+    public Matrix3 set(final ReadOnlyMatrix3 source) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 _data[i][j] = source.getValue(i, j);
@@ -219,7 +219,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * 
      *         .
      */
-    public Matrix3 set(final ReadableQuaternion quaternion) {
+    public Matrix3 set(final ReadOnlyQuaternion quaternion) {
         return quaternion.toRotationMatrix(this);
     }
 
@@ -278,7 +278,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws ArrayIndexOutOfBoundsException
      *             if columnIndex is not in [0, 2]
      */
-    public Matrix3 setColumn(final int columnIndex, final ReadableVector3 columnData) {
+    public Matrix3 setColumn(final int columnIndex, final ReadOnlyVector3 columnData) {
         _data[0][columnIndex] = columnData.getX();
         _data[1][columnIndex] = columnData.getY();
         _data[2][columnIndex] = columnData.getZ();
@@ -296,7 +296,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws ArrayIndexOutOfBoundsException
      *             if rowIndex is not in [0, 2]
      */
-    public Matrix3 setRow(final int rowIndex, final ReadableVector3 rowData) {
+    public Matrix3 setRow(final int rowIndex, final ReadOnlyVector3 rowData) {
         _data[rowIndex][0] = rowData.getX();
         _data[rowIndex][1] = rowData.getY();
         _data[rowIndex][2] = rowData.getZ();
@@ -313,7 +313,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if any of the axes are null.
      */
-    public Matrix3 fromAxes(final ReadableVector3 uAxis, final ReadableVector3 vAxis, final ReadableVector3 wAxis) {
+    public Matrix3 fromAxes(final ReadOnlyVector3 uAxis, final ReadOnlyVector3 vAxis, final ReadOnlyVector3 wAxis) {
         setColumn(0, uAxis);
         setColumn(1, vAxis);
         setColumn(2, wAxis);
@@ -332,7 +332,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if axis is null.
      */
-    public Matrix3 fromAngleAxis(final double angle, final ReadableVector3 axis) {
+    public Matrix3 fromAngleAxis(final double angle, final ReadOnlyVector3 axis) {
         final Vector3 normAxis = Vector3.fetchTempInstance();
         axis.normalize(normAxis);
         fromAngleNormalAxis(angle, normAxis);
@@ -351,7 +351,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if axis is null.
      */
-    public Matrix3 fromAngleNormalAxis(final double angle, final ReadableVector3 axis) {
+    public Matrix3 fromAngleNormalAxis(final double angle, final ReadOnlyVector3 axis) {
         final double fCos = MathUtils.cos(angle);
         final double fSin = MathUtils.sin(angle);
         final double fOneMinusCos = (1.0) - fCos;
@@ -594,7 +594,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if matrix is null
      */
-    public Matrix3 multiplyLocal(final ReadableMatrix3 matrix) {
+    public Matrix3 multiplyLocal(final ReadOnlyMatrix3 matrix) {
         return multiply(matrix, this);
     }
 
@@ -607,7 +607,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if matrix is null.
      */
-    public Matrix3 multiply(final ReadableMatrix3 matrix, final Matrix3 store) {
+    public Matrix3 multiply(final ReadOnlyMatrix3 matrix, final Matrix3 store) {
         Matrix3 result = store;
         if (result == null) {
             result = new Matrix3();
@@ -649,7 +649,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vec is null
      */
-    public Vector3 applyPre(final ReadableVector3 vec, final Vector3 store) {
+    public Vector3 applyPre(final ReadOnlyVector3 vec, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -678,7 +678,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vec is null
      */
-    public Vector3 applyPost(final ReadableVector3 vec, final Vector3 store) {
+    public Vector3 applyPost(final ReadOnlyVector3 vec, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -706,7 +706,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vec is null
      */
-    public Matrix3 multiplyDiagonalPre(final ReadableVector3 vec, final Matrix3 store) {
+    public Matrix3 multiplyDiagonalPre(final ReadOnlyVector3 vec, final Matrix3 store) {
         Matrix3 result = store;
         if (result == null) {
             result = new Matrix3();
@@ -731,7 +731,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if vec is null
      */
-    public Matrix3 multiplyDiagonalPost(final ReadableVector3 vec, final Matrix3 store) {
+    public Matrix3 multiplyDiagonalPost(final ReadOnlyVector3 vec, final Matrix3 store) {
         Matrix3 result = store;
         if (result == null) {
             result = new Matrix3();
@@ -772,7 +772,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * 
      *             if store is not null and is read only.
      */
-    public Matrix3 add(final ReadableMatrix3 matrix, final Matrix3 store) {
+    public Matrix3 add(final ReadOnlyMatrix3 matrix, final Matrix3 store) {
         Matrix3 result = store;
         if (result == null) {
             result = new Matrix3();
@@ -795,7 +795,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if matrix is null
      */
-    public Matrix3 addLocal(final ReadableMatrix3 matrix) {
+    public Matrix3 addLocal(final ReadOnlyMatrix3 matrix) {
         return add(matrix, this);
     }
 
@@ -809,7 +809,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if scale is null.
      */
-    public Matrix3 scale(final ReadableVector3 scale, final Matrix3 store) {
+    public Matrix3 scale(final ReadOnlyVector3 scale, final Matrix3 store) {
         Matrix3 result = store;
         if (result == null) {
             result = new Matrix3();
@@ -828,7 +828,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @throws NullPointerException
      *             if scale is null.
      */
-    public Matrix3 scaleLocal(final ReadableVector3 scale) {
+    public Matrix3 scaleLocal(final ReadOnlyVector3 scale) {
         return set(_data[0][0] * scale.getX(), _data[0][1] * scale.getY(), _data[0][2] * scale.getZ(), _data[1][0]
                 * scale.getX(), _data[1][1] * scale.getY(), _data[1][2] * scale.getZ(), _data[2][0] * scale.getX(),
                 _data[2][1] * scale.getY(), _data[2][2] * scale.getZ());
@@ -960,7 +960,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @see "Tomas Möller, John Hughes \"Efficiently Building a Matrix to Rotate \ One Vector to
      *      Another\" Journal of Graphics Tools, 4(4):1-4, 1999"
      */
-    public Matrix3 fromStartEndLocal(final ReadableVector3 start, final ReadableVector3 end) {
+    public Matrix3 fromStartEndLocal(final ReadOnlyVector3 start, final ReadOnlyVector3 end) {
         final Vector3 v = new Vector3();
         double e, h, f;
 
@@ -1051,7 +1051,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
      * @param matrix the vector to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableMatrix3 matrix) {
+    public static boolean isValid(final ReadOnlyMatrix3 matrix) {
         if (matrix == null) {
             return false;
         }
@@ -1111,10 +1111,10 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadableMatr
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableMatrix3)) {
+        if (!(o instanceof ReadOnlyMatrix3)) {
             return false;
         }
-        final ReadableMatrix3 comp = (ReadableMatrix3) o;
+        final ReadOnlyMatrix3 comp = (ReadOnlyMatrix3) o;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (Double.compare(_data[i][j], comp.getValue(i, j)) != 0) {

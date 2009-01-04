@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -28,7 +28,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * Vector3 represents a point or vector in a three dimensional system. This implementation stores its data in
  * double-precision.
  */
-public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVector3 {
+public class Vector3 implements Cloneable, Savable, Externalizable, ReadOnlyVector3 {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,24 +37,24 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
     /**
      * 0, 0, 0
      */
-    public final static ReadableVector3 ZERO = new Vector3(0, 0, 0);
+    public final static ReadOnlyVector3 ZERO = new Vector3(0, 0, 0);
 
     /**
      * 1, 0, 0
      */
-    public final static ReadableVector3 UNIT_X = new Vector3(1, 0, 0);
+    public final static ReadOnlyVector3 UNIT_X = new Vector3(1, 0, 0);
     /**
      * 0, 1, 0
      */
-    public final static ReadableVector3 UNIT_Y = new Vector3(0, 1, 0);
+    public final static ReadOnlyVector3 UNIT_Y = new Vector3(0, 1, 0);
     /**
      * 0, 0, 1
      */
-    public final static ReadableVector3 UNIT_Z = new Vector3(0, 0, 1);
+    public final static ReadOnlyVector3 UNIT_Z = new Vector3(0, 0, 1);
     /**
      * 1, 1, 1
      */
-    public final static ReadableVector3 UNIT_XYZ = new Vector3(1, 1, 1);
+    public final static ReadOnlyVector3 UNIT_XYZ = new Vector3(1, 1, 1);
 
     protected double _x = 0;
     protected double _y = 0;
@@ -72,7 +72,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * 
      * @param src
      */
-    public Vector3(final ReadableVector3 src) {
+    public Vector3(final ReadOnlyVector3 src) {
         this(src.getX(), src.getY(), src.getZ());
     }
 
@@ -259,7 +259,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector3 set(final ReadableVector3 source) {
+    public Vector3 set(final ReadOnlyVector3 source) {
         setX(source.getX());
         setY(source.getY());
         setZ(source.getZ());
@@ -317,7 +317,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector3 add(final ReadableVector3 source, final Vector3 store) {
+    public Vector3 add(final ReadOnlyVector3 source, final Vector3 store) {
         return add(source.getX(), source.getY(), source.getZ(), store);
     }
 
@@ -329,7 +329,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector3 addLocal(final ReadableVector3 source) {
+    public Vector3 addLocal(final ReadOnlyVector3 source) {
         return addLocal(source.getX(), source.getY(), source.getZ());
     }
 
@@ -374,7 +374,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector3 subtract(final ReadableVector3 source, final Vector3 store) {
+    public Vector3 subtract(final ReadOnlyVector3 source, final Vector3 store) {
         return subtract(source.getX(), source.getY(), source.getZ(), store);
     }
 
@@ -386,7 +386,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if source is null.
      */
-    public Vector3 subtractLocal(final ReadableVector3 source) {
+    public Vector3 subtractLocal(final ReadOnlyVector3 source) {
         return subtractLocal(source.getX(), source.getY(), source.getZ());
     }
 
@@ -425,7 +425,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to store the result in for return. If null, a new vector object is created and returned.
      * @return a new vector (this.x * scale.x, this.y * scale.y, this.z * scale.z)
      */
-    public Vector3 multiply(final ReadableVector3 scale, final Vector3 store) {
+    public Vector3 multiply(final ReadOnlyVector3 scale, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -440,7 +440,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @param scalar
      * @return this vector for chaining
      */
-    public Vector3 multiplyLocal(final ReadableVector3 scale) {
+    public Vector3 multiplyLocal(final ReadOnlyVector3 scale) {
         return set(getX() * scale.getX(), getY() * scale.getY(), getZ() * scale.getZ());
     }
 
@@ -483,7 +483,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to store the result in for return. If null, a new vector object is created and returned.
      * @return a new vector (this.x / scale.x, this.y / scale.y, this.z / scale.z)
      */
-    public Vector3 divide(final ReadableVector3 scale, final Vector3 store) {
+    public Vector3 divide(final ReadOnlyVector3 scale, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -498,7 +498,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @param scale
      * @return this vector for chaining
      */
-    public Vector3 divideLocal(final ReadableVector3 scale) {
+    public Vector3 divideLocal(final ReadOnlyVector3 scale) {
         return set(getX() / scale.getX(), getY() / scale.getY(), getZ() / scale.getZ());
     }
 
@@ -513,7 +513,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the value to add to the result
      * @return this vector for chaining
      */
-    public Vector3 scaleAddLocal(final float scale, final ReadableVector3 add) {
+    public Vector3 scaleAddLocal(final float scale, final ReadOnlyVector3 add) {
         _x = _x * scale + add.getX();
         _y = _y * scale + add.getY();
         _z = _z * scale + add.getZ();
@@ -532,7 +532,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to store the result in for return. If null, a new vector object is created and returned.
      * @return the store variable
      */
-    public Vector3 scaleAdd(final double scale, final ReadableVector3 add, final Vector3 store) {
+    public Vector3 scaleAdd(final double scale, final ReadOnlyVector3 add, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -605,7 +605,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if endVec is null.
      */
-    public Vector3 lerp(final ReadableVector3 endVec, final double scalar, final Vector3 store) {
+    public Vector3 lerp(final ReadOnlyVector3 endVec, final double scalar, final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
             result = new Vector3();
@@ -628,7 +628,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if endVec is null.
      */
-    public Vector3 lerpLocal(final ReadableVector3 endVec, final double scalar) {
+    public Vector3 lerpLocal(final ReadOnlyVector3 endVec, final double scalar) {
         setX((1.0 - scalar) * getX() + scalar * endVec.getX());
         setY((1.0 - scalar) * getY() + scalar * endVec.getY());
         setZ((1.0 - scalar) * getZ() + scalar * endVec.getZ());
@@ -651,7 +651,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if beginVec or endVec are null.
      */
-    public static Vector3 lerp(final ReadableVector3 beginVec, final ReadableVector3 endVec, final double scalar,
+    public static Vector3 lerp(final ReadOnlyVector3 beginVec, final ReadOnlyVector3 endVec, final double scalar,
             final Vector3 store) {
         Vector3 result = store;
         if (result == null) {
@@ -677,7 +677,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if beginVec or endVec are null.
      */
-    public Vector3 lerpLocal(final ReadableVector3 beginVec, final ReadableVector3 endVec, final double scalar) {
+    public Vector3 lerpLocal(final ReadOnlyVector3 beginVec, final ReadOnlyVector3 endVec, final double scalar) {
         setX((1.0 - scalar) * beginVec.getX() + scalar * endVec.getX());
         setY((1.0 - scalar) * beginVec.getY() + scalar * endVec.getY());
         setZ((1.0 - scalar) * beginVec.getZ() + scalar * endVec.getZ());
@@ -723,7 +723,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if destination is null.
      */
-    public double distanceSquared(final ReadableVector3 destination) {
+    public double distanceSquared(final ReadOnlyVector3 destination) {
         return distanceSquared(destination.getX(), destination.getY(), destination.getZ());
     }
 
@@ -743,7 +743,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if destination is null.
      */
-    public double distance(final ReadableVector3 destination) {
+    public double distance(final ReadOnlyVector3 destination) {
         return Math.sqrt(distanceSquared(destination));
     }
 
@@ -763,7 +763,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if vec is null.
      */
-    public double dot(final ReadableVector3 vec) {
+    public double dot(final ReadOnlyVector3 vec) {
         return dot(vec.getX(), vec.getY(), vec.getZ());
     }
 
@@ -795,7 +795,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if destination is null.
      */
-    public Vector3 cross(final ReadableVector3 vec, final Vector3 store) {
+    public Vector3 cross(final ReadOnlyVector3 vec, final Vector3 store) {
         return cross(vec.getX(), vec.getY(), vec.getZ(), store);
     }
 
@@ -819,7 +819,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if vec is null.
      */
-    public Vector3 crossLocal(final ReadableVector3 vec) {
+    public Vector3 crossLocal(final ReadOnlyVector3 vec) {
         return crossLocal(vec.getX(), vec.getY(), vec.getZ());
     }
 
@@ -839,7 +839,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if destination is null.
      */
-    public double determinant(final ReadableVector3 vec) {
+    public double determinant(final ReadOnlyVector3 vec) {
         return determinant(vec.getX(), vec.getY(), vec.getZ());
     }
 
@@ -851,7 +851,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      * @throws NullPointerException
      *             if otherVector is null.
      */
-    public double smallestAngleBetween(final ReadableVector3 otherVector) {
+    public double smallestAngleBetween(final ReadOnlyVector3 otherVector) {
         return Math.acos(dot(otherVector));
     }
 
@@ -862,7 +862,7 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
      *            the vector to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableVector3 vector) {
+    public static boolean isValid(final ReadOnlyVector3 vector) {
         if (vector == null) {
             return false;
         }
@@ -913,10 +913,10 @@ public class Vector3 implements Cloneable, Savable, Externalizable, ReadableVect
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableVector3)) {
+        if (!(o instanceof ReadOnlyVector3)) {
             return false;
         }
-        final ReadableVector3 comp = (ReadableVector3) o;
+        final ReadOnlyVector3 comp = (ReadOnlyVector3) o;
         if (Double.compare(getX(), comp.getX()) == 0 && Double.compare(getY(), comp.getY()) == 0
                 && Double.compare(getZ(), comp.getZ()) == 0) {
             return true;

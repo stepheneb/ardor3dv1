@@ -12,7 +12,7 @@ package com.ardor3d.math.type;
 
 import com.ardor3d.math.ColorRGBA;
 
-public interface ReadableColorRGBA {
+public interface ReadOnlyColorRGBA {
 
     public float getRed();
 
@@ -34,20 +34,20 @@ public interface ReadableColorRGBA {
 
     public ColorRGBA add(final float r, final float g, final float b, final float a, final ColorRGBA store);
 
-    public ColorRGBA add(final ReadableColorRGBA source, final ColorRGBA store);
+    public ColorRGBA add(final ReadOnlyColorRGBA source, final ColorRGBA store);
 
     public ColorRGBA subtract(final float r, final float g, final float b, final float a, final ColorRGBA store);
 
-    public ColorRGBA subtract(final ReadableColorRGBA source, final ColorRGBA store);
+    public ColorRGBA subtract(final ReadOnlyColorRGBA source, final ColorRGBA store);
 
     public ColorRGBA multiply(final float scalar, final ColorRGBA store);
 
-    public ColorRGBA multiply(final ReadableColorRGBA scale, final ColorRGBA store);
+    public ColorRGBA multiply(final ReadOnlyColorRGBA scale, final ColorRGBA store);
 
     public ColorRGBA divide(final float scalar, final ColorRGBA store);
 
-    public ColorRGBA divide(final ReadableColorRGBA scale, final ColorRGBA store);
+    public ColorRGBA divide(final ReadOnlyColorRGBA scale, final ColorRGBA store);
 
-    public ColorRGBA lerp(final ReadableColorRGBA endColor, final float scalar, final ColorRGBA store);
+    public ColorRGBA lerp(final ReadOnlyColorRGBA endColor, final float scalar, final ColorRGBA store);
 
 }

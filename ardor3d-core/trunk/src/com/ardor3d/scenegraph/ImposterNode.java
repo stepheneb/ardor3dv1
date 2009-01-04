@@ -17,7 +17,7 @@ import com.ardor3d.framework.DisplaySettings;
 import com.ardor3d.image.Texture2D;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.Renderer;
@@ -132,8 +132,8 @@ public class ImposterNode extends Node {
      * @param eyeLocation
      *            The location the viewer is looking from in the real world.
      */
-    public void updateCamera(final ReadableVector3 eyeLocation) {
-        final ReadableVector3 center = standIn.getWorldTranslation();
+    public void updateCamera(final ReadOnlyVector3 eyeLocation) {
+        final ReadOnlyVector3 center = standIn.getWorldTranslation();
 
         final double vDist = eyeLocation.distance(center);
         final double ratio = cameraDistance / vDist;
@@ -177,8 +177,8 @@ public class ImposterNode extends Node {
      */
     private double getCameraChange(final Camera cam) {
         // change is last camera angle - this angle
-        final ReadableVector3 eye = cam.getLocation();
-        final ReadableVector3 spot = standIn.getWorldTranslation();
+        final ReadOnlyVector3 eye = cam.getLocation();
+        final ReadOnlyVector3 spot = standIn.getWorldTranslation();
 
         double opp = eye.getX() - spot.getX();
         final double adj = eye.getZ() - spot.getZ();

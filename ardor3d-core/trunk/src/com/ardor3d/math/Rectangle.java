@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableRectangle;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyRectangle;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -31,7 +31,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * B, C). These three points define a triangle with the forth point defining the rectangle ((B + C) - A.
  */
 
-public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRectangle {
+public class Rectangle implements Cloneable, Savable, Externalizable, ReadOnlyRectangle {
     private static final long serialVersionUID = 1L;
 
     private static final RectanglePool RECTANGLE_POOL = new RectanglePool(11);
@@ -58,7 +58,7 @@ public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRe
      * @param c
      *            the third corner of the rectangle.
      */
-    public Rectangle(final ReadableVector3 a, final ReadableVector3 b, final ReadableVector3 c) {
+    public Rectangle(final ReadOnlyVector3 a, final ReadOnlyVector3 b, final ReadOnlyVector3 c) {
         setA(a);
         setB(b);
         setC(c);
@@ -69,7 +69,7 @@ public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRe
      * 
      * @return the first point of the rectangle.
      */
-    public ReadableVector3 getA() {
+    public ReadOnlyVector3 getA() {
         return _a;
     }
 
@@ -79,7 +79,7 @@ public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRe
      * @param a
      *            the first point of the rectangle.
      */
-    public void setA(final ReadableVector3 a) {
+    public void setA(final ReadOnlyVector3 a) {
         _a.set(a);
     }
 
@@ -88,7 +88,7 @@ public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRe
      * 
      * @return the second point of the rectangle.
      */
-    public ReadableVector3 getB() {
+    public ReadOnlyVector3 getB() {
         return _b;
     }
 
@@ -98,7 +98,7 @@ public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRe
      * @param b
      *            the second point of the rectangle.
      */
-    public void setB(final ReadableVector3 b) {
+    public void setB(final ReadOnlyVector3 b) {
         _b.set(b);
     }
 
@@ -117,7 +117,7 @@ public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRe
      * @param c
      *            the third point of the rectangle.
      */
-    public void setC(final ReadableVector3 c) {
+    public void setC(final ReadOnlyVector3 c) {
         _c.set(c);
     }
 
@@ -180,10 +180,10 @@ public class Rectangle implements Cloneable, Savable, Externalizable, ReadableRe
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableRectangle)) {
+        if (!(o instanceof ReadOnlyRectangle)) {
             return false;
         }
-        final ReadableRectangle comp = (ReadableRectangle) o;
+        final ReadOnlyRectangle comp = (ReadOnlyRectangle) o;
         if (_a.equals(comp.getA()) && _b.equals(comp.getB()) && _c.equals(comp.getC())) {
             return true;
         }

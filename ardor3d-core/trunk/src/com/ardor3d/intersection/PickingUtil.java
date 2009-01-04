@@ -17,8 +17,8 @@ import com.ardor3d.bounding.CollisionTree;
 import com.ardor3d.bounding.CollisionTreeManager;
 import com.ardor3d.math.Ray3;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.scenegraph.Node;
 import com.ardor3d.scenegraph.Spatial;
@@ -62,9 +62,9 @@ public class PickingUtil {
         if (mesh.getWorldBound().intersects(toTest)) {
             final CollisionTree ct = CollisionTreeManager.getInstance().getCollisionTree(mesh);
             if (ct != null) {
-                final ReadableMatrix3 worldRotation = mesh.getWorldRotation();
-                final ReadableVector3 worldTranslation = mesh.getWorldTranslation();
-                final ReadableVector3 worldScale = mesh.getWorldScale();
+                final ReadOnlyMatrix3 worldRotation = mesh.getWorldRotation();
+                final ReadOnlyVector3 worldTranslation = mesh.getWorldTranslation();
+                final ReadOnlyVector3 worldScale = mesh.getWorldScale();
 
                 ct.getBounds().transform(worldRotation, worldTranslation, worldScale, ct.getWorldBounds());
                 ct.intersect(toTest, results);
@@ -122,9 +122,9 @@ public class PickingUtil {
             return false;
         }
 
-        final ReadableMatrix3 worldRotation = testMesh.getWorldRotation();
-        final ReadableVector3 worldTranslation = testMesh.getWorldTranslation();
-        final ReadableVector3 worldScale = testMesh.getWorldScale();
+        final ReadOnlyMatrix3 worldRotation = testMesh.getWorldRotation();
+        final ReadOnlyVector3 worldTranslation = testMesh.getWorldTranslation();
+        final ReadOnlyVector3 worldScale = testMesh.getWorldScale();
 
         thisCT.getBounds().transform(worldRotation, worldTranslation, worldScale, thisCT.getWorldBounds());
         return thisCT.intersect(checkCT);
@@ -151,9 +151,9 @@ public class PickingUtil {
             return;
         }
 
-        final ReadableMatrix3 worldRotation = testMesh.getWorldRotation();
-        final ReadableVector3 worldTranslation = testMesh.getWorldTranslation();
-        final ReadableVector3 worldScale = testMesh.getWorldScale();
+        final ReadOnlyMatrix3 worldRotation = testMesh.getWorldRotation();
+        final ReadOnlyVector3 worldTranslation = testMesh.getWorldTranslation();
+        final ReadOnlyVector3 worldScale = testMesh.getWorldScale();
 
         myTree.getBounds().transform(worldRotation, worldTranslation, worldScale, myTree.getWorldBounds());
 

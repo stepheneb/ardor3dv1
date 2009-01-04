@@ -10,7 +10,7 @@
 
 package com.ardor3d.math.type;
 
-public interface ReadablePlane {
+public interface ReadOnlyPlane {
 
     public enum Side {
         /**
@@ -31,10 +31,10 @@ public interface ReadablePlane {
 
     public double getConstant();
 
-    public ReadableVector3 getNormal();
+    public ReadOnlyVector3 getNormal();
 
-    public double pseudoDistance(final ReadableVector3 point);
+    public double pseudoDistance(final ReadOnlyVector3 point);
 
-    public Side whichSide(final ReadableVector3 point);
+    public Side whichSide(final ReadOnlyVector3 point);
 
 }

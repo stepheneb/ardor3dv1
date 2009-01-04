@@ -12,7 +12,7 @@ package com.ardor3d.math;
 
 import java.util.Random;
 
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 
 public class MathUtils {
 
@@ -105,7 +105,7 @@ public class MathUtils {
      * Converts a point from Spherical coordinates to Cartesian (using positive Y as up) and stores the results in the
      * store var.
      */
-    public static Vector3 sphericalToCartesian(final ReadableVector3 sphereCoords, final Vector3 store) {
+    public static Vector3 sphericalToCartesian(final ReadOnlyVector3 sphereCoords, final Vector3 store) {
         final double a = sphereCoords.getX() * cos(sphereCoords.getZ());
         final double x = a * cos(sphereCoords.getY());
         final double y = sphereCoords.getX() * sin(sphereCoords.getZ());
@@ -118,7 +118,7 @@ public class MathUtils {
      * Converts a point from Cartesian coordinates (using positive Y as up) to Spherical and stores the results in the
      * store var. (Radius, Azimuth, Polar)
      */
-    public static Vector3 cartesianToSpherical(final ReadableVector3 cartCoords, final Vector3 store) {
+    public static Vector3 cartesianToSpherical(final ReadOnlyVector3 cartCoords, final Vector3 store) {
         final double cartX = Double.compare(cartCoords.getX(), 0.0) == 0 ? EPSILON : cartCoords.getX();
         final double cartY = cartCoords.getY();
         final double cartZ = cartCoords.getZ();
@@ -133,7 +133,7 @@ public class MathUtils {
      * Converts a point from Spherical coordinates to Cartesian (using positive Z as up) and stores the results in the
      * store var.
      */
-    public static Vector3 sphericalToCartesianZ(final ReadableVector3 sphereCoords, final Vector3 store) {
+    public static Vector3 sphericalToCartesianZ(final ReadOnlyVector3 sphereCoords, final Vector3 store) {
         final double a = sphereCoords.getX() * cos(sphereCoords.getZ());
         final double x = a * cos(sphereCoords.getY());
         final double y = a * sin(sphereCoords.getY());
@@ -146,7 +146,7 @@ public class MathUtils {
      * Converts a point from Cartesian coordinates (using positive Z as up) to Spherical and stores the results in the
      * store var. (Radius, Azimuth, Polar)
      */
-    public static Vector3 cartesianZToSpherical(final ReadableVector3 cartCoords, final Vector3 store) {
+    public static Vector3 cartesianZToSpherical(final ReadOnlyVector3 cartCoords, final Vector3 store) {
         final double cartX = Double.compare(cartCoords.getX(), 0.0) == 0 ? EPSILON : cartCoords.getX();
         final double cartY = cartCoords.getY();
         final double cartZ = cartCoords.getZ();
@@ -323,8 +323,8 @@ public class MathUtils {
      * @param up
      * @param store
      */
-    public static void matrixLookAt(final ReadableVector3 position, final ReadableVector3 target,
-            final ReadableVector3 worldUp, final Matrix4 store) {
+    public static void matrixLookAt(final ReadOnlyVector3 position, final ReadOnlyVector3 target,
+            final ReadOnlyVector3 worldUp, final Matrix4 store) {
         final Vector3 direction = Vector3.fetchTempInstance();
         final Vector3 side = Vector3.fetchTempInstance();
         final Vector3 up = Vector3.fetchTempInstance();
@@ -347,8 +347,8 @@ public class MathUtils {
      * @param up
      * @param store
      */
-    public static void matrixLookAt(final ReadableVector3 position, final ReadableVector3 target,
-            final ReadableVector3 worldUp, final Matrix3 store) {
+    public static void matrixLookAt(final ReadOnlyVector3 position, final ReadOnlyVector3 target,
+            final ReadOnlyVector3 worldUp, final Matrix3 store) {
         final Vector3 direction = Vector3.fetchTempInstance();
         final Vector3 side = Vector3.fetchTempInstance();
         final Vector3 up = Vector3.fetchTempInstance();

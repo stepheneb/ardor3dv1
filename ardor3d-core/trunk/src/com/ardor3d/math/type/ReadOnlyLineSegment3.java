@@ -10,17 +10,8 @@
 
 package com.ardor3d.math.type;
 
-import com.ardor3d.math.Vector3;
+public interface ReadOnlyLineSegment3 extends ReadOnlyLine3Base {
 
-public interface ReadableRing {
-    public ReadableVector3 getCenter();
-
-    public ReadableVector3 getUp();
-
-    public double getInnerRadius();
-
-    public double getOuterRadius();
-
-    public Vector3 random(final Vector3 store);
+    public double getExtent();
 
 }

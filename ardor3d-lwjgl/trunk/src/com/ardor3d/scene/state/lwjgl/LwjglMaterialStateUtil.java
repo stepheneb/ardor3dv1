@@ -12,7 +12,7 @@ package com.ardor3d.scene.state.lwjgl;
 
 import org.lwjgl.opengl.GL11;
 
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
 import com.ardor3d.renderer.lwjgl.LwjglRenderer;
@@ -76,7 +76,7 @@ public class LwjglMaterialStateUtil {
         }
     }
 
-    private static void applyColor(final ColorMaterial glMatColor, final ReadableColorRGBA color,
+    private static void applyColor(final ColorMaterial glMatColor, final ReadOnlyColorRGBA color,
             final MaterialFace face, final MaterialStateRecord record) {
         if (!isVertexProvidedColor(glMatColor, record)
                 && (!record.isValid() || face != record.face || !record.isSetColor(face, glMatColor, color, record))) {

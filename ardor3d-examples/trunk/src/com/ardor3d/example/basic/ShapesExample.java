@@ -82,7 +82,7 @@ public class ShapesExample extends ExampleBase implements DirtyEventListener {
         addMesh(createLines());
 
         final TextureState ts = new TextureState();
-        ts.setTexture(TextureManager.load("images/ArdorLogo.jpg", Texture.MinificationFilter.Trilinear, Format.Guess,
+        ts.setTexture(TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear, Format.Guess,
                 true));
         _root.setRenderState(ts);
 

@@ -16,7 +16,7 @@ import java.nio.FloatBuffer;
 import com.ardor3d.math.Matrix4;
 import com.ardor3d.math.Vector4;
 
-public interface ReadableMatrix4 {
+public interface ReadOnlyMatrix4 {
 
     public double getValue(final int row, final int column);
 
@@ -40,19 +40,19 @@ public interface ReadableMatrix4 {
 
     public double[] toArray(final double[] store, final boolean rowMajor);
 
-    public Matrix4 multiply(final ReadableMatrix4 matrix, final Matrix4 store);
+    public Matrix4 multiply(final ReadOnlyMatrix4 matrix, final Matrix4 store);
 
-    public Vector4 applyPre(final ReadableVector4 vec, final Vector4 store);
+    public Vector4 applyPre(final ReadOnlyVector4 vec, final Vector4 store);
 
-    public Vector4 applyPost(final ReadableVector4 vec, final Vector4 store);
+    public Vector4 applyPost(final ReadOnlyVector4 vec, final Vector4 store);
 
-    public Matrix4 multiplyDiagonalPre(final ReadableVector4 vec, final Matrix4 store);
+    public Matrix4 multiplyDiagonalPre(final ReadOnlyVector4 vec, final Matrix4 store);
 
-    public Matrix4 multiplyDiagonalPost(final ReadableVector4 vec, final Matrix4 store);
+    public Matrix4 multiplyDiagonalPost(final ReadOnlyVector4 vec, final Matrix4 store);
 
-    public Matrix4 add(final ReadableMatrix4 matrix, final Matrix4 store);
+    public Matrix4 add(final ReadOnlyMatrix4 matrix, final Matrix4 store);
 
-    public Matrix4 scale(final ReadableVector4 scale, final Matrix4 store);
+    public Matrix4 scale(final ReadOnlyVector4 scale, final Matrix4 store);
 
     public Matrix4 transpose(final Matrix4 store);
 

@@ -26,10 +26,10 @@ import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Quaternion;
 import com.ardor3d.math.Transform;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableTransform;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyTransform;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.NormalsMode;
@@ -326,32 +326,32 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
         }
     }
 
-    public ReadableMatrix3 getRotation() {
+    public ReadOnlyMatrix3 getRotation() {
         return _localTransform.getMatrix();
     }
 
-    public ReadableVector3 getScale() {
+    public ReadOnlyVector3 getScale() {
         return _localTransform.getScale();
     }
 
-    public ReadableVector3 getTranslation() {
+    public ReadOnlyVector3 getTranslation() {
         return _localTransform.getTranslation();
     }
 
-    public ReadableTransform getTransform() {
+    public ReadOnlyTransform getTransform() {
         return _localTransform;
     }
 
-    public void setTransform(final ReadableTransform transform) {
+    public void setTransform(final ReadOnlyTransform transform) {
         _localTransform.set(transform);
         markDirty(DirtyType.Transform);
     }
 
-    public void setWorldRotation(final ReadableMatrix3 rotation) {
+    public void setWorldRotation(final ReadOnlyMatrix3 rotation) {
         _worldTransform.setRotation(rotation);
     }
 
-    public void setWorldScale(final ReadableVector3 scale) {
+    public void setWorldScale(final ReadOnlyVector3 scale) {
         _worldTransform.setScale(scale);
     }
 
@@ -363,7 +363,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
         _worldTransform.setScale(scale);
     }
 
-    public void setWorldTranslation(final ReadableVector3 translation) {
+    public void setWorldTranslation(final ReadOnlyVector3 translation) {
         _worldTransform.setTranslation(translation);
     }
 
@@ -378,7 +378,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
      *            the new rotation of this spatial
      * @see Transform#setRotation(Matrix3)
      */
-    public void setRotation(final ReadableMatrix3 rotation) {
+    public void setRotation(final ReadOnlyMatrix3 rotation) {
         _localTransform.setRotation(rotation);
         markDirty(DirtyType.Transform);
     }
@@ -390,7 +390,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
      *            the new rotation of this spatial
      * @see Transform#setRotation(Quaternion)
      */
-    public void setRotation(final ReadableQuaternion rotation) {
+    public void setRotation(final ReadOnlyQuaternion rotation) {
         _localTransform.setRotation(rotation);
         markDirty(DirtyType.Transform);
     }
@@ -402,7 +402,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
      *            the new rotation of this spatial
      * @see Transform#setMatrix(Matrix3)
      */
-    public void setMatrix(final ReadableMatrix3 matrix) {
+    public void setMatrix(final ReadOnlyMatrix3 matrix) {
         _localTransform.setMatrix(matrix);
         markDirty(DirtyType.Transform);
     }
@@ -413,7 +413,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
      * @param scale
      *            the new scale of this spatial
      */
-    public void setScale(final ReadableVector3 scale) {
+    public void setScale(final ReadOnlyVector3 scale) {
         _localTransform.setScale(scale);
         markDirty(DirtyType.Transform);
     }
@@ -447,7 +447,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
      * @param rotation
      *            the new translation of this spatial
      */
-    public void setTranslation(final ReadableVector3 translation) {
+    public void setTranslation(final ReadOnlyVector3 translation) {
         _localTransform.setTranslation(translation);
         markDirty(DirtyType.Transform);
     }
@@ -464,19 +464,19 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
         markDirty(DirtyType.Transform);
     }
 
-    public ReadableMatrix3 getWorldRotation() {
+    public ReadOnlyMatrix3 getWorldRotation() {
         return _worldTransform.getMatrix();
     }
 
-    public ReadableVector3 getWorldScale() {
+    public ReadOnlyVector3 getWorldScale() {
         return _worldTransform.getScale();
     }
 
-    public ReadableVector3 getWorldTranslation() {
+    public ReadOnlyVector3 getWorldTranslation() {
         return _worldTransform.getTranslation();
     }
 
-    public ReadableTransform getWorldTransform() {
+    public ReadOnlyTransform getWorldTransform() {
         return _worldTransform;
     }
 
@@ -635,7 +635,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
      *            where to write the result (null to create a new vector, may be same as in)
      * @return the result (store)
      */
-    public Vector3 localToWorld(final ReadableVector3 in, Vector3 store) {
+    public Vector3 localToWorld(final ReadOnlyVector3 in, Vector3 store) {
         if (store == null) {
             store = new Vector3();
         }
@@ -652,7 +652,7 @@ public abstract class Spatial implements Cloneable, Savable, Externalizable {
      *            where to write the result (null to create a new vector, may be same as in)
      * @return the result (store)
      */
-    public Vector3 worldToLocal(final ReadableVector3 in, Vector3 store) {
+    public Vector3 worldToLocal(final ReadOnlyVector3 in, Vector3 store) {
         if (store == null) {
             store = new Vector3();
         }

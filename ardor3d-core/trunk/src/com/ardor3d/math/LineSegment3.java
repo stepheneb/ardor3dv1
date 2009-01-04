@@ -10,12 +10,12 @@
 
 package com.ardor3d.math;
 
-import com.ardor3d.math.type.ReadableLineSegment3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyLineSegment3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.pool.ObjectPool;
 
-public class LineSegment3 extends Line3Base implements ReadableLineSegment3 {
+public class LineSegment3 extends Line3Base implements ReadOnlyLineSegment3 {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ public class LineSegment3 extends Line3Base implements ReadableLineSegment3 {
      *            - unit length
      * @param extent
      */
-    public LineSegment3(final ReadableVector3 origin, final ReadableVector3 direction, final double extent) {
+    public LineSegment3(final ReadOnlyVector3 origin, final ReadOnlyVector3 direction, final double extent) {
         super(origin, direction);
         _extent = extent;
     }
@@ -49,7 +49,7 @@ public class LineSegment3 extends Line3Base implements ReadableLineSegment3 {
      * @param start
      * @param end
      */
-    public LineSegment3(final ReadableVector3 start, final ReadableVector3 end) {
+    public LineSegment3(final ReadOnlyVector3 start, final ReadOnlyVector3 end) {
         this();
         _origin.set(start).addLocal(end).multiplyLocal(0.5);
         _direction.set(end).subtractLocal(start);
@@ -65,7 +65,7 @@ public class LineSegment3 extends Line3Base implements ReadableLineSegment3 {
      * @throws NullPointerException
      *             if source is null.
      */
-    public LineSegment3 set(final ReadableLineSegment3 source) {
+    public LineSegment3 set(final ReadOnlyLineSegment3 source) {
         _origin.set(source.getOrigin());
         _direction.set(source.getDirection());
         return this;
@@ -115,7 +115,7 @@ public class LineSegment3 extends Line3Base implements ReadableLineSegment3 {
      * @throws NullPointerException
      *             if the point is null.
      */
-    public double distanceSquared(final ReadableVector3 point, final Vector3 store) {
+    public double distanceSquared(final ReadOnlyVector3 point, final Vector3 store) {
         final Vector3 vectorA = Vector3.fetchTempInstance();
         vectorA.set(point).subtractLocal(_origin);
 
@@ -174,7 +174,7 @@ public class LineSegment3 extends Line3Base implements ReadableLineSegment3 {
      *            the segment to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableLineSegment3 segment) {
+    public static boolean isValid(final ReadOnlyLineSegment3 segment) {
         if (segment == null) {
             return false;
         }
@@ -202,10 +202,10 @@ public class LineSegment3 extends Line3Base implements ReadableLineSegment3 {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableLineSegment3)) {
+        if (!(o instanceof ReadOnlyLineSegment3)) {
             return false;
         }
-        final ReadableLineSegment3 comp = (ReadableLineSegment3) o;
+        final ReadOnlyLineSegment3 comp = (ReadOnlyLineSegment3) o;
         return _origin.equals(comp.getOrigin()) && _direction.equals(comp.getDirection())
                 && (Double.compare(_extent, comp.getExtent()) == 0);
     }

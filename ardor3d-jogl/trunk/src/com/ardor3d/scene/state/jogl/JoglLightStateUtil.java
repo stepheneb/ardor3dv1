@@ -19,8 +19,8 @@ import com.ardor3d.light.PointLight;
 import com.ardor3d.light.SpotLight;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableColorRGBA;
-import com.ardor3d.math.type.ReadableMatrix4;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
+import com.ardor3d.math.type.ReadOnlyMatrix4;
 import com.ardor3d.renderer.ContextCapabilities;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
@@ -227,7 +227,7 @@ public class JoglLightStateUtil {
         }
     }
 
-    private static void setModelAmbient(final LightStateRecord record, final ReadableColorRGBA globalAmbient) {
+    private static void setModelAmbient(final LightStateRecord record, final ReadOnlyColorRGBA globalAmbient) {
         final GL gl = GLU.getCurrentGL();
 
         if (!record.isValid() || !record.globalAmbient.equals(globalAmbient)) {
@@ -242,7 +242,7 @@ public class JoglLightStateUtil {
         }
     }
 
-    private static void setAmbient(final int index, final LightStateRecord record, final ReadableColorRGBA ambient,
+    private static void setAmbient(final int index, final LightStateRecord record, final ReadOnlyColorRGBA ambient,
             final LightRecord lr) {
         final GL gl = GLU.getCurrentGL();
 
@@ -258,7 +258,7 @@ public class JoglLightStateUtil {
         }
     }
 
-    private static void setDiffuse(final int index, final LightStateRecord record, final ReadableColorRGBA diffuse,
+    private static void setDiffuse(final int index, final LightStateRecord record, final ReadOnlyColorRGBA diffuse,
             final LightRecord lr) {
         final GL gl = GLU.getCurrentGL();
 
@@ -274,7 +274,7 @@ public class JoglLightStateUtil {
         }
     }
 
-    private static void setSpecular(final int index, final LightStateRecord record, final ReadableColorRGBA specular,
+    private static void setSpecular(final int index, final LightStateRecord record, final ReadOnlyColorRGBA specular,
             final LightRecord lr) {
         final GL gl = GLU.getCurrentGL();
 
@@ -305,7 +305,7 @@ public class JoglLightStateUtil {
         // call to glLightfv(GL_LIGHT_POSITION,…).
 
         // XXX: This is a hack until we get a better lighting model up
-        final ReadableMatrix4 modelViewMatrix = ContextManager.getCurrentContext().getCurrentCamera()
+        final ReadOnlyMatrix4 modelViewMatrix = ContextManager.getCurrentContext().getCurrentCamera()
                 .getModelViewMatrix();
 
         if (!record.isValid() || Float.compare(lr.position[0], positionX) != 0

@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableRing;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyRing;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -30,7 +30,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * point, an up vector, an inner radius, and an outer radius.
  */
 
-public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
+public class Ring implements Cloneable, Savable, Externalizable, ReadOnlyRing {
     private static final long serialVersionUID = 1L;
 
     private static final RingPool RING_POOL = new RingPool(11);
@@ -60,7 +60,7 @@ public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
      * @param outerRadius
      *            the ring's outer radius.
      */
-    public Ring(final ReadableVector3 center, final ReadableVector3 up, final double innerRadius,
+    public Ring(final ReadOnlyVector3 center, final ReadOnlyVector3 up, final double innerRadius,
             final double outerRadius) {
         _center.set(center);
         _up.set(up);
@@ -73,7 +73,7 @@ public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
      * 
      * @return the center of the ring.
      */
-    public ReadableVector3 getCenter() {
+    public ReadOnlyVector3 getCenter() {
         return _center;
     }
 
@@ -83,7 +83,7 @@ public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
      * @param center
      *            the center of the ring.
      */
-    public void setCenter(final ReadableVector3 center) {
+    public void setCenter(final ReadOnlyVector3 center) {
         _center.set(center);
     }
 
@@ -92,7 +92,7 @@ public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
      * 
      * @return the ring's up vector.
      */
-    public ReadableVector3 getUp() {
+    public ReadOnlyVector3 getUp() {
         return _up;
     }
 
@@ -102,7 +102,7 @@ public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
      * @param up
      *            the ring's up vector.
      */
-    public void setUp(final ReadableVector3 up) {
+    public void setUp(final ReadOnlyVector3 up) {
         _up.set(up);
     }
 
@@ -187,7 +187,7 @@ public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
      *            the ring to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableRing ring) {
+    public static boolean isValid(final ReadOnlyRing ring) {
         if (ring == null) {
             return false;
         }
@@ -240,10 +240,10 @@ public class Ring implements Cloneable, Savable, Externalizable, ReadableRing {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableRing)) {
+        if (!(o instanceof ReadOnlyRing)) {
             return false;
         }
-        final ReadableRing comp = (ReadableRing) o;
+        final ReadOnlyRing comp = (ReadOnlyRing) o;
         if (Double.compare(getInnerRadius(), comp.getInnerRadius()) == 0
                 && Double.compare(getOuterRadius(), comp.getOuterRadius()) == 0 && _up.equals(comp.getUp())
                 && _center.equals(comp.getCenter())) {

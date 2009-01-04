@@ -23,7 +23,7 @@ import com.ardor3d.image.Texture2D;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.IndexMode;
@@ -284,7 +284,7 @@ public final class Debugger {
                 lineVerts.rewind();
                 lineInds.rewind();
 
-                final ReadableVector3 tempVec = geom.getWorldScale();
+                final ReadOnlyVector3 tempVec = geom.getWorldScale();
                 for (int x = 0; x < geom.getMeshData().getVertexCount(); x++) {
                     _normalVect.set(verts.get(), verts.get(), verts.get());
                     _normalVect.multiplyLocal(tempVec);

@@ -75,7 +75,7 @@ public class MeshDataSharingExample extends ExampleBase {
 
         final TextureState ts = new TextureState();
         ts.setEnabled(true);
-        ts.setTexture(TextureManager.load("images/ArdorLogo.jpg", Texture.MinificationFilter.Trilinear, Format.Guess,
+        ts.setTexture(TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear, Format.Guess,
                 true));
 
         sphere.setRenderState(ts);

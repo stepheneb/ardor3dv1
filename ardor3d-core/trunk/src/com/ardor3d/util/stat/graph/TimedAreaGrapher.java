@@ -18,7 +18,7 @@ import java.util.List;
 
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.IndexMode;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.queue.RenderBucketType;
@@ -197,7 +197,7 @@ public class TimedAreaGrapher extends AbstractStatGrapher implements TableLinkab
     private void shiftVerticals() {
         final int texWidth = texRenderer.getWidth();
         final double xOffset = -(off * texWidth) / (StatCollector.getMaxSamples() * StatCollector.getSampleRate());
-        final ReadableVector3 trans = verticals.getTranslation();
+        final ReadOnlyVector3 trans = verticals.getTranslation();
         verticals.setTranslation(xOffset, trans.getY(), trans.getZ());
     }
 

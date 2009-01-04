@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -33,7 +33,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * Note: some algorithms in this class were ported from Eberly, Wolfram, Game Gems and others to Java by myself and
  * others, originally for jMonkeyEngine.
  */
-public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQuaternion {
+public class Quaternion implements Cloneable, Savable, Externalizable, ReadOnlyQuaternion {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
     /**
      * x=0, y=0, z=0, w=1
      */
-    public final static ReadableQuaternion IDENTITY = new Quaternion(0, 0, 0, 1);
+    public final static ReadOnlyQuaternion IDENTITY = new Quaternion(0, 0, 0, 1);
 
     protected double _x = 0;
     protected double _y = 0;
@@ -61,7 +61,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * 
      * @param source
      */
-    public Quaternion(final ReadableQuaternion source) {
+    public Quaternion(final ReadOnlyQuaternion source) {
         this(source.getX(), source.getY(), source.getZ(), source.getW());
     }
 
@@ -211,7 +211,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws NullPointerException
      *             if source is null.
      */
-    public Quaternion set(final ReadableQuaternion source) {
+    public Quaternion set(final ReadOnlyQuaternion source) {
         setX(source.getX());
         setY(source.getY());
         setZ(source.getZ());
@@ -327,7 +327,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws NullPointerException
      *             if matrix is null.
      */
-    public Quaternion fromRotationMatrix(final ReadableMatrix3 matrix) {
+    public Quaternion fromRotationMatrix(final ReadOnlyMatrix3 matrix) {
         return fromRotationMatrix(matrix.getValue(0, 0), matrix.getValue(0, 1), matrix.getValue(0, 2), matrix.getValue(
                 1, 0), matrix.getValue(1, 1), matrix.getValue(1, 2), matrix.getValue(2, 0), matrix.getValue(2, 1),
                 matrix.getValue(2, 2));
@@ -549,7 +549,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws NullPointerException
      *             if axis is null
      */
-    public Quaternion fromAngleAxis(final double angle, final ReadableVector3 axis) {
+    public Quaternion fromAngleAxis(final double angle, final ReadOnlyVector3 axis) {
         final Vector3 temp = Vector3.fetchTempInstance();
         final Quaternion quat = fromAngleNormalAxis(angle, axis.normalize(temp));
         Vector3.releaseTempInstance(temp);
@@ -567,7 +567,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws NullPointerException
      *             if axis is null
      */
-    public Quaternion fromAngleNormalAxis(final double angle, final ReadableVector3 axis) {
+    public Quaternion fromAngleNormalAxis(final double angle, final ReadOnlyVector3 axis) {
         if (axis.equals(Vector3.ZERO)) {
             return setIdentity();
         }
@@ -670,7 +670,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      *            the Quaternion to store the result in. if null, a new one is created.
      * @return a quaternion representing the fields of this quaternion added to those of the given quaternion.
      */
-    public Quaternion add(final ReadableQuaternion quat, final Quaternion store) {
+    public Quaternion add(final ReadOnlyQuaternion quat, final Quaternion store) {
         Quaternion result = store;
         if (result == null) {
             result = new Quaternion();
@@ -685,7 +685,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @param quat
      * @return this quaternion for chaining
      */
-    public Quaternion addLocal(final ReadableQuaternion quat) {
+    public Quaternion addLocal(final ReadOnlyQuaternion quat) {
         setX(getX() + quat.getX());
         setY(getY() + quat.getY());
         setZ(getZ() + quat.getZ());
@@ -699,7 +699,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      *            the Quaternion to store the result in. if null, a new one is created.
      * @return a quaternion representing the fields of this quaternion subtracted from those of the given quaternion.
      */
-    public Quaternion subtract(final ReadableQuaternion quat, final Quaternion store) {
+    public Quaternion subtract(final ReadOnlyQuaternion quat, final Quaternion store) {
         Quaternion result = store;
         if (result == null) {
             result = new Quaternion();
@@ -714,7 +714,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @param quat
      * @return this quaternion for chaining.
      */
-    public Quaternion subtractLocal(final ReadableQuaternion quat) {
+    public Quaternion subtractLocal(final ReadOnlyQuaternion quat) {
         setX(getX() - quat.getX());
         setY(getY() - quat.getY());
         setZ(getZ() - quat.getZ());
@@ -769,7 +769,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * 
      *         if the given store is read only.
      */
-    public Quaternion multiply(final ReadableQuaternion quat, Quaternion store) {
+    public Quaternion multiply(final ReadOnlyQuaternion quat, Quaternion store) {
         if (store == null) {
             store = new Quaternion();
         }
@@ -789,7 +789,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws NullPointerException
      *             if quat is null.
      */
-    public Quaternion multiplyLocal(final ReadableQuaternion quat) {
+    public Quaternion multiplyLocal(final ReadOnlyQuaternion quat) {
         return multiplyLocal(quat.getX(), quat.getY(), quat.getZ(), quat.getW());
     }
 
@@ -802,7 +802,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws NullPointerException
      *             if matrix is null.
      */
-    public Quaternion multiplyLocal(final ReadableMatrix3 matrix) {
+    public Quaternion multiplyLocal(final ReadOnlyMatrix3 matrix) {
         final double oldX = getX(), oldY = getY(), oldZ = getZ(), oldW = getW();
         fromRotationMatrix(matrix);
         final double tempX = getX(), tempY = getY(), tempZ = getZ(), tempW = getW();
@@ -845,7 +845,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * 
      *             if the given store is read only.
      */
-    public Vector3 apply(final ReadableVector3 vec, Vector3 store) {
+    public Vector3 apply(final ReadOnlyVector3 vec, Vector3 store) {
         if (store == null) {
             store = new Vector3();
         }
@@ -877,7 +877,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws IllegalArgumentException
      *             if the given axes array is smaller than 3 elements.
      */
-    public Quaternion fromAxes(final ReadableVector3[] axes) {
+    public Quaternion fromAxes(final ReadOnlyVector3[] axes) {
         if (axes.length < 3) {
             throw new IllegalArgumentException("axes array must have at least three elements");
         }
@@ -897,7 +897,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      *            vector representing the z-axis of the coordinate system.
      * @return this quaternion for chaining
      */
-    public Quaternion fromAxes(final ReadableVector3 xAxis, final ReadableVector3 yAxis, final ReadableVector3 zAxis) {
+    public Quaternion fromAxes(final ReadOnlyVector3 xAxis, final ReadOnlyVector3 yAxis, final ReadOnlyVector3 zAxis) {
         return fromRotationMatrix(xAxis.getX(), yAxis.getX(), zAxis.getX(), xAxis.getY(), yAxis.getY(), zAxis.getY(),
                 xAxis.getZ(), yAxis.getZ(), zAxis.getZ());
     }
@@ -932,7 +932,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      *            returned.
      * @return a new quaternion containing the result.
      */
-    public Quaternion slerp(final ReadableQuaternion endQuat, final double changeAmnt, final Quaternion store) {
+    public Quaternion slerp(final ReadOnlyQuaternion endQuat, final double changeAmnt, final Quaternion store) {
         return slerp(this, endQuat, changeAmnt, store);
     }
 
@@ -944,7 +944,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @param changeAmnt
      * @return this quaternion for chaining.
      */
-    public Quaternion slerpLocal(final ReadableQuaternion endQuat, final double changeAmnt) {
+    public Quaternion slerpLocal(final ReadOnlyQuaternion endQuat, final double changeAmnt) {
         return slerpLocal(this, endQuat, changeAmnt);
     }
 
@@ -960,7 +960,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      *            returned.
      * @return the new quaternion
      */
-    public static Quaternion slerp(final ReadableQuaternion startQuat, final ReadableQuaternion endQuat,
+    public static Quaternion slerp(final ReadOnlyQuaternion startQuat, final ReadOnlyQuaternion endQuat,
             final double changeAmnt, final Quaternion store) {
         Quaternion result = store;
         if (result == null) {
@@ -1024,7 +1024,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @throws NullPointerException
      *             if startQuat or endQuat are null.
      */
-    public Quaternion slerpLocal(final ReadableQuaternion startQuat, final ReadableQuaternion endQuat,
+    public Quaternion slerpLocal(final ReadOnlyQuaternion startQuat, final ReadOnlyQuaternion endQuat,
             final double changeAmnt) {
         // Check for equality and skip operation.
         if (startQuat.equals(endQuat)) {
@@ -1081,7 +1081,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @param up
      *            a vector indicating the local up direction.
      */
-    public void lookAt(final ReadableVector3 direction, final Vector3 up) {
+    public void lookAt(final ReadOnlyVector3 direction, final Vector3 up) {
         final Vector3 xAxis = Vector3.fetchTempInstance();
         final Vector3 yAxis = Vector3.fetchTempInstance();
         final Vector3 zAxis = Vector3.fetchTempInstance();
@@ -1130,7 +1130,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      * @param quat
      * @return the dot product of this quaternion with the given quaternion.
      */
-    public double dot(final ReadableQuaternion quat) {
+    public double dot(final ReadOnlyQuaternion quat) {
         return dot(quat.getX(), quat.getY(), quat.getZ(), quat.getW());
     }
 
@@ -1161,7 +1161,7 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
      *            the quaternion to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableQuaternion quat) {
+    public static boolean isValid(final ReadOnlyQuaternion quat) {
         if (quat == null) {
             return false;
         }
@@ -1221,10 +1221,10 @@ public class Quaternion implements Cloneable, Savable, Externalizable, ReadableQ
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableQuaternion)) {
+        if (!(o instanceof ReadOnlyQuaternion)) {
             return false;
         }
-        final ReadableQuaternion comp = (ReadableQuaternion) o;
+        final ReadOnlyQuaternion comp = (ReadOnlyQuaternion) o;
         if (Double.compare(getX(), comp.getX()) == 0 && Double.compare(getY(), comp.getY()) == 0
                 && Double.compare(getZ(), comp.getZ()) == 0 && Double.compare(getW(), comp.getW()) == 0) {
             return true;

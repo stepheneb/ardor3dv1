@@ -10,7 +10,7 @@
 
 package com.ardor3d.extension.shadow.stencil;
 
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.scenegraph.Mesh;
 
@@ -25,8 +25,8 @@ public class ProximityShadowGate implements ShadowGate {
     }
 
     public boolean shouldDrawShadows(final Mesh mesh) {
-        final ReadableVector3 trans = mesh.getWorldTranslation();
-        final ReadableVector3 camLoc = camera.getLocation();
+        final ReadOnlyVector3 trans = mesh.getWorldTranslation();
+        final ReadOnlyVector3 camLoc = camera.getLocation();
         final boolean isCloseEnough = (trans.distanceSquared(camLoc) <= distanceSQ);
         return isCloseEnough;
     }

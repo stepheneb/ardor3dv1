@@ -98,7 +98,7 @@ public class MatrixLookAtExample extends ExampleBase {
 
         final TextureState ts = new TextureState();
         ts.setEnabled(true);
-        ts.setTexture(TextureManager.load("images/ArdorLogo.jpg", Texture.MinificationFilter.Trilinear,
+        ts.setTexture(TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear,
                 Format.GuessNoCompression, true));
 
         final MaterialState ms = new MaterialState();

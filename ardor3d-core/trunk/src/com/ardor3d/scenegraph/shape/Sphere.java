@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.scenegraph.TexCoords;
 import com.ardor3d.util.export.Ardor3DExporter;
@@ -107,7 +107,7 @@ public class Sphere extends Mesh {
      * @param radius
      *            The new radius of the sphere.
      */
-    public void setData(final ReadableVector3 center, final int zSamples, final int radialSamples, final double radius) {
+    public void setData(final ReadOnlyVector3 center, final int zSamples, final int radialSamples, final double radius) {
         this.center.set(center);
         this.zSamples = zSamples;
         this.radialSamples = radialSamples;

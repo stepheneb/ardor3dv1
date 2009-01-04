@@ -16,13 +16,13 @@ import java.nio.FloatBuffer;
 
 import com.ardor3d.intersection.IntersectionRecord;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadablePlane;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableRay3;
-import com.ardor3d.math.type.ReadableTransform;
-import com.ardor3d.math.type.ReadableTriangle;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyPlane;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyRay3;
+import com.ardor3d.math.type.ReadOnlyTransform;
+import com.ardor3d.math.type.ReadOnlyTriangle;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -79,8 +79,8 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            the scale to resize the bound.
      * @return the new bounding volume.
      */
-    public final BoundingVolume transform(final ReadableQuaternion rotate, final ReadableVector3 translate,
-            final ReadableVector3 scale) {
+    public final BoundingVolume transform(final ReadOnlyQuaternion rotate, final ReadOnlyVector3 translate,
+            final ReadOnlyVector3 scale) {
         return transform(rotate, translate, scale, null);
     }
 
@@ -98,8 +98,8 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            sphere to store result in
      * @return the new bounding volume.
      */
-    public abstract BoundingVolume transform(ReadableQuaternion rotate, ReadableVector3 translate,
-            ReadableVector3 scale, BoundingVolume store);
+    public abstract BoundingVolume transform(ReadOnlyQuaternion rotate, ReadOnlyVector3 translate,
+            ReadOnlyVector3 scale, BoundingVolume store);
 
     /**
      * 
@@ -115,7 +115,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            sphere to store result in
      * @return the new bounding volume.
      */
-    public abstract BoundingVolume transform(ReadableMatrix3 rotate, ReadableVector3 translate, ReadableVector3 scale,
+    public abstract BoundingVolume transform(ReadOnlyMatrix3 rotate, ReadOnlyVector3 translate, ReadOnlyVector3 scale,
             BoundingVolume store);
 
     /**
@@ -126,10 +126,10 @@ public abstract class BoundingVolume implements Serializable, Savable {
      * @param store
      * @return
      */
-    public BoundingVolume transform(final ReadableTransform transform, final BoundingVolume store) {
-        final ReadableMatrix3 rotation = transform.getMatrix();
-        final ReadableVector3 translation = transform.getTranslation();
-        final ReadableVector3 scale = transform.getScale();
+    public BoundingVolume transform(final ReadOnlyTransform transform, final BoundingVolume store) {
+        final ReadOnlyMatrix3 rotation = transform.getMatrix();
+        final ReadOnlyVector3 translation = transform.getTranslation();
+        final ReadOnlyVector3 scale = transform.getScale();
 
         final BoundingVolume volume = transform(rotation, translation, scale, store);
         return volume;
@@ -144,7 +144,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            the plane to check against this bounding volume.
      * @return the side on which this bounding volume lies.
      */
-    public abstract ReadablePlane.Side whichSide(ReadablePlane plane);
+    public abstract ReadOnlyPlane.Side whichSide(ReadOnlyPlane plane);
 
     /**
      * 
@@ -184,11 +184,11 @@ public abstract class BoundingVolume implements Serializable, Savable {
      */
     public abstract BoundingVolume clone(BoundingVolume store);
 
-    public final ReadableVector3 getCenter() {
+    public final ReadOnlyVector3 getCenter() {
         return center;
     }
 
-    public final void setCenter(final ReadableVector3 newCenter) {
+    public final void setCenter(final ReadOnlyVector3 newCenter) {
         center.set(newCenter);
     }
 
@@ -221,7 +221,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            The point to get the distance to
      * @return distance
      */
-    public abstract double distanceToEdge(ReadableVector3 point);
+    public abstract double distanceToEdge(ReadOnlyVector3 point);
 
     /**
      * determines if this bounding volume and a second given volume are intersecting. Intersecting being: one volume
@@ -240,7 +240,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            the ray to test.
      * @return true if this volume is intersected by a given ray.
      */
-    public abstract boolean intersects(ReadableRay3 ray);
+    public abstract boolean intersects(ReadOnlyRay3 ray);
 
     /**
      * determines if a ray intersects this bounding volume and if so, where.
@@ -250,7 +250,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      * @return an IntersectionRecord containing information about any intersections made by the given Ray with this
      *         bounding
      */
-    public abstract IntersectionRecord intersectsWhere(ReadableRay3 ray);
+    public abstract IntersectionRecord intersectsWhere(ReadOnlyRay3 ray);
 
     /**
      * determines if this bounding volume and a given bounding sphere are intersecting.
@@ -287,7 +287,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            the point to check
      * @return true if the point lies within this bounding volume.
      */
-    public abstract boolean contains(ReadableVector3 point);
+    public abstract boolean contains(ReadOnlyVector3 point);
 
     public void write(final Ardor3DExporter e) throws IOException {
         e.getCapsule(this).write(center, "center", new Vector3(Vector3.ZERO));
@@ -303,7 +303,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
 
     public abstract void computeFromTris(int[] triIndex, Mesh mesh, int start, int end);
 
-    public abstract void computeFromTris(ReadableTriangle[] tris, int start, int end);
+    public abstract void computeFromTris(ReadOnlyTriangle[] tris, int start, int end);
 
     public abstract double getVolume();
 }

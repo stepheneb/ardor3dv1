@@ -17,8 +17,8 @@ import com.ardor3d.intersection.Intersection;
 import com.ardor3d.intersection.PickingUtil;
 import com.ardor3d.math.Ray3;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.scenegraph.Node;
 import com.ardor3d.scenegraph.Spatial;
@@ -223,9 +223,9 @@ public class CollisionTree implements Serializable {
         }
 
         {
-            final ReadableMatrix3 rotation = collisionTree.mesh.getWorldRotation();
-            final ReadableVector3 translation = collisionTree.mesh.getWorldTranslation();
-            final ReadableVector3 scale = collisionTree.mesh.getWorldScale();
+            final ReadOnlyMatrix3 rotation = collisionTree.mesh.getWorldRotation();
+            final ReadOnlyVector3 translation = collisionTree.mesh.getWorldTranslation();
+            final ReadOnlyVector3 scale = collisionTree.mesh.getWorldScale();
 
             collisionTree.worldBounds = collisionTree.bounds.transform(rotation, translation, scale,
                     collisionTree.worldBounds);
@@ -262,13 +262,13 @@ public class CollisionTree implements Serializable {
         }
 
         // both are leaves
-        final ReadableMatrix3 roti = mesh.getWorldRotation();
-        final ReadableVector3 scalei = mesh.getWorldScale();
-        final ReadableVector3 transi = mesh.getWorldTranslation();
+        final ReadOnlyMatrix3 roti = mesh.getWorldRotation();
+        final ReadOnlyVector3 scalei = mesh.getWorldScale();
+        final ReadOnlyVector3 transi = mesh.getWorldTranslation();
 
-        final ReadableMatrix3 rotj = collisionTree.mesh.getWorldRotation();
-        final ReadableVector3 scalej = collisionTree.mesh.getWorldScale();
-        final ReadableVector3 transj = collisionTree.mesh.getWorldTranslation();
+        final ReadOnlyMatrix3 rotj = collisionTree.mesh.getWorldRotation();
+        final ReadOnlyVector3 scalej = collisionTree.mesh.getWorldScale();
+        final ReadOnlyVector3 transj = collisionTree.mesh.getWorldTranslation();
 
         final Vector3 tempVa = Vector3.fetchTempInstance();
         final Vector3 tempVb = Vector3.fetchTempInstance();
@@ -338,9 +338,9 @@ public class CollisionTree implements Serializable {
         }
 
         {
-            final ReadableMatrix3 rotation = collisionTree.mesh.getWorldRotation();
-            final ReadableVector3 translation = collisionTree.mesh.getWorldTranslation();
-            final ReadableVector3 scale = collisionTree.mesh.getWorldScale();
+            final ReadOnlyMatrix3 rotation = collisionTree.mesh.getWorldRotation();
+            final ReadOnlyVector3 translation = collisionTree.mesh.getWorldTranslation();
+            final ReadOnlyVector3 scale = collisionTree.mesh.getWorldScale();
 
             collisionTree.worldBounds = collisionTree.bounds.transform(rotation, translation, scale,
                     collisionTree.worldBounds);
@@ -371,13 +371,13 @@ public class CollisionTree implements Serializable {
         // both this node and the testing node are leaves. Therefore, we can
         // switch to checking the contained triangles with each other. Any
         // that are found to intersect are placed in the appropriate list.
-        final ReadableMatrix3 roti = mesh.getWorldRotation();
-        final ReadableVector3 scalei = mesh.getWorldScale();
-        final ReadableVector3 transi = mesh.getWorldTranslation();
+        final ReadOnlyMatrix3 roti = mesh.getWorldRotation();
+        final ReadOnlyVector3 scalei = mesh.getWorldScale();
+        final ReadOnlyVector3 transi = mesh.getWorldTranslation();
 
-        final ReadableMatrix3 rotj = collisionTree.mesh.getWorldRotation();
-        final ReadableVector3 scalej = collisionTree.mesh.getWorldScale();
-        final ReadableVector3 transj = collisionTree.mesh.getWorldTranslation();
+        final ReadOnlyMatrix3 rotj = collisionTree.mesh.getWorldRotation();
+        final ReadOnlyVector3 scalej = collisionTree.mesh.getWorldScale();
+        final ReadOnlyVector3 transj = collisionTree.mesh.getWorldTranslation();
 
         boolean test = false;
 
@@ -446,18 +446,18 @@ public class CollisionTree implements Serializable {
         // This is not a leaf node, therefore, check each child (left/right) for
         // intersection with the ray.
         if (left != null) {
-            final ReadableMatrix3 rotation = mesh.getWorldRotation();
-            final ReadableVector3 translation = mesh.getWorldTranslation();
-            final ReadableVector3 scale = mesh.getWorldScale();
+            final ReadOnlyMatrix3 rotation = mesh.getWorldRotation();
+            final ReadOnlyVector3 translation = mesh.getWorldTranslation();
+            final ReadOnlyVector3 scale = mesh.getWorldScale();
 
             left.worldBounds = left.bounds.transform(rotation, translation, scale, left.worldBounds);
             left.intersect(ray, triList);
         }
 
         if (right != null) {
-            final ReadableMatrix3 rotation = mesh.getWorldRotation();
-            final ReadableVector3 translation = mesh.getWorldTranslation();
-            final ReadableVector3 scale = mesh.getWorldScale();
+            final ReadOnlyMatrix3 rotation = mesh.getWorldRotation();
+            final ReadOnlyVector3 translation = mesh.getWorldTranslation();
+            final ReadOnlyVector3 scale = mesh.getWorldScale();
 
             right.worldBounds = right.bounds.transform(rotation, translation, scale, right.worldBounds);
 

@@ -10,8 +10,18 @@
 
 package com.ardor3d.math.type;
 
-public interface ReadableLineSegment3 extends ReadableLine3Base {
+public interface ReadOnlyTriangle {
+    public int getIndex();
 
-    public double getExtent();
+    public ReadOnlyVector3 get(final int index);
 
+    public ReadOnlyVector3 getA();
+
+    public ReadOnlyVector3 getB();
+
+    public ReadOnlyVector3 getC();
+
+    public ReadOnlyVector3 getNormal();
+
+    public ReadOnlyVector3 getCenter();
 }

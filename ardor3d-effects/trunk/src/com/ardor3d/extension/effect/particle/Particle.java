@@ -19,7 +19,7 @@ import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Quaternion;
 import com.ardor3d.math.Triangle;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -101,7 +101,7 @@ public class Particle implements Savable {
      * @param lifeSpan
      *            new particle lifespan in ms
      */
-    public void init(final ReadableVector3 velocity, final ReadableVector3 position, final double lifeSpan) {
+    public void init(final ReadOnlyVector3 velocity, final ReadOnlyVector3 position, final double lifeSpan) {
         this.lifeSpan = lifeSpan;
         _velocity.set(velocity);
         _position.set(position);
@@ -150,9 +150,9 @@ public class Particle implements Savable {
         if (type == ParticleSystem.ParticleType.GeomMesh || type == ParticleSystem.ParticleType.Point) {
             ; // nothing to do
         } else if (cam != null && parent.isCameraFacing()) {
-            final ReadableVector3 camUp = cam.getUp();
-            final ReadableVector3 camLeft = cam.getLeft();
-            final ReadableVector3 camDir = cam.getDirection();
+            final ReadOnlyVector3 camUp = cam.getUp();
+            final ReadOnlyVector3 camLeft = cam.getLeft();
+            final ReadOnlyVector3 camDir = cam.getDirection();
             if (parent.isVelocityAligned()) {
                 bbX.set(_velocity).normalizeLocal().multiplyLocal(currSize);
                 camDir.cross(bbX, bbY).normalizeLocal().multiplyLocal(currSize);
@@ -192,7 +192,7 @@ public class Particle implements Savable {
             }
             case GeomMesh: {
                 final Quaternion tempQuat = Quaternion.fetchTempInstance();
-                final ReadableVector3 norm = triModel.getNormal();
+                final ReadOnlyVector3 norm = triModel.getNormal();
                 if (orient != 0) {
                     tempQuat.fromAngleNormalAxis(orient, norm);
                 }

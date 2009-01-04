@@ -17,7 +17,7 @@ import java.util.Stack;
 
 import com.ardor3d.light.Light;
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.state.record.LightStateRecord;
 import com.ardor3d.renderer.state.record.StateRecord;
 import com.ardor3d.scenegraph.Mesh;
@@ -79,7 +79,7 @@ public class LightState extends RenderState {
 
     protected ColorRGBA _globalAmbient = new ColorRGBA(DEFAULT_GLOBAL_AMBIENT);
 
-    public static final ReadableColorRGBA DEFAULT_GLOBAL_AMBIENT = new ColorRGBA(0, 0, 0, 1);
+    public static final ReadOnlyColorRGBA DEFAULT_GLOBAL_AMBIENT = new ColorRGBA(0, 0, 0, 1);
 
     /**
      * When true, the eye position (as opposed to just the view direction) will be taken into account when computing
@@ -236,7 +236,7 @@ public class LightState extends RenderState {
         return separateSpecularOn;
     }
 
-    public void setGlobalAmbient(final ReadableColorRGBA color) {
+    public void setGlobalAmbient(final ReadOnlyColorRGBA color) {
         _globalAmbient.set(color);
         setNeedsRefresh(true);
     }
@@ -246,7 +246,7 @@ public class LightState extends RenderState {
      * @param store
      * @return
      */
-    public ReadableColorRGBA getGlobalAmbient() {
+    public ReadOnlyColorRGBA getGlobalAmbient() {
         return _globalAmbient;
     }
 

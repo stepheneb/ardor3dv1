@@ -10,13 +10,13 @@
 
 package com.ardor3d.math;
 
-import com.ardor3d.math.type.ReadablePlane;
-import com.ardor3d.math.type.ReadableRay3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyPlane;
+import com.ardor3d.math.type.ReadOnlyRay3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.pool.ObjectPool;
 
-public class Ray3 extends Line3Base implements ReadableRay3 {
+public class Ray3 extends Line3Base implements ReadOnlyRay3 {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      * @param direction
      *            - unit length
      */
-    public Ray3(final ReadableVector3 origin, final ReadableVector3 direction) {
+    public Ray3(final ReadOnlyVector3 origin, final ReadOnlyVector3 direction) {
         super(origin, direction);
     }
 
@@ -48,7 +48,7 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      * @throws NullPointerException
      *             if source is null.
      */
-    public Ray3 set(final ReadableRay3 source) {
+    public Ray3 set(final ReadOnlyRay3 source) {
         _origin.set(source.getOrigin());
         _direction.set(source.getDirection());
         return this;
@@ -68,7 +68,7 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      * @throws NullPointerException
      *             if any of the points are null.
      */
-    public boolean intersects(final ReadableVector3 pointA, final ReadableVector3 pointB, final ReadableVector3 pointC,
+    public boolean intersects(final ReadOnlyVector3 pointA, final ReadOnlyVector3 pointB, final ReadOnlyVector3 pointC,
             final Vector3 locationStore, final boolean triangle) {
         return intersects(pointA, pointB, pointC, locationStore, false, triangle);
     }
@@ -88,8 +88,8 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      * @throws NullPointerException
      *             if any of the points are null.
      */
-    public boolean intersectsPlanar(final ReadableVector3 pointA, final ReadableVector3 pointB,
-            final ReadableVector3 pointC, final Vector3 locationStore, final boolean triangle) {
+    public boolean intersectsPlanar(final ReadOnlyVector3 pointA, final ReadOnlyVector3 pointB,
+            final ReadOnlyVector3 pointC, final Vector3 locationStore, final boolean triangle) {
         return intersects(pointA, pointB, pointC, locationStore, true, triangle);
     }
 
@@ -112,8 +112,8 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      * @throws NullPointerException
      *             if any of the points are null.
      */
-    private boolean intersects(final ReadableVector3 pointA, final ReadableVector3 pointB,
-            final ReadableVector3 pointC, final Vector3 locationStore, final boolean doPlanar, final boolean triangle) {
+    private boolean intersects(final ReadOnlyVector3 pointA, final ReadOnlyVector3 pointB,
+            final ReadOnlyVector3 pointC, final Vector3 locationStore, final boolean doPlanar, final boolean triangle) {
         final Vector3 diff = Vector3.fetchTempInstance().set(_origin).subtractLocal(pointA);
         final Vector3 edge1 = Vector3.fetchTempInstance().set(pointB).subtractLocal(pointA);
         final Vector3 edge2 = Vector3.fetchTempInstance().set(pointC).subtractLocal(pointA);
@@ -182,8 +182,8 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      * @throws NullPointerException
      *             if the plane is null.
      */
-    public boolean intersects(final ReadablePlane plane, final Vector3 locationStore) {
-        final ReadableVector3 normal = plane.getNormal();
+    public boolean intersects(final ReadOnlyPlane plane, final Vector3 locationStore) {
+        final ReadOnlyVector3 normal = plane.getNormal();
         final double denominator = normal.dot(_direction);
 
         if (denominator > -MathUtils.EPSILON && denominator < MathUtils.EPSILON) {
@@ -212,7 +212,7 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      * @throws NullPointerException
      *             if the point is null.
      */
-    public double distanceSquared(final ReadableVector3 point, final Vector3 store) {
+    public double distanceSquared(final ReadOnlyVector3 point, final Vector3 store) {
         final Vector3 vectorA = Vector3.fetchTempInstance();
         vectorA.set(point).subtractLocal(_origin);
         final double t0 = _direction.dot(vectorA);
@@ -244,7 +244,7 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
      *            the ray to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableRay3 ray) {
+    public static boolean isValid(final ReadOnlyRay3 ray) {
         if (ray == null) {
             return false;
         }
@@ -270,10 +270,10 @@ public class Ray3 extends Line3Base implements ReadableRay3 {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableRay3)) {
+        if (!(o instanceof ReadOnlyRay3)) {
             return false;
         }
-        final ReadableRay3 comp = (ReadableRay3) o;
+        final ReadOnlyRay3 comp = (ReadOnlyRay3) o;
         return _origin.equals(comp.getOrigin()) && _direction.equals(comp.getDirection());
     }
 

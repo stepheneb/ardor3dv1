@@ -18,13 +18,13 @@ import com.ardor3d.intersection.PickingUtil;
 import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Plane;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadablePlane;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableRay3;
-import com.ardor3d.math.type.ReadableTriangle;
-import com.ardor3d.math.type.ReadableVector3;
-import com.ardor3d.math.type.ReadablePlane.Side;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyPlane;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyRay3;
+import com.ardor3d.math.type.ReadOnlyTriangle;
+import com.ardor3d.math.type.ReadOnlyVector3;
+import com.ardor3d.math.type.ReadOnlyPlane.Side;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -90,8 +90,8 @@ public class BoundingBox extends BoundingVolume {
     }
 
     @Override
-    public BoundingVolume transform(final ReadableMatrix3 rotate, final ReadableVector3 translate,
-            final ReadableVector3 scale, final BoundingVolume store) {
+    public BoundingVolume transform(final ReadOnlyMatrix3 rotate, final ReadOnlyVector3 translate,
+            final ReadOnlyVector3 scale, final BoundingVolume store) {
 
         BoundingBox box;
         if (store == null || store.getType() != Type.AABB) {
@@ -155,7 +155,7 @@ public class BoundingBox extends BoundingVolume {
      * @param end
      */
     @Override
-    public void computeFromTris(final ReadableTriangle[] tris, final int start, final int end) {
+    public void computeFromTris(final ReadOnlyTriangle[] tris, final int start, final int end) {
         if (end - start <= 0) {
             return;
         }
@@ -215,7 +215,7 @@ public class BoundingBox extends BoundingVolume {
         }
     }
 
-    private void checkMinMax(final Vector3 min, final Vector3 max, final ReadableVector3 point) {
+    private void checkMinMax(final Vector3 min, final Vector3 max, final ReadOnlyVector3 point) {
         if (point.getX() < min.getX()) {
             min.setX(point.getX());
         } else if (point.getX() > max.getX()) {
@@ -300,8 +300,8 @@ public class BoundingBox extends BoundingVolume {
      *            box to store result in
      */
     @Override
-    public BoundingVolume transform(final ReadableQuaternion rotate, final ReadableVector3 translate,
-            final ReadableVector3 scale, final BoundingVolume store) {
+    public BoundingVolume transform(final ReadOnlyQuaternion rotate, final ReadOnlyVector3 translate,
+            final ReadOnlyVector3 scale, final BoundingVolume store) {
 
         BoundingBox box;
         if (store == null || store.getType() != Type.AABB) {
@@ -352,8 +352,8 @@ public class BoundingBox extends BoundingVolume {
      *            the plane to check against.
      */
     @Override
-    public Side whichSide(final ReadablePlane plane) {
-        final ReadableVector3 normal = plane.getNormal();
+    public Side whichSide(final ReadOnlyPlane plane) {
+        final ReadOnlyVector3 normal = plane.getNormal();
         final double radius = Math.abs(getXExtent() * normal.getX()) + Math.abs(getYExtent() * normal.getY())
                 + Math.abs(getZExtent() * normal.getZ());
 
@@ -664,7 +664,7 @@ public class BoundingBox extends BoundingVolume {
      * @see com.ardor3d.bounding.BoundingVolume#intersects(com.ardor3d.math.Ray)
      */
     @Override
-    public boolean intersects(final ReadableRay3 ray) {
+    public boolean intersects(final ReadOnlyRay3 ray) {
         if (!Vector3.isValid(center)) {
             return false;
         }
@@ -730,13 +730,13 @@ public class BoundingBox extends BoundingVolume {
      * @see com.ardor3d.bounding.BoundingVolume#intersectsWhere(com.ardor3d.math.Ray)
      */
     @Override
-    public IntersectionRecord intersectsWhere(final ReadableRay3 ray) {
+    public IntersectionRecord intersectsWhere(final ReadOnlyRay3 ray) {
         final Vector3 compVect1 = Vector3.fetchTempInstance();
         final Vector3 compVect2 = Vector3.fetchTempInstance();
 
         final Vector3 diff = ray.getOrigin().subtract(center, compVect1);
 
-        final ReadableVector3 direction = ray.getDirection();
+        final ReadOnlyVector3 direction = ray.getDirection();
 
         final double[] t = { 0.0, Double.POSITIVE_INFINITY };
 
@@ -775,14 +775,14 @@ public class BoundingBox extends BoundingVolume {
     }
 
     @Override
-    public boolean contains(final ReadableVector3 point) {
+    public boolean contains(final ReadOnlyVector3 point) {
         return Math.abs(center.getX() - point.getX()) < getXExtent()
                 && Math.abs(center.getY() - point.getY()) < getYExtent()
                 && Math.abs(center.getZ() - point.getZ()) < getZExtent();
     }
 
     @Override
-    public double distanceToEdge(final ReadableVector3 point) {
+    public double distanceToEdge(final ReadOnlyVector3 point) {
         // compute coordinates of point in box coordinate system
         final Vector3 closest = point.subtract(center, Vector3.fetchTempInstance());
 

@@ -13,8 +13,8 @@ package com.ardor3d.scenegraph.extension;
 import java.io.IOException;
 
 import com.ardor3d.math.Matrix3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.scenegraph.Node;
 import com.ardor3d.util.export.Ardor3DExporter;
@@ -53,10 +53,10 @@ public class CameraNode extends Node {
      * space.)
      */
     public void updateFromCamera() {
-        final ReadableVector3 camLeft = camera.getLeft();
-        final ReadableVector3 camUp = camera.getUp();
-        final ReadableVector3 camDir = camera.getDirection();
-        final ReadableVector3 camLoc = camera.getLocation();
+        final ReadOnlyVector3 camLeft = camera.getLeft();
+        final ReadOnlyVector3 camUp = camera.getUp();
+        final ReadOnlyVector3 camDir = camera.getDirection();
+        final ReadOnlyVector3 camLoc = camera.getLocation();
 
         final Matrix3 rotation = Matrix3.fetchTempInstance();
         rotation.fromAxes(camLeft, camUp, camDir);
@@ -94,8 +94,8 @@ public class CameraNode extends Node {
     public void updateWorldTransform(final boolean recurse) {
         super.updateWorldTransform(recurse);
         if (camera != null) {
-            final ReadableVector3 worldTranslation = getWorldTranslation();
-            final ReadableMatrix3 worldRotation = getWorldRotation();
+            final ReadOnlyVector3 worldTranslation = getWorldTranslation();
+            final ReadOnlyMatrix3 worldRotation = getWorldRotation();
             camera.setFrame(worldTranslation, worldRotation);
         }
     }

@@ -10,6 +10,14 @@
 
 package com.ardor3d.math.type;
 
-public interface ReadableLine3 extends ReadableLine3Base {
+import com.ardor3d.math.Vector3;
 
+public interface ReadOnlyRectangle {
+    public ReadOnlyVector3 getA();
+
+    public ReadOnlyVector3 getB();
+
+    public ReadOnlyVector3 getC();
+
+    public Vector3 random(Vector3 result);
 }

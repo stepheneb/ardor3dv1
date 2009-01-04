@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
 import com.ardor3d.util.export.InputCapsule;
@@ -126,8 +126,8 @@ public class ParticleAppearanceRamp implements Savable {
         // color
         {
             final float lifeCRatio = (float) ((age - prevCAge) / (nextCAge - prevCAge));
-            final ReadableColorRGBA start = prevCEntry != null ? prevCEntry.getColor() : particles.getStartColor();
-            final ReadableColorRGBA end = nextCEntry != null ? nextCEntry.getColor() : particles.getEndColor();
+            final ReadOnlyColorRGBA start = prevCEntry != null ? prevCEntry.getColor() : particles.getStartColor();
+            final ReadOnlyColorRGBA end = nextCEntry != null ? nextCEntry.getColor() : particles.getEndColor();
             ColorRGBA.lerp(start, end, lifeCRatio, store);
         }
 

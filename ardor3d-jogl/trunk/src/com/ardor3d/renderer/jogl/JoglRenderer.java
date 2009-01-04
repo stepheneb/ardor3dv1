@@ -34,8 +34,8 @@ import com.ardor3d.image.Texture;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Matrix4;
 import com.ardor3d.math.Transform;
-import com.ardor3d.math.type.ReadableColorRGBA;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.ContextCapabilities;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.IndexMode;
@@ -182,7 +182,7 @@ public class JoglRenderer extends Renderer {
     }
 
     @Override
-    public void setBackgroundColor(final ReadableColorRGBA c) {
+    public void setBackgroundColor(final ReadOnlyColorRGBA c) {
         final GL gl = GLU.getCurrentGL();
 
         backgroundColor.set(c);
@@ -405,7 +405,7 @@ public class JoglRenderer extends Renderer {
             StatCollector.startStat(StatType.STAT_RENDER_TIMER);
         }
 
-        final ReadableVector3 scale = t.getWorldScale();
+        final ReadOnlyVector3 scale = t.getWorldScale();
         font.print(this, t.getTranslation().getX(), t.getTranslation().getY(), scale, t.getText(), 0);
 
         if (Debug.stats) {
@@ -452,7 +452,7 @@ public class JoglRenderer extends Renderer {
         switch (normMode) {
             case NormalizeIfScaled:
                 if (!worldTransform.isUniformScale()) {
-                    final ReadableVector3 scale = worldTransform.getScale();
+                    final ReadOnlyVector3 scale = worldTransform.getScale();
                     if (Double.compare(scale.getX(), scale.getY()) == 0
                             && Double.compare(scale.getY(), scale.getZ()) == 0 && caps.isOpenGL1_2Supported()
                             && prevNormMode != GL.GL_RESCALE_NORMAL) {

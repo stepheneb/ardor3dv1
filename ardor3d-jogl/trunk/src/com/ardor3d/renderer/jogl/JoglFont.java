@@ -16,7 +16,7 @@ import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
 
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.state.record.RendererRecord;
@@ -90,7 +90,7 @@ public class JoglFont {
      * @param set
      *            the mode of font: NORMAL or ITALICS.
      */
-    public void print(final Renderer r, final double x, final double y, final ReadableVector3 scale,
+    public void print(final Renderer r, final double x, final double y, final ReadOnlyVector3 scale,
             final StringBuffer text, int set) {
         final GL gl = GLU.getCurrentGL();
 

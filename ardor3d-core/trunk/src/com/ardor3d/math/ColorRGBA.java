@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -28,7 +28,7 @@ import com.ardor3d.util.pool.ObjectPool;
  * ColorRGBA is a 4 component color value (red, green, blue, alpha). The standard range for each individual component is
  * [0f, 1f].
  */
-public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableColorRGBA {
+public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadOnlyColorRGBA {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,63 +37,63 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
     /**
      * the color black (0, 0, 0, 1).
      */
-    public static final ReadableColorRGBA BLACK = new ColorRGBA(0f, 0f, 0f, 1f);
+    public static final ReadOnlyColorRGBA BLACK = new ColorRGBA(0f, 0f, 0f, 1f);
     /**
      * the color black (0, 0, 0, 0).
      */
-    public static final ReadableColorRGBA BLACK_NO_ALPHA = new ColorRGBA(0f, 0f, 0f, 1f);
+    public static final ReadOnlyColorRGBA BLACK_NO_ALPHA = new ColorRGBA(0f, 0f, 0f, 1f);
     /**
      * the color white (1, 1, 1, 1).
      */
-    public static final ReadableColorRGBA WHITE = new ColorRGBA(1f, 1f, 1f, 1f);
+    public static final ReadOnlyColorRGBA WHITE = new ColorRGBA(1f, 1f, 1f, 1f);
     /**
      * the color gray (.2f, .2f, .2f, 1).
      */
-    public static final ReadableColorRGBA DARK_GRAY = new ColorRGBA(0.2f, 0.2f, 0.2f, 1.0f);
+    public static final ReadOnlyColorRGBA DARK_GRAY = new ColorRGBA(0.2f, 0.2f, 0.2f, 1.0f);
     /**
      * the color gray (.5f, .5f, .5f, 1).
      */
-    public static final ReadableColorRGBA GRAY = new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f);
+    public static final ReadOnlyColorRGBA GRAY = new ColorRGBA(0.5f, 0.5f, 0.5f, 1.0f);
     /**
      * the color gray (.8f, .8f, .8f, 1).
      */
-    public static final ReadableColorRGBA LIGHT_GRAY = new ColorRGBA(0.8f, 0.8f, 0.8f, 1.0f);
+    public static final ReadOnlyColorRGBA LIGHT_GRAY = new ColorRGBA(0.8f, 0.8f, 0.8f, 1.0f);
     /**
      * the color red (1, 0, 0, 1).
      */
-    public static final ReadableColorRGBA RED = new ColorRGBA(1f, 0f, 0f, 1f);
+    public static final ReadOnlyColorRGBA RED = new ColorRGBA(1f, 0f, 0f, 1f);
     /**
      * the color green (0, 1, 0, 1).
      */
-    public static final ReadableColorRGBA GREEN = new ColorRGBA(0f, 1f, 0f, 1f);
+    public static final ReadOnlyColorRGBA GREEN = new ColorRGBA(0f, 1f, 0f, 1f);
     /**
      * the color blue (0, 0, 1, 1).
      */
-    public static final ReadableColorRGBA BLUE = new ColorRGBA(0f, 0f, 1f, 1f);
+    public static final ReadOnlyColorRGBA BLUE = new ColorRGBA(0f, 0f, 1f, 1f);
     /**
      * the color yellow (1, 1, 0, 1).
      */
-    public static final ReadableColorRGBA YELLOW = new ColorRGBA(1f, 1f, 0f, 1f);
+    public static final ReadOnlyColorRGBA YELLOW = new ColorRGBA(1f, 1f, 0f, 1f);
     /**
      * the color magenta (1, 0, 1, 1).
      */
-    public static final ReadableColorRGBA MAGENTA = new ColorRGBA(1f, 0f, 1f, 1f);
+    public static final ReadOnlyColorRGBA MAGENTA = new ColorRGBA(1f, 0f, 1f, 1f);
     /**
      * the color cyan (0, 1, 1, 1).
      */
-    public static final ReadableColorRGBA CYAN = new ColorRGBA(0f, 1f, 1f, 1f);
+    public static final ReadOnlyColorRGBA CYAN = new ColorRGBA(0f, 1f, 1f, 1f);
     /**
      * the color orange (251/255f, 130/255f, 0, 1).
      */
-    public static final ReadableColorRGBA ORANGE = new ColorRGBA(251f / 255f, 130f / 255f, 0f, 1f);
+    public static final ReadOnlyColorRGBA ORANGE = new ColorRGBA(251f / 255f, 130f / 255f, 0f, 1f);
     /**
      * the color brown (65/255f, 40/255f, 25/255f, 1).
      */
-    public static final ReadableColorRGBA BROWN = new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f);
+    public static final ReadOnlyColorRGBA BROWN = new ColorRGBA(65f / 255f, 40f / 255f, 25f / 255f, 1f);
     /**
      * the color pink (1, 0.68f, 0.68f, 1).
      */
-    public static final ReadableColorRGBA PINK = new ColorRGBA(1f, 0.68f, 0.68f, 1f);
+    public static final ReadOnlyColorRGBA PINK = new ColorRGBA(1f, 0.68f, 0.68f, 1f);
 
     protected float _r = 0;
     protected float _g = 0;
@@ -112,7 +112,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * 
      * @param src
      */
-    public ColorRGBA(final ReadableColorRGBA src) {
+    public ColorRGBA(final ReadOnlyColorRGBA src) {
         this(src.getRed(), src.getGreen(), src.getBlue(), src.getAlpha());
     }
 
@@ -286,7 +286,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if source is null.
      */
-    public ColorRGBA set(final ReadableColorRGBA source) {
+    public ColorRGBA set(final ReadOnlyColorRGBA source) {
         _r = source.getRed();
         _g = source.getGreen();
         _b = source.getBlue();
@@ -483,7 +483,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if source is null.
      */
-    public ColorRGBA add(final ReadableColorRGBA source, final ColorRGBA store) {
+    public ColorRGBA add(final ReadOnlyColorRGBA source, final ColorRGBA store) {
         return add(source.getRed(), source.getGreen(), source.getBlue(), source.getAlpha(), store);
     }
 
@@ -495,7 +495,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if source is null.
      */
-    public ColorRGBA addLocal(final ReadableColorRGBA source) {
+    public ColorRGBA addLocal(final ReadOnlyColorRGBA source) {
         return addLocal(source.getRed(), source.getGreen(), source.getBlue(), source.getAlpha());
     }
 
@@ -542,7 +542,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if source is null.
      */
-    public ColorRGBA subtract(final ReadableColorRGBA source, final ColorRGBA store) {
+    public ColorRGBA subtract(final ReadOnlyColorRGBA source, final ColorRGBA store) {
         return subtract(source.getRed(), source.getGreen(), source.getBlue(), source.getAlpha(), store);
     }
 
@@ -554,7 +554,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if source is null.
      */
-    public ColorRGBA subtractLocal(final ReadableColorRGBA source) {
+    public ColorRGBA subtractLocal(final ReadOnlyColorRGBA source) {
         return subtractLocal(source.getRed(), source.getGreen(), source.getBlue(), source.getAlpha());
     }
 
@@ -595,7 +595,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      *            the color to store the result in for return. If null, a new color object is created and returned.
      * @return a new color (this.r * scale.r, this.g * scale.g, this.b * scale.b, this.a * scale.a)
      */
-    public ColorRGBA multiply(final ReadableColorRGBA scale, final ColorRGBA store) {
+    public ColorRGBA multiply(final ReadOnlyColorRGBA scale, final ColorRGBA store) {
         ColorRGBA result = store;
         if (result == null) {
             result = new ColorRGBA();
@@ -611,7 +611,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @param scale
      * @return this color for chaining
      */
-    public ColorRGBA multiplyLocal(final ReadableColorRGBA scale) {
+    public ColorRGBA multiplyLocal(final ReadOnlyColorRGBA scale) {
         return set(getRed() * scale.getRed(), getGreen() * scale.getGreen(), getBlue() * scale.getBlue(), getAlpha()
                 * scale.getAlpha());
     }
@@ -655,7 +655,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      *            the color to store the result in for return. If null, a new color object is created and returned.
      * @return a new color (this.r / scale.r, this.g / scale.g, this.b / scale.b, this.a / scale.a)
      */
-    public ColorRGBA divide(final ReadableColorRGBA scale, final ColorRGBA store) {
+    public ColorRGBA divide(final ReadOnlyColorRGBA scale, final ColorRGBA store) {
         ColorRGBA result = store;
         if (result == null) {
             result = new ColorRGBA();
@@ -671,7 +671,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @param scale
      * @return this color for chaining
      */
-    public ColorRGBA divideLocal(final ReadableColorRGBA scale) {
+    public ColorRGBA divideLocal(final ReadOnlyColorRGBA scale) {
         return set(getRed() / scale.getRed(), getGreen() / scale.getGreen(), getBlue() / scale.getBlue(), getAlpha()
                 / scale.getAlpha());
     }
@@ -689,7 +689,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if endVec is null.
      */
-    public ColorRGBA lerp(final ReadableColorRGBA endColor, final float scalar, final ColorRGBA store) {
+    public ColorRGBA lerp(final ReadOnlyColorRGBA endColor, final float scalar, final ColorRGBA store) {
         ColorRGBA result = store;
         if (result == null) {
             result = new ColorRGBA();
@@ -713,7 +713,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if endVec is null.
      */
-    public ColorRGBA lerpLocal(final ReadableColorRGBA endColor, final float scalar) {
+    public ColorRGBA lerpLocal(final ReadOnlyColorRGBA endColor, final float scalar) {
         setRed((1.0f - scalar) * getRed() + scalar * endColor.getRed());
         setGreen((1.0f - scalar) * getGreen() + scalar * endColor.getGreen());
         setBlue((1.0f - scalar) * getBlue() + scalar * endColor.getBlue());
@@ -736,7 +736,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if beginVec or endVec are null.
      */
-    public static ColorRGBA lerp(final ReadableColorRGBA beginColor, final ReadableColorRGBA endColor,
+    public static ColorRGBA lerp(final ReadOnlyColorRGBA beginColor, final ReadOnlyColorRGBA endColor,
             final float scalar, final ColorRGBA store) {
         ColorRGBA result = store;
         if (result == null) {
@@ -763,7 +763,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      * @throws NullPointerException
      *             if beginVec or endVec are null.
      */
-    public ColorRGBA lerpLocal(final ReadableColorRGBA beginColor, final ReadableColorRGBA endColor, final float scalar) {
+    public ColorRGBA lerpLocal(final ReadOnlyColorRGBA beginColor, final ReadOnlyColorRGBA endColor, final float scalar) {
         setRed((1.0f - scalar) * beginColor.getRed() + scalar * endColor.getRed());
         setGreen((1.0f - scalar) * beginColor.getGreen() + scalar * endColor.getGreen());
         setBlue((1.0f - scalar) * beginColor.getBlue() + scalar * endColor.getBlue());
@@ -778,7 +778,7 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
      *            the color to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableColorRGBA color) {
+    public static boolean isValid(final ReadOnlyColorRGBA color) {
         if (color == null) {
             return false;
         }
@@ -835,10 +835,10 @@ public class ColorRGBA implements Cloneable, Savable, Externalizable, ReadableCo
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableColorRGBA)) {
+        if (!(o instanceof ReadOnlyColorRGBA)) {
             return false;
         }
-        final ReadableColorRGBA comp = (ReadableColorRGBA) o;
+        final ReadOnlyColorRGBA comp = (ReadOnlyColorRGBA) o;
         if (Float.compare(getRed(), comp.getRed()) == 0 && Float.compare(getGreen(), comp.getGreen()) == 0
                 && Float.compare(getBlue(), comp.getBlue()) == 0 && Float.compare(getAlpha(), comp.getAlpha()) == 0) {
             return true;

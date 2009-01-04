@@ -19,13 +19,13 @@ import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Plane;
 import com.ardor3d.math.Quaternion;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadablePlane;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableRay3;
-import com.ardor3d.math.type.ReadableTriangle;
-import com.ardor3d.math.type.ReadableVector3;
-import com.ardor3d.math.type.ReadablePlane.Side;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyPlane;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyRay3;
+import com.ardor3d.math.type.ReadOnlyTriangle;
+import com.ardor3d.math.type.ReadOnlyVector3;
+import com.ardor3d.math.type.ReadOnlyPlane.Side;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -69,8 +69,8 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public BoundingVolume transform(final ReadableQuaternion rotate, final ReadableVector3 translate,
-            final ReadableVector3 scale, final BoundingVolume store) {
+    public BoundingVolume transform(final ReadOnlyQuaternion rotate, final ReadOnlyVector3 translate,
+            final ReadOnlyVector3 scale, final BoundingVolume store) {
         final Matrix3 tempMa = Matrix3.fetchTempInstance();
         rotate.toRotationMatrix(tempMa);
         final BoundingVolume volume = transform(tempMa, translate, scale, store);
@@ -79,8 +79,8 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public BoundingVolume transform(final ReadableMatrix3 rotate, final ReadableVector3 translate,
-            final ReadableVector3 scale, BoundingVolume store) {
+    public BoundingVolume transform(final ReadOnlyMatrix3 rotate, final ReadOnlyVector3 translate,
+            final ReadOnlyVector3 scale, BoundingVolume store) {
         if (store == null || store.getType() != Type.OBB) {
             store = new OrientedBoundingBox();
         }
@@ -98,8 +98,8 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public Side whichSide(final ReadablePlane plane) {
-        final ReadableVector3 planeNormal = plane.getNormal();
+    public Side whichSide(final ReadOnlyPlane plane) {
+        final ReadOnlyVector3 planeNormal = plane.getNormal();
         final double fRadius = Math.abs(extent.getX() * (planeNormal.dot(xAxis)))
                 + Math.abs(extent.getY() * (planeNormal.dot(yAxis)))
                 + Math.abs(extent.getZ() * (planeNormal.dot(zAxis)));
@@ -566,14 +566,14 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public void computeFromTris(final ReadableTriangle[] tris, final int start, final int end) {
+    public void computeFromTris(final ReadOnlyTriangle[] tris, final int start, final int end) {
         if (end - start <= 0) {
             return;
         }
 
         final Vector3 min = Vector3.fetchTempInstance().set(tris[start].getA());
         final Vector3 max = Vector3.fetchTempInstance().set(min);
-        ReadableVector3 point;
+        ReadOnlyVector3 point;
         for (int i = start; i < end; i++) {
 
             point = tris[i].getA();
@@ -1278,13 +1278,13 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public boolean intersects(final ReadableRay3 ray) {
+    public boolean intersects(final ReadOnlyRay3 ray) {
         if (!Vector3.isValid(center)) {
             return false;
         }
 
         double rhs;
-        final ReadableVector3 rayDir = ray.getDirection();
+        final ReadOnlyVector3 rayDir = ray.getDirection();
         final Vector3 diff = Vector3.fetchTempInstance().set(ray.getOrigin()).subtractLocal(center);
         final Vector3 wCrossD = Vector3.fetchTempInstance();
 
@@ -1348,13 +1348,13 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public IntersectionRecord intersectsWhere(final ReadableRay3 ray) {
-        final ReadableVector3 rayDir = ray.getDirection();
-        final ReadableVector3 rayOrigin = ray.getOrigin();
+    public IntersectionRecord intersectsWhere(final ReadOnlyRay3 ray) {
+        final ReadOnlyVector3 rayDir = ray.getDirection();
+        final ReadOnlyVector3 rayOrigin = ray.getOrigin();
 
         final Vector3 diff = rayOrigin.subtract(getCenter(), Vector3.fetchTempInstance());
         // convert ray to box coordinates
-        final ReadableVector3 direction = rayDir;
+        final ReadOnlyVector3 direction = rayDir;
         final double[] t = { 0, Double.POSITIVE_INFINITY };
 
         try {
@@ -1463,7 +1463,7 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public boolean contains(final ReadableVector3 point) {
+    public boolean contains(final ReadOnlyVector3 point) {
         final Vector3 compVect1 = Vector3.fetchTempInstance().set(point).subtractLocal(center);
         double coeff = compVect1.dot(xAxis);
         if (Math.abs(coeff) > extent.getX()) {
@@ -1485,7 +1485,7 @@ public class OrientedBoundingBox extends BoundingVolume {
     }
 
     @Override
-    public double distanceToEdge(final ReadableVector3 point) {
+    public double distanceToEdge(final ReadOnlyVector3 point) {
         // compute coordinates of point in box coordinate system
         final Vector3 diff = point.subtract(center, Vector3.fetchTempInstance());
         final Vector3 closest = Vector3.fetchTempInstance().set(diff.dot(xAxis), diff.dot(yAxis), diff.dot(zAxis));

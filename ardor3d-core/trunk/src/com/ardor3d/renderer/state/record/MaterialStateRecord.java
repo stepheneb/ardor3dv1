@@ -14,7 +14,7 @@ import java.nio.FloatBuffer;
 import java.util.logging.Logger;
 
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.state.MaterialState.ColorMaterial;
 import com.ardor3d.renderer.state.MaterialState.MaterialFace;
 import com.ardor3d.util.geom.BufferUtils;
@@ -35,7 +35,7 @@ public class MaterialStateRecord extends StateRecord {
     public MaterialFace face = null;
     public FloatBuffer tempColorBuff = BufferUtils.createColorBuffer(1);
 
-    public boolean isSetColor(final MaterialFace face, final ColorMaterial glMatColor, final ReadableColorRGBA color,
+    public boolean isSetColor(final MaterialFace face, final ColorMaterial glMatColor, final ReadOnlyColorRGBA color,
             final MaterialStateRecord record) {
         if (face == MaterialFace.Front) {
             switch (glMatColor) {
@@ -80,7 +80,7 @@ public class MaterialStateRecord extends StateRecord {
         return false;
     }
 
-    public void setColor(final MaterialFace face, final ColorMaterial glMatColor, final ReadableColorRGBA color) {
+    public void setColor(final MaterialFace face, final ColorMaterial glMatColor, final ReadOnlyColorRGBA color) {
         if (face == MaterialFace.Front || face == MaterialFace.FrontAndBack) {
             switch (glMatColor) {
                 case Ambient:

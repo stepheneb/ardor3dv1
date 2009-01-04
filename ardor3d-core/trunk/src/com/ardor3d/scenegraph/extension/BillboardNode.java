@@ -15,7 +15,7 @@ import java.io.IOException;
 import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.Renderer;
@@ -201,7 +201,7 @@ public class BillboardNode extends Node {
         _look.set(camera.getLocation()).subtractLocal(_worldTransform.getTranslation());
         final Matrix3 worldMatrix = Matrix3.fetchTempInstance().set(_worldTransform.getMatrix());
         worldMatrix.applyPost(_look, _left); // coopt left for our own purposes.
-        final ReadableVector3 scale = _worldTransform.getScale();
+        final ReadOnlyVector3 scale = _worldTransform.getScale();
         _left.divideLocal(scale);
 
         // squared length of the camera projection in the xz-plane

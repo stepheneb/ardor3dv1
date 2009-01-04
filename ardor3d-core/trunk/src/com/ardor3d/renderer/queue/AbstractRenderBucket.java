@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.Renderer;
@@ -104,7 +104,7 @@ public class AbstractRenderBucket implements RenderBucket {
 
         // spat.queueDistance = 0;
 
-        ReadableVector3 spatPosition;
+        ReadOnlyVector3 spatPosition;
         if (spat.getWorldBound() != null && Vector3.isValid(spat.getWorldBound().getCenter())) {
             spatPosition = spat.getWorldBound().getCenter();
         } else {

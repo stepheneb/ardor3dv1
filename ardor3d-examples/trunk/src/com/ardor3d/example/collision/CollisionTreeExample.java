@@ -26,8 +26,8 @@ import com.ardor3d.intersection.PickingUtil;
 import com.ardor3d.intersection.TriangleCollisionResults;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableColorRGBA;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.scenegraph.Controller;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.scenegraph.Node;
@@ -36,7 +36,7 @@ import com.ardor3d.util.geom.BufferUtils;
 import com.google.inject.Inject;
 
 public class CollisionTreeExample extends ExampleBase {
-    private final ReadableColorRGBA[] colorSpread = { ColorRGBA.WHITE, ColorRGBA.GREEN, ColorRGBA.GRAY };
+    private final ReadOnlyColorRGBA[] colorSpread = { ColorRGBA.WHITE, ColorRGBA.GREEN, ColorRGBA.GRAY };
 
     private Mesh sphere, torus;
     private Node sphereNode, torusNode;
@@ -85,7 +85,7 @@ public class CollisionTreeExample extends ExampleBase {
             @Override
             public void update(final double time) {
                 currentTime += time * 0.2;
-                final ReadableVector3 t = torus.getTranslation();
+                final ReadOnlyVector3 t = torus.getTranslation();
                 torus.setTranslation(Math.sin(currentTime) * 10.0, t.getY(), t.getZ());
             }
         });
@@ -93,14 +93,14 @@ public class CollisionTreeExample extends ExampleBase {
         final FloatBuffer color1 = torus.getMeshData().getColorBuffer();
         color1.clear();
         for (int i = 0, bLength = color1.capacity(); i < bLength; i += 4) {
-            final ReadableColorRGBA c = colorSpread[i % 3];
+            final ReadOnlyColorRGBA c = colorSpread[i % 3];
             color1.put(c.getRed()).put(c.getGreen()).put(c.getBlue()).put(c.getAlpha());
         }
         color1.flip();
         final FloatBuffer color2 = sphere.getMeshData().getColorBuffer();
         color2.clear();
         for (int i = 0, bLength = color2.capacity(); i < bLength; i += 4) {
-            final ReadableColorRGBA c = colorSpread[i % 3];
+            final ReadOnlyColorRGBA c = colorSpread[i % 3];
             color2.put(c.getRed()).put(c.getGreen()).put(c.getBlue()).put(c.getAlpha());
         }
         color2.flip();

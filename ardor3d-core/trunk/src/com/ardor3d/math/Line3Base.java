@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
 import com.ardor3d.util.export.InputCapsule;
@@ -27,7 +27,7 @@ public abstract class Line3Base implements Cloneable, Savable, Externalizable {
     protected final Vector3 _origin = new Vector3();
     protected final Vector3 _direction = new Vector3();
 
-    public Line3Base(final ReadableVector3 origin, final ReadableVector3 direction) {
+    public Line3Base(final ReadOnlyVector3 origin, final ReadOnlyVector3 direction) {
         _origin.set(origin);
         _direction.set(direction);
     }
@@ -35,14 +35,14 @@ public abstract class Line3Base implements Cloneable, Savable, Externalizable {
     /**
      * @return this line's origin point as a readable vector
      */
-    public ReadableVector3 getOrigin() {
+    public ReadOnlyVector3 getOrigin() {
         return _origin;
     }
 
     /**
      * @return this line's direction as a readable vector
      */
-    public ReadableVector3 getDirection() {
+    public ReadOnlyVector3 getDirection() {
         return _direction;
     }
 
@@ -53,7 +53,7 @@ public abstract class Line3Base implements Cloneable, Savable, Externalizable {
      * @throws NullPointerException
      *             if normal is null.
      */
-    public void setOrigin(final ReadableVector3 origin) {
+    public void setOrigin(final ReadOnlyVector3 origin) {
         _origin.set(origin);
     }
 
@@ -64,7 +64,7 @@ public abstract class Line3Base implements Cloneable, Savable, Externalizable {
      * @throws NullPointerException
      *             if direction is null.
      */
-    public void setDirection(final ReadableVector3 direction) {
+    public void setDirection(final ReadOnlyVector3 direction) {
         _direction.set(direction);
     }
 

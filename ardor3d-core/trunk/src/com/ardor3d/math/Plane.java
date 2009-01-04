@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import com.ardor3d.math.type.ReadablePlane;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyPlane;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -30,15 +30,15 @@ import com.ardor3d.util.pool.ObjectPool;
  * represents the distance from the origin to the plane. It is generally calculated by taking a point (X) on the plane
  * and finding its dot-product with the plane's normal vector. iow: d = N dot X
  */
-public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane {
+public class Plane implements Cloneable, Savable, Externalizable, ReadOnlyPlane {
 
     private static final long serialVersionUID = 1L;
 
     private static final PlanePool PLANE_POOL = new PlanePool(11);
 
-    public static final ReadablePlane XZ = new Plane(Vector3.UNIT_Y, 0);
-    public static final ReadablePlane XY = new Plane(Vector3.UNIT_Z, 0);
-    public static final ReadablePlane YZ = new Plane(Vector3.UNIT_X, 0);
+    public static final ReadOnlyPlane XZ = new Plane(Vector3.UNIT_Y, 0);
+    public static final ReadOnlyPlane XY = new Plane(Vector3.UNIT_Z, 0);
+    public static final ReadOnlyPlane YZ = new Plane(Vector3.UNIT_X, 0);
 
     protected final Vector3 _normal = new Vector3();
     protected double _constant = 0;
@@ -56,7 +56,7 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
      * @param normal
      * @param constant
      */
-    public Plane(final ReadableVector3 normal, final double constant) {
+    public Plane(final ReadOnlyVector3 normal, final double constant) {
         _normal.set(normal);
         _constant = constant;
     }
@@ -69,7 +69,7 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
      * 
      * @return normal as a readable vector
      */
-    public ReadableVector3 getNormal() {
+    public ReadOnlyVector3 getNormal() {
         return _normal;
     }
 
@@ -89,7 +89,7 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
      * @throws NullPointerException
      *             if normal is null.
      */
-    public void setNormal(final ReadableVector3 normal) {
+    public void setNormal(final ReadOnlyVector3 normal) {
         _normal.set(normal);
     }
 
@@ -100,7 +100,7 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
      * @throws NullPointerException
      *             if point is null.
      */
-    public double pseudoDistance(final ReadableVector3 point) {
+    public double pseudoDistance(final ReadOnlyVector3 point) {
         return _normal.dot(point) - _constant;
     }
 
@@ -111,7 +111,7 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
      * @throws NullPointerException
      *             if point is null.
      */
-    public Side whichSide(final ReadableVector3 point) {
+    public Side whichSide(final ReadOnlyVector3 point) {
         final double dis = pseudoDistance(point);
         if (dis < 0) {
             return Side.Inside;
@@ -132,7 +132,7 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
      * @throws NullPointerException
      *             if one or more of the points are null.
      */
-    public Plane setPlanePoints(final ReadableVector3 pointA, final ReadableVector3 pointB, final ReadableVector3 pointC) {
+    public Plane setPlanePoints(final ReadOnlyVector3 pointA, final ReadOnlyVector3 pointB, final ReadOnlyVector3 pointC) {
         _normal.set(pointB).subtractLocal(pointA);
         _normal.crossLocal(pointC.getX() - pointA.getX(), pointC.getY() - pointA.getY(), pointC.getZ() - pointA.getZ())
                 .normalizeLocal();
@@ -148,7 +148,7 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
      *            the plane to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadablePlane plane) {
+    public static boolean isValid(final ReadOnlyPlane plane) {
         if (plane == null) {
             return false;
         }
@@ -193,10 +193,10 @@ public class Plane implements Cloneable, Savable, Externalizable, ReadablePlane 
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadablePlane)) {
+        if (!(o instanceof ReadOnlyPlane)) {
             return false;
         }
-        final ReadablePlane comp = (ReadablePlane) o;
+        final ReadOnlyPlane comp = (ReadOnlyPlane) o;
         if (Double.compare(getConstant(), comp.getConstant()) == 0 && _normal.equals(comp.getNormal())) {
             return true;
         }

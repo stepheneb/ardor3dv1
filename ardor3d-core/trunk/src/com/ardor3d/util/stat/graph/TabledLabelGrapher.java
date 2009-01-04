@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.queue.RenderBucketType;
 import com.ardor3d.renderer.state.BlendState;
@@ -152,7 +152,7 @@ public class TabledLabelGrapher extends AbstractStatGrapher {
                     if (entry.lineKey.getParent() != graphRoot) {
                         graphRoot.attachChild(entry.lineKey);
                     }
-                    final ReadableVector3 tLoc = entry.text.getTranslation();
+                    final ReadOnlyVector3 tLoc = entry.text.getTranslation();
                     entry.lineKey.setTranslation((float) (tLoc.getX() + entry.text.getWidth() + 15), (float) (tLoc
                             .getY() + (.5 * entry.text.getHeight())), 0);
                 }

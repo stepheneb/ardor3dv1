@@ -22,7 +22,7 @@ import com.ardor3d.bounding.BoundingVolume;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableColorRGBA;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.state.LightState;
 import com.ardor3d.renderer.state.LightUtil;
@@ -345,7 +345,7 @@ public class Mesh extends Spatial implements Renderable {
      * 
      * @param color
      */
-    public void setDefaultColor(final ReadableColorRGBA color) {
+    public void setDefaultColor(final ReadOnlyColorRGBA color) {
         _defaultColor.set(color);
     }
 
@@ -354,7 +354,7 @@ public class Mesh extends Spatial implements Renderable {
      * @param store
      * @return
      */
-    public ReadableColorRGBA getDefaultColor() {
+    public ReadOnlyColorRGBA getDefaultColor() {
         return _defaultColor;
     }
 
@@ -403,7 +403,7 @@ public class Mesh extends Spatial implements Renderable {
      * @param color
      *            the color to set.
      */
-    public void setSolidColor(final ReadableColorRGBA color) {
+    public void setSolidColor(final ReadOnlyColorRGBA color) {
         FloatBuffer colorBuf = _meshData.getColorBuffer();
         if (colorBuf == null) {
             colorBuf = BufferUtils.createColorBuffer(_meshData.getVertexCount());

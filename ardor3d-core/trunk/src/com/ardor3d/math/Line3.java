@@ -10,12 +10,12 @@
 
 package com.ardor3d.math;
 
-import com.ardor3d.math.type.ReadableLine3;
-import com.ardor3d.math.type.ReadableVector3;
+import com.ardor3d.math.type.ReadOnlyLine3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.pool.ObjectPool;
 
-public class Line3 extends Line3Base implements ReadableLine3 {
+public class Line3 extends Line3Base implements ReadOnlyLine3 {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class Line3 extends Line3Base implements ReadableLine3 {
      * @param direction
      *            - unit length
      */
-    public Line3(final ReadableVector3 origin, final ReadableVector3 direction) {
+    public Line3(final ReadOnlyVector3 origin, final ReadOnlyVector3 direction) {
         super(origin, direction);
     }
 
@@ -47,7 +47,7 @@ public class Line3 extends Line3Base implements ReadableLine3 {
      * @throws NullPointerException
      *             if source is null.
      */
-    public Line3 set(final ReadableLine3 source) {
+    public Line3 set(final ReadOnlyLine3 source) {
         _origin.set(source.getOrigin());
         _direction.set(source.getDirection());
         return this;
@@ -61,7 +61,7 @@ public class Line3 extends Line3Base implements ReadableLine3 {
      * @throws NullPointerException
      *             if the point is null.
      */
-    public double distanceSquared(final ReadableVector3 point, final Vector3 store) {
+    public double distanceSquared(final ReadOnlyVector3 point, final Vector3 store) {
         final Vector3 vectorA = Vector3.fetchTempInstance();
         vectorA.set(point).subtractLocal(_origin);
 
@@ -90,7 +90,7 @@ public class Line3 extends Line3Base implements ReadableLine3 {
      *            the line to check
      * @return true or false as stated above.
      */
-    public static boolean isValid(final ReadableLine3 line) {
+    public static boolean isValid(final ReadOnlyLine3 line) {
         if (line == null) {
             return false;
         }
@@ -116,10 +116,10 @@ public class Line3 extends Line3Base implements ReadableLine3 {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ReadableLine3)) {
+        if (!(o instanceof ReadOnlyLine3)) {
             return false;
         }
-        final ReadableLine3 comp = (ReadableLine3) o;
+        final ReadOnlyLine3 comp = (ReadOnlyLine3) o;
         return _origin.equals(comp.getOrigin()) && _direction.equals(comp.getDirection());
     }
 

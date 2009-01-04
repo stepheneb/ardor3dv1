@@ -20,13 +20,13 @@ import com.ardor3d.intersection.PickingUtil;
 import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Plane;
 import com.ardor3d.math.Vector3;
-import com.ardor3d.math.type.ReadableMatrix3;
-import com.ardor3d.math.type.ReadablePlane;
-import com.ardor3d.math.type.ReadableQuaternion;
-import com.ardor3d.math.type.ReadableRay3;
-import com.ardor3d.math.type.ReadableTriangle;
-import com.ardor3d.math.type.ReadableVector3;
-import com.ardor3d.math.type.ReadablePlane.Side;
+import com.ardor3d.math.type.ReadOnlyMatrix3;
+import com.ardor3d.math.type.ReadOnlyPlane;
+import com.ardor3d.math.type.ReadOnlyQuaternion;
+import com.ardor3d.math.type.ReadOnlyRay3;
+import com.ardor3d.math.type.ReadOnlyTriangle;
+import com.ardor3d.math.type.ReadOnlyVector3;
+import com.ardor3d.math.type.ReadOnlyPlane.Side;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -61,7 +61,7 @@ public class BoundingSphere extends BoundingVolume {
      * @param c
      *            the center of the sphere.
      */
-    public BoundingSphere(final double r, final ReadableVector3 c) {
+    public BoundingSphere(final double r, final ReadOnlyVector3 c) {
         center.set(c);
         setRadius(r);
     }
@@ -72,8 +72,8 @@ public class BoundingSphere extends BoundingVolume {
     }
 
     @Override
-    public BoundingVolume transform(final ReadableMatrix3 rotate, final ReadableVector3 translate,
-            final ReadableVector3 scale, final BoundingVolume store) {
+    public BoundingVolume transform(final ReadOnlyMatrix3 rotate, final ReadOnlyVector3 translate,
+            final ReadOnlyVector3 scale, final BoundingVolume store) {
         BoundingSphere sphere;
         if (store == null || store.getType() != BoundingVolume.Type.Sphere) {
             sphere = new BoundingSphere(1, new Vector3(0, 0, 0));
@@ -128,7 +128,7 @@ public class BoundingSphere extends BoundingVolume {
      * @param end
      */
     @Override
-    public void computeFromTris(final ReadableTriangle[] tris, final int start, final int end) {
+    public void computeFromTris(final ReadOnlyTriangle[] tris, final int start, final int end) {
         if (end - start <= 0) {
             return;
         }
@@ -385,8 +385,8 @@ public class BoundingSphere extends BoundingVolume {
      * @return ref
      */
     @Override
-    public BoundingVolume transform(final ReadableQuaternion rotate, final ReadableVector3 translate,
-            final ReadableVector3 scale, final BoundingVolume store) {
+    public BoundingVolume transform(final ReadOnlyQuaternion rotate, final ReadOnlyVector3 translate,
+            final ReadOnlyVector3 scale, final BoundingVolume store) {
         BoundingSphere sphere;
         if (store == null || store.getType() != BoundingVolume.Type.Sphere) {
             sphere = new BoundingSphere(1, new Vector3(0, 0, 0));
@@ -401,7 +401,7 @@ public class BoundingSphere extends BoundingVolume {
         return sphere;
     }
 
-    private double getMaxAxis(final ReadableVector3 scale) {
+    private double getMaxAxis(final ReadOnlyVector3 scale) {
         final double x = Math.abs(scale.getX());
         final double y = Math.abs(scale.getY());
         final double z = Math.abs(scale.getZ());
@@ -429,7 +429,7 @@ public class BoundingSphere extends BoundingVolume {
      * @return side
      */
     @Override
-    public Side whichSide(final ReadablePlane plane) {
+    public Side whichSide(final ReadOnlyPlane plane) {
         final double distance = plane.pseudoDistance(center);
 
         if (distance <= -getRadius()) {
@@ -460,7 +460,7 @@ public class BoundingSphere extends BoundingVolume {
             case Sphere: {
                 final BoundingSphere sphere = (BoundingSphere) volume;
                 final double temp_radius = sphere.getRadius();
-                final ReadableVector3 tempCenter = sphere.getCenter();
+                final ReadOnlyVector3 tempCenter = sphere.getCenter();
                 final BoundingSphere rVal = new BoundingSphere();
                 return merge(temp_radius, tempCenter, rVal);
             }
@@ -504,7 +504,7 @@ public class BoundingSphere extends BoundingVolume {
             case Sphere: {
                 final BoundingSphere sphere = (BoundingSphere) volume;
                 final double temp_radius = sphere.getRadius();
-                final ReadableVector3 temp_center = sphere.getCenter();
+                final ReadOnlyVector3 temp_center = sphere.getCenter();
                 return merge(temp_radius, temp_center, this);
             }
 
@@ -570,7 +570,7 @@ public class BoundingSphere extends BoundingVolume {
         return this;
     }
 
-    private BoundingVolume merge(final double temp_radius, final ReadableVector3 tempCenter, final BoundingSphere rVal) {
+    private BoundingVolume merge(final double temp_radius, final ReadOnlyVector3 tempCenter, final BoundingSphere rVal) {
         final Vector3 diff = tempCenter.subtract(center, Vector3.fetchTempInstance());
         final double lengthSquared = diff.lengthSquared();
         final double radiusDiff = temp_radius - getRadius();
@@ -674,7 +674,7 @@ public class BoundingSphere extends BoundingVolume {
     }
 
     @Override
-    public boolean intersects(final ReadableRay3 ray) {
+    public boolean intersects(final ReadOnlyRay3 ray) {
         if (!Vector3.isValid(center)) {
             return false;
         }
@@ -700,7 +700,7 @@ public class BoundingSphere extends BoundingVolume {
     }
 
     @Override
-    public IntersectionRecord intersectsWhere(final ReadableRay3 ray) {
+    public IntersectionRecord intersectsWhere(final ReadOnlyRay3 ray) {
         final Vector3 rayDir = Vector3.fetchTempInstance().set(ray.getDirection());
         final Vector3 rayOrigin = Vector3.fetchTempInstance().set(ray.getOrigin());
 
@@ -750,12 +750,12 @@ public class BoundingSphere extends BoundingVolume {
     }
 
     @Override
-    public boolean contains(final ReadableVector3 point) {
+    public boolean contains(final ReadOnlyVector3 point) {
         return getCenter().distanceSquared(point) < (getRadius() * getRadius());
     }
 
     @Override
-    public double distanceToEdge(final ReadableVector3 point) {
+    public double distanceToEdge(final ReadOnlyVector3 point) {
         return center.distance(point) - getRadius();
     }
 

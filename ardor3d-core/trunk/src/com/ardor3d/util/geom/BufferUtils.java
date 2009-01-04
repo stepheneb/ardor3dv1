@@ -27,10 +27,10 @@ import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Vector2;
 import com.ardor3d.math.Vector3;
 import com.ardor3d.math.Vector4;
-import com.ardor3d.math.type.ReadableColorRGBA;
-import com.ardor3d.math.type.ReadableVector2;
-import com.ardor3d.math.type.ReadableVector3;
-import com.ardor3d.math.type.ReadableVector4;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
+import com.ardor3d.math.type.ReadOnlyVector2;
+import com.ardor3d.math.type.ReadOnlyVector3;
+import com.ardor3d.math.type.ReadOnlyVector4;
 import com.ardor3d.util.Debug;
 
 /**
@@ -53,7 +53,7 @@ public final class BufferUtils {
      * @param data
      *            array of ColorRGBA objects to place into a new FloatBuffer
      */
-    public static FloatBuffer createFloatBuffer(final ReadableColorRGBA... data) {
+    public static FloatBuffer createFloatBuffer(final ReadOnlyColorRGBA... data) {
         if (data == null) {
             return null;
         }
@@ -91,7 +91,7 @@ public final class BufferUtils {
      * @param index
      *            the position to place the data; in terms of colors not floats
      */
-    public static void setInBuffer(final ReadableColorRGBA color, final FloatBuffer buf, final int index) {
+    public static void setInBuffer(final ReadOnlyColorRGBA color, final FloatBuffer buf, final int index) {
         buf.position(index * 4);
         buf.put(color.getRed());
         buf.put(color.getGreen());
@@ -159,7 +159,7 @@ public final class BufferUtils {
      *            the position (in terms of colors, not floats) of the color in the buffer to check against
      * @return
      */
-    public static boolean equals(final ReadableColorRGBA check, final FloatBuffer buf, final int index) {
+    public static boolean equals(final ReadOnlyColorRGBA check, final FloatBuffer buf, final int index) {
         final ColorRGBA temp = new ColorRGBA();
         populateFromBuffer(temp, buf, index);
         return temp.equals(check);
@@ -174,7 +174,7 @@ public final class BufferUtils {
      * @param data
      *            array of Vector4 objects to place into a new FloatBuffer
      */
-    public static FloatBuffer createFloatBuffer(final ReadableVector4... data) {
+    public static FloatBuffer createFloatBuffer(final ReadOnlyVector4... data) {
         if (data == null) {
             return null;
         }
@@ -231,7 +231,7 @@ public final class BufferUtils {
      * @param index
      *            the position to place the data; in terms of vectors not floats
      */
-    public static void setInBuffer(final ReadableVector4 vector, final FloatBuffer buf, final int index) {
+    public static void setInBuffer(final ReadOnlyVector4 vector, final FloatBuffer buf, final int index) {
         if (buf == null) {
             return;
         }
@@ -323,7 +323,7 @@ public final class BufferUtils {
      * @param index
      *            the position (in terms of vectors, not floats) of the vector to add to
      */
-    public static void addInBuffer(final ReadableVector4 toAdd, final FloatBuffer buf, final int index) {
+    public static void addInBuffer(final ReadOnlyVector4 toAdd, final FloatBuffer buf, final int index) {
         final Vector4 temp = Vector4.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         temp.addLocal(toAdd);
@@ -341,7 +341,7 @@ public final class BufferUtils {
      * @param index
      *            the position (in terms of vectors, not floats) of the vector to multiply
      */
-    public static void multInBuffer(final ReadableVector4 toMult, final FloatBuffer buf, final int index) {
+    public static void multInBuffer(final ReadOnlyVector4 toMult, final FloatBuffer buf, final int index) {
         final Vector4 temp = Vector4.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         temp.multiplyLocal(toMult);
@@ -360,7 +360,7 @@ public final class BufferUtils {
      *            the position (in terms of vectors, not floats) of the vector in the buffer to check against
      * @return
      */
-    public static boolean equals(final ReadableVector4 check, final FloatBuffer buf, final int index) {
+    public static boolean equals(final ReadOnlyVector4 check, final FloatBuffer buf, final int index) {
         final Vector4 temp = Vector4.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         final boolean equals = temp.equals(check);
@@ -377,7 +377,7 @@ public final class BufferUtils {
      * @param data
      *            array of Vector3 objects to place into a new FloatBuffer
      */
-    public static FloatBuffer createFloatBuffer(final ReadableVector3... data) {
+    public static FloatBuffer createFloatBuffer(final ReadOnlyVector3... data) {
         if (data == null) {
             return null;
         }
@@ -434,7 +434,7 @@ public final class BufferUtils {
      * @param index
      *            the position to place the data; in terms of vectors not floats
      */
-    public static void setInBuffer(final ReadableVector3 vector, final FloatBuffer buf, final int index) {
+    public static void setInBuffer(final ReadOnlyVector3 vector, final FloatBuffer buf, final int index) {
         if (buf == null) {
             return;
         }
@@ -523,7 +523,7 @@ public final class BufferUtils {
      * @param index
      *            the position (in terms of vectors, not floats) of the vector to add to
      */
-    public static void addInBuffer(final ReadableVector3 toAdd, final FloatBuffer buf, final int index) {
+    public static void addInBuffer(final ReadOnlyVector3 toAdd, final FloatBuffer buf, final int index) {
         final Vector3 temp = Vector3.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         temp.addLocal(toAdd);
@@ -541,7 +541,7 @@ public final class BufferUtils {
      * @param index
      *            the position (in terms of vectors, not floats) of the vector to multiply
      */
-    public static void multInBuffer(final ReadableVector3 toMult, final FloatBuffer buf, final int index) {
+    public static void multInBuffer(final ReadOnlyVector3 toMult, final FloatBuffer buf, final int index) {
         final Vector3 temp = Vector3.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         temp.multiplyLocal(toMult);
@@ -560,7 +560,7 @@ public final class BufferUtils {
      *            the position (in terms of vectors, not floats) of the vector in the buffer to check against
      * @return
      */
-    public static boolean equals(final ReadableVector3 check, final FloatBuffer buf, final int index) {
+    public static boolean equals(final ReadOnlyVector3 check, final FloatBuffer buf, final int index) {
         final Vector3 temp = Vector3.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         final boolean equals = temp.equals(check);
@@ -577,7 +577,7 @@ public final class BufferUtils {
      * @param data
      *            array of Vector2 objects to place into a new FloatBuffer
      */
-    public static FloatBuffer createFloatBuffer(final ReadableVector2... data) {
+    public static FloatBuffer createFloatBuffer(final ReadOnlyVector2... data) {
         if (data == null) {
             return null;
         }
@@ -634,7 +634,7 @@ public final class BufferUtils {
      * @param index
      *            the position to place the data; in terms of vectors not floats
      */
-    public static void setInBuffer(final ReadableVector2 vector, final FloatBuffer buf, final int index) {
+    public static void setInBuffer(final ReadOnlyVector2 vector, final FloatBuffer buf, final int index) {
         buf.put(index * 2, vector.getXf());
         buf.put((index * 2) + 1, vector.getYf());
     }
@@ -712,7 +712,7 @@ public final class BufferUtils {
      * @param index
      *            the position (in terms of vectors, not floats) of the vector to add to
      */
-    public static void addInBuffer(final ReadableVector2 toAdd, final FloatBuffer buf, final int index) {
+    public static void addInBuffer(final ReadOnlyVector2 toAdd, final FloatBuffer buf, final int index) {
         final Vector2 temp = Vector2.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         temp.addLocal(toAdd);
@@ -730,7 +730,7 @@ public final class BufferUtils {
      * @param index
      *            the position (in terms of vectors, not floats) of the vector to multiply
      */
-    public static void multInBuffer(final ReadableVector2 toMult, final FloatBuffer buf, final int index) {
+    public static void multInBuffer(final ReadOnlyVector2 toMult, final FloatBuffer buf, final int index) {
         final Vector2 temp = Vector2.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         temp.multiplyLocal(toMult);
@@ -749,7 +749,7 @@ public final class BufferUtils {
      *            the position (in terms of vectors, not floats) of the vector in the buffer to check against
      * @return
      */
-    public static boolean equals(final ReadableVector2 check, final FloatBuffer buf, final int index) {
+    public static boolean equals(final ReadOnlyVector2 check, final FloatBuffer buf, final int index) {
         final Vector2 temp = Vector2.fetchTempInstance();
         populateFromBuffer(temp, buf, index);
         final boolean equals = temp.equals(check);
