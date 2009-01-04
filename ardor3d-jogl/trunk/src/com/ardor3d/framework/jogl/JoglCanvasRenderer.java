@@ -26,6 +26,7 @@ import com.ardor3d.math.Vector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
+import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.jogl.JoglContextCapabilities;
 import com.ardor3d.renderer.jogl.JoglRenderer;
 import com.google.inject.Inject;
@@ -33,20 +34,20 @@ import com.google.inject.Inject;
 public class JoglCanvasRenderer implements CanvasRenderer {
     private static final Logger logger = Logger.getLogger(JoglCanvasRenderer.class.getName());
 
-    protected final Scene scene;
-    protected Camera camera;
-    protected boolean headless;
+    protected final Scene _scene;
+    protected Camera _camera;
+    protected boolean _headless;
     protected GLContext _context;
-    protected JoglRenderer renderer;
+    protected JoglRenderer _renderer;
 
     @Inject
     public JoglCanvasRenderer(final Scene scene) {
-        this.scene = scene;
-    }
+        _scene = scene;
+    } 
 
     @MainThread
     public void init(final DisplaySettings settings, final boolean headless) {
-        this.headless = headless;
+        _headless = headless;
         if (_context == null) {
             _context = GLDrawableFactory.getFactory().createExternalGLContext();
         }
@@ -57,28 +58,28 @@ public class JoglCanvasRenderer implements CanvasRenderer {
 
         ContextManager.addContext(_context, currentContext);
 
-        renderer = new JoglRenderer(settings.getWidth(), settings.getHeight());
-        currentContext.setupRecords(renderer);
-        renderer.initDefaultStates();
+        _renderer = new JoglRenderer(settings.getWidth(), settings.getHeight());
+        currentContext.setupRecords(_renderer);
+        _renderer.initDefaultStates();
 
         if (settings.getSamples() != 0 && caps.isMultisampleSupported()) {
             final GL gl = GLU.getCurrentGL();
             gl.glEnable(GL.GL_MULTISAMPLE);
         }
 
-        renderer.setBackgroundColor(ColorRGBA.BLACK);
+        _renderer.setBackgroundColor(ColorRGBA.BLACK);
 
         /** Set up how our camera sees. */
-        camera = new Camera(settings.getWidth(), settings.getHeight());
-        camera.setFrustumPerspective(45.0f, (float) settings.getWidth() / (float) settings.getHeight(), 1, 1000);
-        camera.setParallelProjection(false);
+        _camera = new Camera(settings.getWidth(), settings.getHeight());
+        _camera.setFrustumPerspective(45.0f, (float) settings.getWidth() / (float) settings.getHeight(), 1, 1000);
+        _camera.setParallelProjection(false);
 
         final Vector3 loc = new Vector3(0.0f, 0.0f, 10.0f);
         final Vector3 left = new Vector3(-1.0f, 0.0f, 0.0f);
         final Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
         final Vector3 dir = new Vector3(0.0f, 0f, -1.0f);
         /** Move our camera to a correct place and orientation. */
-        camera.setFrame(loc, left, up, dir);
+        _camera.setFrame(loc, left, up, dir);
 
     }
 
@@ -94,8 +95,8 @@ public class JoglCanvasRenderer implements CanvasRenderer {
     public boolean draw() {
 
         // set up context+display for rendering this canvas
-        renderer.setHeadless(headless);
-        renderer.setSize(camera.getWidth(), camera.getHeight());
+        _renderer.setHeadless(_headless);
+        _renderer.setSize(_camera.getWidth(), _camera.getHeight());
         ContextManager.switchContext(_context);
 
         while (GLContext.getCurrent() != null) {
@@ -112,27 +113,31 @@ public class JoglCanvasRenderer implements CanvasRenderer {
         }
 
         // render stuff
-        if (ContextManager.getCurrentContext().getCurrentCamera() != camera) {
-            ContextManager.getCurrentContext().setCurrentCamera(camera);
-            camera.update();
+        if (ContextManager.getCurrentContext().getCurrentCamera() != _camera) {
+            ContextManager.getCurrentContext().setCurrentCamera(_camera);
+            _camera.update();
         }
-        camera.apply(renderer);
-        renderer.clearBuffers();
-        final boolean drew = scene.renderUnto(renderer);
-        renderer.displayBackBuffer();
+        _camera.apply(_renderer);
+        _renderer.clearBuffers();
+        final boolean drew = _scene.renderUnto(_renderer);
+        _renderer.displayBackBuffer();
         _context.release();
         return drew;
     }
 
     public Camera getCamera() {
-        return camera;
+        return _camera;
     }
 
     public Scene getScene() {
-        return scene;
+        return _scene;
     }
 
     public void cleanup() {
-        renderer.cleanup();
+        _renderer.cleanup();
+    }
+    
+    public Renderer getRenderer() {
+    	return _renderer;
     }
 }

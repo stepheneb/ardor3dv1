@@ -59,6 +59,7 @@ import com.ardor3d.scenegraph.event.DirtyType;
 import com.ardor3d.util.Debug;
 import com.ardor3d.util.GameTaskQueue;
 import com.ardor3d.util.GameTaskQueueManager;
+import com.ardor3d.util.TextureManager;
 import com.ardor3d.util.geom.Debugger;
 import com.ardor3d.util.resource.ResourceLocatorTool;
 import com.ardor3d.util.resource.SimpleResourceLocator;
@@ -108,7 +109,7 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
             while (!exit) {
                 _frameWork.updateFrame();
             }
-            quit();
+            quit(_canvas.getCanvasRenderer().getRenderer());
         } catch (final Throwable t) {
             System.err.println("Throwable caught in MainThread - exiting");
             t.printStackTrace(System.err);
@@ -236,11 +237,10 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
         }
     }
 
-    protected void quit() {
-        // XXX: How to get the renderer here?
-        // TextureManager.doTextureCleanup(renderer);
+    // FIXME: This method needs to be run in the OpenGL thread!
+    protected void quit(Renderer renderer) {
+         TextureManager.doTextureCleanup(renderer);
         _canvas.cleanup();
-        exit();
         _canvas.close();
     }
 

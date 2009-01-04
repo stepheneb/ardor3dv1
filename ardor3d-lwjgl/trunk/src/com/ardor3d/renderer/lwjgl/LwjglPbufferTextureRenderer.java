@@ -705,6 +705,7 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
 
         getCamera().update();
         getCamera().apply(parentRenderer);
+        ContextManager.getCurrentContext().setCurrentCamera(getCamera());
     }
 
     private void switchCameraOut() {

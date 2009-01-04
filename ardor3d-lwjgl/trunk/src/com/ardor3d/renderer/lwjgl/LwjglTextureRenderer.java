@@ -864,6 +864,7 @@ public class LwjglTextureRenderer implements TextureRenderer {
 
         getCamera().update();
         getCamera().apply(parentRenderer);
+        ContextManager.getCurrentContext().setCurrentCamera(getCamera());
     }
 
     private void switchCameraOut() {

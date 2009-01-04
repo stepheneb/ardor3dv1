@@ -24,24 +24,25 @@ import com.ardor3d.math.Vector3;
 import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
+import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.lwjgl.LwjglContextCapabilities;
 import com.ardor3d.renderer.lwjgl.LwjglRenderer;
 import com.google.inject.Inject;
 
 public class LwjglCanvasRenderer implements CanvasRenderer {
-    protected Scene scene;
-    protected Camera camera;
-    protected boolean headless;
-    protected LwjglRenderer renderer;
+    protected Scene _scene;
+    protected Camera _camera;
+    protected boolean _headless;
+    protected LwjglRenderer _renderer;
 
     @Inject
     public LwjglCanvasRenderer(final Scene scene) {
-        this.scene = scene;
+        _scene = scene;
     }
 
     @MainThread
     public void init(final DisplaySettings settings, final boolean headless) {
-        this.headless = headless;
+        _headless = headless;
         final Object contextKey = this;
         try {
             GLContext.useContext(contextKey);
@@ -54,34 +55,34 @@ public class LwjglCanvasRenderer implements CanvasRenderer {
 
         ContextManager.addContext(contextKey, currentContext);
 
-        renderer = new LwjglRenderer(settings.getWidth(), settings.getHeight());
-        currentContext.setupRecords(renderer);
-        renderer.initDefaultStates();
+        _renderer = new LwjglRenderer(settings.getWidth(), settings.getHeight());
+        currentContext.setupRecords(_renderer);
+        _renderer.initDefaultStates();
 
         if (settings.getSamples() != 0 && caps.isMultisampleSupported()) {
             GL11.glEnable(ARBMultisample.GL_MULTISAMPLE_ARB);
         }
 
-        renderer.setBackgroundColor(ColorRGBA.BLACK);
+        _renderer.setBackgroundColor(ColorRGBA.BLACK);
 
         /** Set up how our camera sees. */
-        camera = new Camera(settings.getWidth(), settings.getHeight());
-        camera.setFrustumPerspective(45.0f, (float) settings.getWidth() / (float) settings.getHeight(), 1, 1000);
-        camera.setParallelProjection(false);
+        _camera = new Camera(settings.getWidth(), settings.getHeight());
+        _camera.setFrustumPerspective(45.0f, (float) settings.getWidth() / (float) settings.getHeight(), 1, 1000);
+        _camera.setParallelProjection(false);
 
         final Vector3 loc = new Vector3(0.0f, 0.0f, 10.0f);
         final Vector3 left = new Vector3(-1.0f, 0.0f, 0.0f);
         final Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
         final Vector3 dir = new Vector3(0.0f, 0f, -1.0f);
         /** Move our camera to a correct place and orientation. */
-        camera.setFrame(loc, left, up, dir);
+        _camera.setFrame(loc, left, up, dir);
     }
 
     @MainThread
     public boolean draw() {
         // set up context+display for rendering this canvas
-        renderer.setHeadless(headless);
-        renderer.setSize(camera.getWidth(), camera.getHeight());
+        _renderer.setHeadless(_headless);
+        _renderer.setSize(_camera.getWidth(), _camera.getHeight());
         ContextManager.switchContext(this);
         try {
             GLContext.useContext(this);
@@ -90,14 +91,14 @@ public class LwjglCanvasRenderer implements CanvasRenderer {
         }
 
         // render stuff
-        if (ContextManager.getCurrentContext().getCurrentCamera() != camera) {
-            ContextManager.getCurrentContext().setCurrentCamera(camera);
-            camera.update();
+        if (ContextManager.getCurrentContext().getCurrentCamera() != _camera) {
+            ContextManager.getCurrentContext().setCurrentCamera(_camera);
+            _camera.update();
         }
-        camera.apply(renderer);
-        renderer.clearBuffers();
-        final boolean drew = scene.renderUnto(renderer);
-        renderer.displayBackBuffer();
+        _camera.apply(_renderer);
+        _renderer.clearBuffers();
+        final boolean drew = _scene.renderUnto(_renderer);
+        _renderer.displayBackBuffer();
         try {
             GLContext.useContext(null);
         } catch (final LWJGLException e) {
@@ -107,14 +108,18 @@ public class LwjglCanvasRenderer implements CanvasRenderer {
     }
 
     public Camera getCamera() {
-        return camera;
+        return _camera;
     }
 
     public Scene getScene() {
-        return scene;
+        return _scene;
     }
 
     public void cleanup() {
-        renderer.cleanup();
+        _renderer.cleanup();
+    }
+    
+    public Renderer getRenderer() {
+    	return _renderer;
     }
 }

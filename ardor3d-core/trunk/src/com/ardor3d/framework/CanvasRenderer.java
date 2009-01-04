@@ -12,6 +12,7 @@ package com.ardor3d.framework;
 
 import com.ardor3d.annotation.MainThread;
 import com.ardor3d.renderer.Camera;
+import com.ardor3d.renderer.Renderer;
 
 /**
  * Represents a class that knows how to render a scene using a specific Open GL implementation.
@@ -39,5 +40,12 @@ public interface CanvasRenderer {
      * @return the camera used by this canvas renderer
      */
     public Scene getScene();
+
+    /**
+     * Returns the renderer being used by this canvas renderer.
+     * 
+     * @return the renderer used by this canvas renderer
+     */
+    Renderer getRenderer();
 
 }
