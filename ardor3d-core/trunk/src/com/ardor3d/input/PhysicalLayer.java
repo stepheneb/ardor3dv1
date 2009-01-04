@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.google.common.collect.PeekingIterator;
@@ -39,7 +40,7 @@ public class PhysicalLayer {
 
     private boolean inited = false;
 
-    private static final int MAX_INPUT_STATES_PER_FRAME = 50;
+    private static final long MAX_INPUT_POLL_TIME = TimeUnit.SECONDS.toNanos(2);
 
     @Inject
     public PhysicalLayer(final KeyboardWrapper keyboardWrapper, final MouseWrapper mouseWrapper,
@@ -69,16 +70,15 @@ public class PhysicalLayer {
         MouseState oldMouseState = currentMouseState = new MouseState(currentMouseState.getX(), currentMouseState
                 .getY(), 0, 0, 0, currentMouseState.getButtonStates());
 
-        boolean exitOk = false;
+        long loopExitTime = System.nanoTime() + MAX_INPUT_POLL_TIME;
 
-        for (int i = 0; i < MAX_INPUT_STATES_PER_FRAME; i++) {
+        while (true) {
             readKeyboardState();
             readMouseState();
 
             // if there is no new input, exit the loop. Otherwise, add a new input state to the queue, and
             // see if there is even more input to read.
             if (oldKeyState.equals(currentKeyboardState) && oldMouseState.equals(currentMouseState)) {
-                exitOk = true;
                 break;
             }
 
@@ -86,13 +86,18 @@ public class PhysicalLayer {
 
             oldKeyState = currentKeyboardState;
             oldMouseState = currentMouseState;
+
+            if (System.nanoTime() > loopExitTime) {
+                logger.severe("Spent too long collecting input data, this is probably an input system bug");
+                break;
+            }
         }
 
-        if (!exitOk) {
-            // XXX: Now logging it instead of throwing exception. This seems to be very possible, particularly if you
-            // combine a WT mouselistener with a slow frame rate.
-            logger.warning("Too many nested calls - more than " + MAX_INPUT_STATES_PER_FRAME);
-        }
+//        if (!exitOk) {
+//            // XXX: Now logging it instead of throwing exception. This seems to be very possible, particularly if you
+//            // combine a WT mouselistener with a slow frame rate.
+//            logger.warning("Too many nested calls - more than " + MAX_INPUT_STATES_PER_FRAME);
+//        }
 
         if (focusWrapper.getAndClearFocusLost()) {
             lostFocus();

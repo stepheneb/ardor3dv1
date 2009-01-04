@@ -46,8 +46,6 @@ public class SwtMouseWrapper implements MouseWrapper, MouseListener, MouseMoveLi
     @GuardedBy("this")
     private MouseState lastState = null;
 
-    // private Control canvas;
-
     public SwtMouseWrapper(final SwtCanvas canvas) {
         this.canvas = checkNotNull(canvas, "canvas");
     }

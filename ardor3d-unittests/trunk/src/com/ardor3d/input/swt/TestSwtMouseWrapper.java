@@ -70,7 +70,7 @@ public class TestSwtMouseWrapper {
 
         replay(mocks);
 
-        // wrapper.listenTo(control);
+        wrapper.init();
 
         setXY(e1, 2, 0);
 
@@ -124,24 +124,6 @@ public class TestSwtMouseWrapper {
         }
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testUninitialised() throws Exception {
-        replay(mocks);
-        wrapper.mouseMove(e1);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void testListenTwice() throws Exception {
-        control.addMouseListener(wrapper);
-        control.addMouseMoveListener(wrapper);
-        control.addMouseWheelListener(wrapper);
-
-        replay(mocks);
-
-        // wrapper.listenTo(control);
-        // wrapper.listenTo(control);
-    }
-
     @Test
     public void testButtons() throws Exception {
         control.addMouseListener(wrapper);
@@ -152,7 +134,7 @@ public class TestSwtMouseWrapper {
 
         replay(mocks);
 
-        // wrapper.listenTo(control);
+        wrapper.init();
 
         // mouse down, then drag
         setWithButtons(e1, 0, 0, 1);

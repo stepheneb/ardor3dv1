@@ -78,6 +78,10 @@ public class TestPhysicalLayer {
 
     @Test
     public void testKeyboardBasic1() throws Exception {
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
+
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(Adown.iterator()));
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator()));
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator()));
@@ -107,6 +111,10 @@ public class TestPhysicalLayer {
     @Test
     public void testKeyboardBasic2() throws Exception {
         final PeekingIterator<KeyEvent> adau = Iterators.peekingIterator(AdownAup.iterator());
+
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
 
         expect(keyboardWrapper.getEvents()).andReturn(adau);
         expect(keyboardWrapper.getEvents()).andReturn(adau);
@@ -141,6 +149,10 @@ public class TestPhysicalLayer {
 
     @Test
     public void testKeyboardBasic3() throws Exception {
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
+
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(AdownBdown.iterator()));
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator()));
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator()));
@@ -166,9 +178,13 @@ public class TestPhysicalLayer {
         assertEquals("0 states", 0, inputStates.size());
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testTooManyChanges1() throws Exception {
         final PeekingIterator<KeyEvent> iter = new NeverEndingKeyIterator();
+
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
 
         expect(keyboardWrapper.getEvents()).andReturn(iter).atLeastOnce();
         expect(mouseWrapper.getEvents()).andReturn(Iterators.peekingIterator(noMice.iterator())).atLeastOnce();
@@ -179,9 +195,13 @@ public class TestPhysicalLayer {
         pl.readState();
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void testTooManyChanges2() throws Exception {
         final PeekingIterator<MouseState> iter = new NeverEndingMouseIterator();
+
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
 
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator())).atLeastOnce();
         expect(mouseWrapper.getEvents()).andReturn(iter).atLeastOnce();
@@ -194,6 +214,10 @@ public class TestPhysicalLayer {
 
     @Test
     public void testLostFocus1() throws Exception {
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
+
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(Adown.iterator()));
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator()));
         expect(mouseWrapper.getEvents()).andReturn(Iterators.peekingIterator(noMice.iterator())).times(2);
@@ -217,6 +241,10 @@ public class TestPhysicalLayer {
 
     @Test
     public void testLostFocus2() throws Exception {
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
+
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(Adown.iterator()));
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator()));
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator()));
@@ -247,6 +275,10 @@ public class TestPhysicalLayer {
 
     @Test
     public void testLostFocus3() throws Exception {
+        keyboardWrapper.init();
+        mouseWrapper.init();
+        focusWrapper.init();
+
         expect(keyboardWrapper.getEvents()).andReturn(Iterators.peekingIterator(noKeys.iterator())).times(3);
         expect(mouseWrapper.getEvents()).andReturn(Iterators.peekingIterator(buttonDown.iterator()));
         expect(mouseWrapper.getEvents()).andReturn(Iterators.peekingIterator(noMice.iterator())).times(2);
