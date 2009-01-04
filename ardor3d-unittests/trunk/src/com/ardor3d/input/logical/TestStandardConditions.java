@@ -60,6 +60,11 @@ public class TestStandardConditions {
         assertTrue("empty4", kh.apply(new TwoInputStates(InputState.EMPTY, is2)));
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testKeyHeld2() throws Exception {
+        new KeyHeldCondition(null);
+    }
+
     @Test
     public void testKeyPressed() throws Exception {
         final KeyPressedCondition kh = new KeyPressedCondition(Key.A);
@@ -80,6 +85,12 @@ public class TestStandardConditions {
         assertTrue("empty4", kh.apply(new TwoInputStates(InputState.EMPTY, is2)));
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testKeyPressedNull() throws Exception {
+        new KeyPressedCondition(null);
+    }
+
+
     @Test
     public void testKeyReleased() throws Exception {
         final KeyReleasedCondition kh = new KeyReleasedCondition(Key.A);
@@ -98,6 +109,11 @@ public class TestStandardConditions {
         assertFalse("empty2", kh.apply(new TwoInputStates(is1, InputState.EMPTY)));
         assertFalse("empty3", kh.apply(new TwoInputStates(InputState.EMPTY, is1)));
         assertFalse("empty4", kh.apply(new TwoInputStates(InputState.EMPTY, is2)));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testKeyReleasedNull() throws Exception {
+        new KeyReleasedCondition(null);
     }
 
     @Test

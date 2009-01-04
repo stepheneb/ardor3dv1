@@ -12,11 +12,13 @@ package com.ardor3d.input.logical;
 
 import com.ardor3d.input.InputState;
 import com.ardor3d.input.Key;
+import com.ardor3d.annotation.Immutable;
 import com.google.common.base.Predicate;
 
 /**
  * A condition that is true when a key was released from the previous to the current input state.
  */
+@Immutable
 public final class KeyReleasedCondition implements Predicate<TwoInputStates> {
     private final Key key;
 
@@ -39,10 +41,6 @@ public final class KeyReleasedCondition implements Predicate<TwoInputStates> {
     public boolean apply(final TwoInputStates states) {
         final InputState currentState = states.getCurrent();
         final InputState previousState = states.getPrevious();
-
-        if (currentState == null || previousState == null) {
-            return false;
-        }
 
         return currentState.getKeyboardState().getKeysReleasedSince(previousState.getKeyboardState()).contains(key);
     }

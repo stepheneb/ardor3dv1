@@ -42,10 +42,6 @@ public final class KeyPressedCondition implements Predicate<TwoInputStates> {
         final InputState currentState = states.getCurrent();
         final InputState previousState = states.getPrevious();
 
-        if (currentState == null || previousState == null) {
-            return false;
-        }
-
         return currentState.getKeyboardState().getKeysPressedSince(previousState.getKeyboardState()).contains(key);
     }
 }
