@@ -12,6 +12,7 @@ package com.ardor3d.input.logical;
 
 import com.ardor3d.annotation.Immutable;
 import com.ardor3d.input.InputState;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Wrapper class to make it possible to use {@link com.google.common.base.Predicate}-based conditions for triggering
@@ -23,17 +24,19 @@ public final class TwoInputStates {
     private final InputState current;
 
     /**
-     * Instantiates a new TwoInputStates. It is safe for both or either input state to be null, and it is safe for both
-     * parameters to point to the same instance.
+     * Instantiates a new TwoInputStates. It is safe for both
+     * parameters to point to the same instance, but they cannot be null.
      * 
      * @param previous
      *            the previous input state
      * @param current
      *            the current input state
+     *
+     * @throws NullPointerException if either parameter is null
      */
     public TwoInputStates(final InputState previous, final InputState current) {
-        this.previous = previous;
-        this.current = current;
+        this.previous = checkNotNull(previous, "previous");
+        this.current = checkNotNull(current, "current");
     }
 
     public InputState getPrevious() {

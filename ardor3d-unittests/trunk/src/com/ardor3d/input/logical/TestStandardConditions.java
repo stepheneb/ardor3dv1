@@ -54,10 +54,10 @@ public class TestStandardConditions {
         assertFalse("not down", kh.apply(new TwoInputStates(is2, is3)));
         assertTrue("not down", kh.apply(new TwoInputStates(is2, is2)));
 
-        assertFalse("nulls1", kh.apply(new TwoInputStates(null, null)));
-        assertFalse("nulls2", kh.apply(new TwoInputStates(is1, null)));
-        assertFalse("nulls3", kh.apply(new TwoInputStates(null, is1)));
-        assertTrue("nulls4", kh.apply(new TwoInputStates(null, is2)));
+        assertFalse("empty1", kh.apply(new TwoInputStates(InputState.EMPTY, InputState.EMPTY)));
+        assertFalse("empty2", kh.apply(new TwoInputStates(is1, InputState.EMPTY)));
+        assertFalse("empty3", kh.apply(new TwoInputStates(InputState.EMPTY, is1)));
+        assertTrue("empty4", kh.apply(new TwoInputStates(InputState.EMPTY, is2)));
     }
 
     @Test
@@ -74,10 +74,10 @@ public class TestStandardConditions {
         assertFalse("not down", kh.apply(new TwoInputStates(is2, is3)));
         assertFalse("not down", kh.apply(new TwoInputStates(is2, is2)));
 
-        assertFalse("nulls1", kh.apply(new TwoInputStates(null, null)));
-        assertFalse("nulls2", kh.apply(new TwoInputStates(is1, null)));
-        assertFalse("nulls3", kh.apply(new TwoInputStates(null, is1)));
-        assertFalse("nulls4", kh.apply(new TwoInputStates(null, is2)));
+        assertFalse("empty1", kh.apply(new TwoInputStates(InputState.EMPTY, InputState.EMPTY)));
+        assertFalse("empty2", kh.apply(new TwoInputStates(is1, InputState.EMPTY)));
+        assertFalse("empty3", kh.apply(new TwoInputStates(InputState.EMPTY, is1)));
+        assertTrue("empty4", kh.apply(new TwoInputStates(InputState.EMPTY, is2)));
     }
 
     @Test
@@ -94,10 +94,10 @@ public class TestStandardConditions {
         assertTrue("not down", kh.apply(new TwoInputStates(is2, is3)));
         assertFalse("not down", kh.apply(new TwoInputStates(is2, is2)));
 
-        assertFalse("nulls1", kh.apply(new TwoInputStates(null, null)));
-        assertFalse("nulls2", kh.apply(new TwoInputStates(is1, null)));
-        assertFalse("nulls3", kh.apply(new TwoInputStates(null, is1)));
-        assertFalse("nulls4", kh.apply(new TwoInputStates(null, is2)));
+        assertFalse("empty1", kh.apply(new TwoInputStates(InputState.EMPTY, InputState.EMPTY)));
+        assertFalse("empty2", kh.apply(new TwoInputStates(is1, InputState.EMPTY)));
+        assertFalse("empty3", kh.apply(new TwoInputStates(InputState.EMPTY, is1)));
+        assertFalse("empty4", kh.apply(new TwoInputStates(InputState.EMPTY, is2)));
     }
 
     @Test
@@ -122,10 +122,10 @@ public class TestStandardConditions {
         assertTrue("mm5", mm.apply(new TwoInputStates(is4, is5)));
         assertFalse("mm6", mm.apply(new TwoInputStates(is2, is2)));
 
-        assertFalse("nulls1", mm.apply(new TwoInputStates(null, null)));
-        assertFalse("nulls2", mm.apply(new TwoInputStates(is1, null)));
-        assertFalse("nulls3", mm.apply(new TwoInputStates(null, is1)));
-        assertTrue("nulls4", mm.apply(new TwoInputStates(null, is2)));
+        assertFalse("empty1", mm.apply(new TwoInputStates(InputState.EMPTY, InputState.EMPTY)));
+        assertFalse("empty2", mm.apply(new TwoInputStates(is1, InputState.EMPTY)));
+        assertFalse("empty3", mm.apply(new TwoInputStates(InputState.EMPTY, is1)));
+        assertTrue("empty4", mm.apply(new TwoInputStates(InputState.EMPTY, is2)));
     }
 
     @Test
@@ -149,10 +149,10 @@ public class TestStandardConditions {
         assertFalse("mm4", mm.apply(new TwoInputStates(is3, is4)));
         assertTrue("mm5", mm.apply(new TwoInputStates(is4, is5)));
 
-        assertFalse("nulls1", mm.apply(new TwoInputStates(null, null)));
-        assertFalse("nulls2", mm.apply(new TwoInputStates(is1, null)));
-        assertFalse("nulls3", mm.apply(new TwoInputStates(null, is1)));
-        assertTrue("nulls4", mm.apply(new TwoInputStates(null, is3)));
+        assertFalse("empty1", mm.apply(new TwoInputStates(InputState.EMPTY, InputState.EMPTY)));
+        assertFalse("empty2", mm.apply(new TwoInputStates(is1, InputState.EMPTY)));
+        assertFalse("empty3", mm.apply(new TwoInputStates(InputState.EMPTY, is1)));
+        assertTrue("empty4", mm.apply(new TwoInputStates(InputState.EMPTY, is3)));
     }
 
     @Test
@@ -176,9 +176,9 @@ public class TestStandardConditions {
         assertTrue("mm4", mm.apply(new TwoInputStates(is3, is4)));
         assertFalse("mm5", mm.apply(new TwoInputStates(is4, is5)));
 
-        assertFalse("nulls1", mm.apply(new TwoInputStates(null, null)));
-        assertFalse("nulls2", mm.apply(new TwoInputStates(is1, null)));
-        assertFalse("nulls3", mm.apply(new TwoInputStates(null, is1)));
-        assertTrue("nulls4", mm.apply(new TwoInputStates(null, is3)));
+        assertFalse("empty1", mm.apply(new TwoInputStates(InputState.EMPTY, InputState.EMPTY)));
+        assertFalse("empty2", mm.apply(new TwoInputStates(is1, InputState.EMPTY)));
+        assertFalse("empty3", mm.apply(new TwoInputStates(InputState.EMPTY, is1)));
+        assertTrue("empty4", mm.apply(new TwoInputStates(InputState.EMPTY, is3)));
     }
 }

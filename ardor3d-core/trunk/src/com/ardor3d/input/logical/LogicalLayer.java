@@ -104,6 +104,7 @@ public final class LogicalLayer {
         public InputSource(final Canvas source, final PhysicalLayer physicalLayer) {
             this.source = source;
             this.physicalLayer = physicalLayer;
+            lastState = InputState.EMPTY;
         }
     }
 }

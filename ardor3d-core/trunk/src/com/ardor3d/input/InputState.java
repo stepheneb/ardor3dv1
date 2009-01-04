@@ -18,6 +18,7 @@ import com.ardor3d.annotation.Immutable;
 @Immutable
 public class InputState {
     public static final InputState LOST_FOCUS = new InputState(KeyboardState.NOTHING, MouseState.NOTHING);
+    public static final InputState EMPTY = new InputState(KeyboardState.NOTHING, MouseState.NOTHING);
 
     private final KeyboardState keyboardState;
     private final MouseState mouseState;
