@@ -113,20 +113,26 @@ public class PhysicalLayer {
     }
 
     private void readKeyboardState() {
-        EnumSet<Key> keysDown;
-        final EnumSet<Key> keysChanged = EnumSet.noneOf(Key.class);
-
-        // EnumSet.copyOf fails if the collection is empty, since it needs at least one object to
-        // figure out which type of enum to deal with. Hence the check below.
-        if (currentKeyboardState.getKeysDown().isEmpty()) {
-            keysDown = EnumSet.noneOf(Key.class);
-        } else {
-            keysDown = EnumSet.copyOf(currentKeyboardState.getKeysDown());
-        }
+        EnumSet<Key> keysDown = null;
+        EnumSet<Key> keysChanged = null;
 
         final PeekingIterator<KeyEvent> eventIterator = keyboardWrapper.getEvents();
 
         while (eventIterator.hasNext()) {
+            // only initialising these variables if we actually have to use them; this
+            // initialisation will be done during the first loop iteration.
+            if (keysDown == null) {
+                // EnumSet.copyOf fails if the collection is empty, since it needs at least one object to
+                // figure out which type of enum to deal with. Hence the check below.
+                if (currentKeyboardState.getKeysDown().isEmpty()) {
+                    keysDown = EnumSet.noneOf(Key.class);
+                } else {
+                    keysDown = EnumSet.copyOf(currentKeyboardState.getKeysDown());
+                }
+
+                keysChanged = EnumSet.noneOf(Key.class);
+            }
+
             final KeyEvent keyEvent = eventIterator.peek();
 
             if (keysChanged.contains(keyEvent.getKey())) {
@@ -148,7 +154,7 @@ public class PhysicalLayer {
         }
 
         // check if the current keyboard state should be updated
-        if (!keysChanged.isEmpty()) {
+        if (keysChanged != null && !keysChanged.isEmpty()) {
             currentKeyboardState = new KeyboardState(keysDown);
         }
     }
