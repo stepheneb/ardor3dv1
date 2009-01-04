@@ -47,6 +47,8 @@ import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Ray3;
 import com.ardor3d.math.Vector2;
 import com.ardor3d.math.Vector3;
+import com.ardor3d.renderer.Camera;
+import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.TextureRendererFactory;
 import com.ardor3d.renderer.jogl.JoglTextureRendererProvider;
@@ -208,6 +210,14 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
             /** Call renderExample in any derived classes. */
             renderExample(renderer);
 
+            // Check if we should switch back the camera again before doing debug...
+            final Camera cam = _canvas.getCanvasRenderer().getCamera();
+            if (ContextManager.getCurrentContext().getCurrentCamera() != cam) {
+                ContextManager.getCurrentContext().setCurrentCamera(cam);
+                cam.update();
+                cam.apply(renderer);
+            }
+
             if (_showBounds) {
                 Debugger.drawBounds(_root, renderer, true);
             }
@@ -238,8 +248,8 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
     }
 
     // FIXME: This method needs to be run in the OpenGL thread!
-    protected void quit(Renderer renderer) {
-         TextureManager.doTextureCleanup(renderer);
+    protected void quit(final Renderer renderer) {
+        TextureManager.doTextureCleanup(renderer);
         _canvas.cleanup();
         _canvas.close();
     }
