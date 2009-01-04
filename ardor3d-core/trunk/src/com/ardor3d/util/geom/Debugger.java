@@ -256,7 +256,7 @@ public final class Debugger {
                     normalLines.getMeshData().setVertexBuffer(lineVerts);
                 } else {
                     lineVerts.clear();
-                    lineVerts.limit(2 * geom.getMeshData().getVertexCount());
+                    lineVerts.limit(3 * 2 * geom.getMeshData().getVertexCount());
                     normalLines.getMeshData().setVertexBuffer(lineVerts);
                 }
 
@@ -370,7 +370,7 @@ public final class Debugger {
                     normalLines.getMeshData().setVertexBuffer(lineVerts);
                 } else {
                     lineVerts.clear();
-                    lineVerts.limit(2 * geom.getMeshData().getVertexCount());
+                    lineVerts.limit(3 * 2 * geom.getMeshData().getVertexCount());
                     normalLines.getMeshData().setVertexBuffer(lineVerts);
                 }
 
