@@ -19,6 +19,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.AWTGLCanvas;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.Pbuffer;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.opengl.RenderTexture;
@@ -683,7 +684,6 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
         GL11.glCopyTexImage2D(GL11.GL_TEXTURE_2D, 0, source, 0, 0, width, height, 0);
     }
 
-    private Camera oldCamera;
     private int oldWidth, oldHeight;
 
     private RenderContext oldContext;
@@ -713,8 +713,6 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
 
         // back to the non rtt settings
         parentRenderer.getQueue().swapBuckets();
-        oldCamera.update();
-        oldCamera.apply(parentRenderer);
     }
 
     private void doDraw(final Spatial spat) {
@@ -733,8 +731,18 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
                 giveBackContext();
                 ContextManager.removeContext(pbuffer);
             }
-            final PixelFormat format = new PixelFormat(alpha, depth, stencil).withSamples(samples);
+            final PixelFormat format = new PixelFormat(alpha, depth, stencil).withSamples(samples).withBitsPerPixel(bpp);
             pbuffer = new Pbuffer(pBufferWidth, pBufferHeight, format, texture, null);
+            final Object contextKey = pbuffer;
+            try {
+            	pbuffer.makeCurrent();
+            } catch (final LWJGLException e) {
+                throw new RuntimeException(e);
+            }
+
+            final LwjglContextCapabilities caps = new LwjglContextCapabilities(GLContext.getCapabilities());
+            ContextManager.addContext(contextKey, new RenderContext(contextKey, caps));
+
         } catch (final Exception e) {
             logger.logp(Level.SEVERE, this.getClass().toString(), "initPbuffer()", "Exception", e);
 
@@ -783,6 +791,15 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
             try {
                 oldContext = ContextManager.getCurrentContext();
                 pbuffer.makeCurrent();
+                
+                final Object contextKey = pbuffer;
+
+                final LwjglContextCapabilities caps = new LwjglContextCapabilities(GLContext.getCapabilities());
+                final RenderContext currentContext = new RenderContext(contextKey, caps);
+
+                ContextManager.addContext(contextKey, currentContext);
+
+                
                 ContextManager.switchContext(pbuffer);
             } catch (final LWJGLException e) {
                 logger.logp(Level.SEVERE, this.getClass().toString(), "activate()", "Exception", e);
@@ -814,7 +831,7 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
     private void giveBackContext() throws LWJGLException {
         if (!headless && Display.isCreated()) {
             Display.makeCurrent();
-            ContextManager.switchContext(null); // TODO: need ref to parent context?
+            ContextManager.switchContext(oldContext.getContextHolder());
         } else if (oldContext.getContextHolder() instanceof AWTGLCanvas) {
             ((AWTGLCanvas) oldContext.getContextHolder()).makeCurrent();
             ContextManager.switchContext(oldContext.getContextHolder());

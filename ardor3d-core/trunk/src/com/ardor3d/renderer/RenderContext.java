@@ -46,9 +46,10 @@ public class RenderContext {
     public RenderContext(final Object key, final ContextCapabilities caps) {
         contextHolder = key;
         capabilities = caps;
+        setupRecords();
     }
 
-    public void setupRecords(final Renderer renderer) {
+    protected void setupRecords() {
         for (final RenderState.StateType type : RenderState.StateType.values()) {
             stateRecords.put(type, RenderState.createState(type).createStateRecord());
         }

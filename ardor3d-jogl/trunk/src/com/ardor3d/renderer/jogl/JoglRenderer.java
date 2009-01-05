@@ -156,9 +156,7 @@ public class JoglRenderer extends Renderer {
 
         queue = new RenderQueue(this);
         _oldTextureBuffers = new FloatBuffer[TextureState.MAX_TEXTURES];
-    }
-
-    public void initDefaultStates() {
+        
         // Create our defaults as needed.
         synchronized (defaultStateList) {
             if (defaultStateList.size() == 0) {

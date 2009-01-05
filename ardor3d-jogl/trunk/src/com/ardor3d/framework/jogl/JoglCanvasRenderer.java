@@ -59,8 +59,6 @@ public class JoglCanvasRenderer implements CanvasRenderer {
         ContextManager.addContext(_context, currentContext);
 
         _renderer = new JoglRenderer(settings.getWidth(), settings.getHeight());
-        currentContext.setupRecords(_renderer);
-        _renderer.initDefaultStates();
 
         if (settings.getSamples() != 0 && caps.isMultisampleSupported()) {
             final GL gl = GLU.getCurrentGL();

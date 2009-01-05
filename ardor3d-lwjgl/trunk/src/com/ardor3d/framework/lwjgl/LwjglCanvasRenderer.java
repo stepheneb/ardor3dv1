@@ -56,8 +56,6 @@ public class LwjglCanvasRenderer implements CanvasRenderer {
         ContextManager.addContext(contextKey, currentContext);
 
         _renderer = new LwjglRenderer(settings.getWidth(), settings.getHeight());
-        currentContext.setupRecords(_renderer);
-        _renderer.initDefaultStates();
 
         if (settings.getSamples() != 0 && caps.isMultisampleSupported()) {
             GL11.glEnable(ARBMultisample.GL_MULTISAMPLE_ARB);
