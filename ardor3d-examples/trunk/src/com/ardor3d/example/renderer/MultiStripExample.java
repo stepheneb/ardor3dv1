@@ -15,7 +15,6 @@ import java.nio.IntBuffer;
 
 import com.ardor3d.example.ExampleBase;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.input.logical.LogicalLayer;
 import com.ardor3d.math.Vector3;
 import com.ardor3d.renderer.IndexMode;
@@ -31,8 +30,8 @@ public class MultiStripExample extends ExampleBase {
     }
 
     @Inject
-    public MultiStripExample(final NativeCanvas canvas, final LogicalLayer layer, final FrameWork frameWork) {
-        super(canvas, layer, frameWork);
+    public MultiStripExample(final LogicalLayer layer, final FrameWork frameWork) {
+        super(layer, frameWork);
     }
 
     /**

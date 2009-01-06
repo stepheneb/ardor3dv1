@@ -93,12 +93,6 @@ public class PhysicalLayer {
             }
         }
 
-//        if (!exitOk) {
-//            // XXX: Now logging it instead of throwing exception. This seems to be very possible, particularly if you
-//            // combine a WT mouselistener with a slow frame rate.
-//            logger.warning("Too many nested calls - more than " + MAX_INPUT_STATES_PER_FRAME);
-//        }
-
         if (focusWrapper.getAndClearFocusLost()) {
             lostFocus();
         }
@@ -186,10 +180,4 @@ public class PhysicalLayer {
         mouseWrapper.init();
         focusWrapper.init();
     }
-
-    // public void listenTo(final T canvas) {
-    // mouseWrapper.listenTo(canvas);
-    // keyboardWrapper.listenTo(canvas);
-    // focusWrapper.forward(canvas, this);
-    // }
 }

@@ -15,7 +15,6 @@ import java.nio.IntBuffer;
 
 import com.ardor3d.example.ExampleBase;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.image.Texture;
 import com.ardor3d.image.Image.Format;
 import com.ardor3d.input.logical.LogicalLayer;
@@ -37,9 +36,9 @@ public class InterleavedDataExample extends ExampleBase {
     }
 
     @Inject
-    public InterleavedDataExample(final NativeCanvas canvas, final LogicalLayer layer, final FrameWork frameWork,
+    public InterleavedDataExample(final LogicalLayer layer, final FrameWork frameWork,
             final Timer timer) {
-        super(canvas, layer, frameWork);
+        super(layer, frameWork);
         _timer = timer;
     }
 

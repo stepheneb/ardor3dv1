@@ -17,7 +17,6 @@ import com.ardor3d.example.ExampleBase;
 import com.ardor3d.extension.shape.Teapot;
 import com.ardor3d.extension.shape.Torus;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.image.Texture;
 import com.ardor3d.image.Image.Format;
 import com.ardor3d.input.logical.LogicalLayer;
@@ -57,8 +56,8 @@ public class ShapesExample extends ExampleBase implements DirtyEventListener {
     }
 
     @Inject
-    public ShapesExample(final NativeCanvas canvas, final LogicalLayer layer, final FrameWork frameWork) {
-        super(canvas, layer, frameWork);
+    public ShapesExample(final LogicalLayer layer, final FrameWork frameWork) {
+        super(layer, frameWork);
     }
 
     @Override

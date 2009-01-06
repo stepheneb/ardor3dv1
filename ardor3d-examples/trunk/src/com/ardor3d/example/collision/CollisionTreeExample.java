@@ -18,7 +18,6 @@ import com.ardor3d.bounding.CollisionTreeManager;
 import com.ardor3d.example.ExampleBase;
 import com.ardor3d.extension.shape.PQTorus;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.input.logical.LogicalLayer;
 import com.ardor3d.intersection.CollisionData;
 import com.ardor3d.intersection.CollisionResults;
@@ -51,8 +50,8 @@ public class CollisionTreeExample extends ExampleBase {
     }
 
     @Inject
-    public CollisionTreeExample(final NativeCanvas canvas, final LogicalLayer layer, final FrameWork frameWork) {
-        super(canvas, layer, frameWork);
+    public CollisionTreeExample(final LogicalLayer layer, final FrameWork frameWork) {
+        super(layer, frameWork);
     }
 
     @Override

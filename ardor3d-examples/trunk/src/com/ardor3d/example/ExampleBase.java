@@ -78,8 +78,6 @@ import com.google.inject.Stage;
 public abstract class ExampleBase extends Thread implements Updater, Scene, Exit {
     private static final Logger logger = Logger.getLogger(ExampleBase.class.getName());
 
-    protected final NativeCanvas _canvas;
-
     protected final LogicalLayer _logicalLayer;
 
     protected final Node _root = new Node();
@@ -96,9 +94,11 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
 
     protected boolean _showNormals = false;
 
+    protected NativeCanvas _canvas;
+
+
     @Inject
-    public ExampleBase(final NativeCanvas canvas, final LogicalLayer logicalLayer, final FrameWork frameWork) {
-        _canvas = canvas;
+    public ExampleBase(final LogicalLayer logicalLayer, final FrameWork frameWork) {
         _logicalLayer = logicalLayer;
         _frameWork = frameWork;
     }
@@ -267,21 +267,12 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
         final ArdorModule ardorModule = new ArdorModule();
         Module systemModule = null;
 
-        // com.google.inject.Key keyboardKey = null;
-        // com.google.inject.Key mouseKey = null;
-        // com.google.inject.Key focusKey = null;
 
         if ("LWJGL".equalsIgnoreCase(prefs.getRenderer())) {
             systemModule = new LwjglModule();
-            // keyboardKey = com.google.inject.Key.get(new TypeLiteral<KeyboardWrapper<LwjglCanvas>>() {});
-            // mouseKey = com.google.inject.Key.get(new TypeLiteral<MouseWrapper<LwjglCanvas>>() {});
-            // focusKey = com.google.inject.Key.get(new TypeLiteral<FocusWrapper<LwjglCanvas>>() {});
             TextureRendererFactory.INSTANCE.setProvider(new LwjglTextureRendererProvider());
         } else if ("JOGL".equalsIgnoreCase(prefs.getRenderer())) {
             systemModule = new JoglModule();
-            // keyboardKey = com.google.inject.Key.get(new TypeLiteral<KeyboardWrapper<JoglCanvas>>() {});
-            // mouseKey = com.google.inject.Key.get(new TypeLiteral<MouseWrapper<JoglCanvas>>() {});
-            // focusKey = com.google.inject.Key.get(new TypeLiteral<FocusWrapper<JoglCanvas>>() {});
             TextureRendererFactory.INSTANCE.setProvider(new JoglTextureRendererProvider());
         }
         final Module exampleModule = new AbstractModule() {
@@ -317,13 +308,14 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
                 .getInstance(MouseWrapper.class), injector.getInstance(FocusWrapper.class));
 
         ll.registerInput(canvas, physicalLayer);
-        // physicalLayer.listenTo(canvas);
 
         // Register our example as an updater.
         frameWork.registerUpdater(updater);
 
         // Make a native canvas and register it.
         frameWork.registerCanvas(canvas);
+
+        gameThread._canvas = canvas;
 
         gameThread.start();
     }

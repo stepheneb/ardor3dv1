@@ -16,7 +16,6 @@ import com.ardor3d.extension.effect.particle.ParticleFactory;
 import com.ardor3d.extension.effect.particle.ParticleSystem;
 import com.ardor3d.extension.effect.particle.SwarmInfluence;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.image.Texture;
 import com.ardor3d.image.Image.Format;
 import com.ardor3d.input.logical.LogicalLayer;
@@ -45,9 +44,9 @@ public class ParticleSwarmExample extends ExampleBase {
     }
 
     @Inject
-    public ParticleSwarmExample(final NativeCanvas canvas, final LogicalLayer layer, final FrameWork frameWork,
+    public ParticleSwarmExample(final LogicalLayer layer, final FrameWork frameWork,
             final Timer timer) {
-        super(canvas, layer, frameWork);
+        super(layer, frameWork);
         _timer = timer;
     }
 

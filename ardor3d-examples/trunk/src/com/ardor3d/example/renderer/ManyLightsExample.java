@@ -15,7 +15,6 @@ import java.util.Random;
 import com.ardor3d.bounding.BoundingSphere;
 import com.ardor3d.example.ExampleBase;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.input.logical.LogicalLayer;
 import com.ardor3d.light.PointLight;
 import com.ardor3d.math.ColorRGBA;
@@ -37,8 +36,8 @@ public class ManyLightsExample extends ExampleBase {
     }
 
     @Inject
-    public ManyLightsExample(final NativeCanvas canvas, final LogicalLayer layer, final FrameWork frameWork) {
-        super(canvas, layer, frameWork);
+    public ManyLightsExample(final LogicalLayer layer, final FrameWork frameWork) {
+        super(layer, frameWork);
     }
 
     @Override

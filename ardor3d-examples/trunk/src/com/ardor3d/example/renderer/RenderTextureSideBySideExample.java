@@ -14,7 +14,6 @@ import com.ardor3d.bounding.BoundingBox;
 import com.ardor3d.example.ExampleBase;
 import com.ardor3d.framework.DisplaySettings;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.image.Image;
 import com.ardor3d.image.Texture;
 import com.ardor3d.image.Texture2D;
@@ -52,9 +51,9 @@ public class RenderTextureSideBySideExample extends ExampleBase {
     }
 
     @Inject
-    public RenderTextureSideBySideExample(final NativeCanvas canvas, final LogicalLayer layer,
+    public RenderTextureSideBySideExample(final LogicalLayer layer,
             final FrameWork frameWork, final DisplaySettings settings) {
-        super(canvas, layer, frameWork);
+        super(layer, frameWork);
         _settings = settings;
     }
 

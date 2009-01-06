@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import com.ardor3d.example.ExampleBase;
 import com.ardor3d.extension.shape.Torus;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.image.Texture;
 import com.ardor3d.image.Image.Format;
 import com.ardor3d.input.logical.LogicalLayer;
@@ -55,9 +54,9 @@ public class ExportImportExample extends ExampleBase {
     }
 
     @Inject
-    public ExportImportExample(final NativeCanvas canvas, final LogicalLayer layer, final FrameWork frameWork,
+    public ExportImportExample(final LogicalLayer layer, final FrameWork frameWork,
             final Timer timer) {
-        super(canvas, layer, frameWork);
+        super(layer, frameWork);
         _timer = timer;
     }
 

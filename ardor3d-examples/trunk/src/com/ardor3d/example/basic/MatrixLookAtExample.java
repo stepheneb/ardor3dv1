@@ -16,7 +16,6 @@ import java.util.List;
 import com.ardor3d.bounding.BoundingBox;
 import com.ardor3d.example.ExampleBase;
 import com.ardor3d.framework.FrameWork;
-import com.ardor3d.framework.NativeCanvas;
 import com.ardor3d.image.Texture;
 import com.ardor3d.image.Image.Format;
 import com.ardor3d.input.logical.LogicalLayer;
@@ -51,8 +50,8 @@ public class MatrixLookAtExample extends ExampleBase {
     }
 
     @Inject
-    public MatrixLookAtExample(final NativeCanvas canvas, final LogicalLayer logicalLayer, final FrameWork frameWork) {
-        super(canvas, logicalLayer, frameWork);
+    public MatrixLookAtExample(final LogicalLayer logicalLayer, final FrameWork frameWork) {
+        super(logicalLayer, frameWork);
     }
 
     @Override
