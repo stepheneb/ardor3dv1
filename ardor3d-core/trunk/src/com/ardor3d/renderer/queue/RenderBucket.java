@@ -21,5 +21,7 @@ public interface RenderBucket {
 
     void render();
 
-    void swap();
+    void pushBucket();
+
+    void popBucket();
 }

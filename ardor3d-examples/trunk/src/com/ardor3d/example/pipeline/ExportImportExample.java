@@ -82,11 +82,11 @@ public class ExportImportExample extends ExampleBase {
         final TextureState ts = new TextureState();
         final Texture t0 = TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear,
                 Format.GuessNoCompression, true);
-        final Texture tex = TextureManager.load("images/ardor3d_white_256.jpg", Texture.MinificationFilter.Trilinear,
+        final Texture t1 = TextureManager.load("images/flaresmall.jpg", Texture.MinificationFilter.Trilinear,
                 Format.GuessNoCompression, true);
-        tex.setEnvironmentalMapMode(Texture.EnvironmentalMapMode.SphereMap);
+        t1.setEnvironmentalMapMode(Texture.EnvironmentalMapMode.SphereMap);
         ts.setTexture(t0, 0);
-        ts.setTexture(tex, 1);
+        ts.setTexture(t1, 1);
         ts.setEnabled(true);
 
         final Torus torus = new Torus("Torus", 50, 50, 10, 25);

@@ -11,7 +11,6 @@
 package com.ardor3d.renderer.queue;
 
 import java.util.EnumMap;
-import java.util.Iterator;
 
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.scenegraph.Spatial;
@@ -57,27 +56,28 @@ public class RenderQueue {
     }
 
     public void clearBuckets() {
-        final Iterator<RenderBucket> bucketIterator = renderBuckets.values().iterator();
-        while (bucketIterator.hasNext()) {
-            bucketIterator.next().clear();
+        for (final RenderBucket renderBucket : renderBuckets.values()) {
+            renderBucket.clear();
         }
     }
 
     public void renderBuckets() {
-        final Iterator<RenderBucket> bucketIterator = renderBuckets.values().iterator();
-        while (bucketIterator.hasNext()) {
-            final RenderBucket renderBucket = bucketIterator.next();
-
+        for (final RenderBucket renderBucket : renderBuckets.values()) {
             renderBucket.sort();
             renderBucket.render();
             renderBucket.clear();
         }
     }
 
-    public void swapBuckets() {
-        final Iterator<RenderBucket> bucketIterator = renderBuckets.values().iterator();
-        while (bucketIterator.hasNext()) {
-            bucketIterator.next().swap();
+    public void pushBuckets() {
+        for (final RenderBucket renderBucket : renderBuckets.values()) {
+            renderBucket.pushBucket();
+        }
+    }
+
+    public void popBuckets() {
+        for (final RenderBucket renderBucket : renderBuckets.values()) {
+            renderBucket.popBucket();
         }
     }
 }

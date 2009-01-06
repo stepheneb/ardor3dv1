@@ -25,10 +25,10 @@ public class OrthoRenderBucket extends AbstractRenderBucket {
 
     @Override
     public void render() {
-        if (_listSize > 0) {
+        if (_currentListSize > 0) {
             _renderer.setOrtho();
-            for (int i = 0; i < _listSize; i++) {
-                _list[i].draw(_renderer);
+            for (int i = 0; i < _currentListSize; i++) {
+                _currentList[i].draw(_renderer);
             }
             _renderer.unsetOrtho();
         }

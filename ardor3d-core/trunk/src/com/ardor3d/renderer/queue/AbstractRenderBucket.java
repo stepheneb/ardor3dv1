@@ -12,6 +12,8 @@ package com.ardor3d.renderer.queue;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Stack;
+import java.util.logging.Logger;
 
 import com.ardor3d.math.Vector3;
 import com.ardor3d.math.type.ReadOnlyVector3;
@@ -22,69 +24,80 @@ import com.ardor3d.scenegraph.Spatial;
 import com.ardor3d.util.SortUtil;
 
 public class AbstractRenderBucket implements RenderBucket {
+    private static final Logger _logger = Logger.getLogger(AbstractRenderBucket.class.getName());
+
     protected final Renderer _renderer;
-
-    protected Spatial[] _list, _tempList;
-    protected int _listSize;
-
-    protected Spatial[] _backList;
-    protected int _backListSize;
-
     protected Comparator<Spatial> _comparator;
+
+    protected Spatial[] _currentList, _tempList;
+    protected int _currentListSize;
+
+    protected Stack<Spatial[]> _listStack = new Stack<Spatial[]>();
+    protected Stack<Spatial[]> _listStackPool = new Stack<Spatial[]>();
+    protected Stack<Integer> _listSizeStack = new Stack<Integer>();
 
     public AbstractRenderBucket(final Renderer renderer) {
         _renderer = renderer;
 
-        _list = new Spatial[32];
-        _backList = new Spatial[32];
+        _currentList = new Spatial[32];
     }
 
     public void add(final Spatial spatial) {
-        if (_listSize == _list.length) {
-            final Spatial[] temp = new Spatial[_listSize * 2];
-            System.arraycopy(_list, 0, temp, 0, _listSize);
-            _list = temp;
+        if (_currentListSize == _currentList.length) {
+            final Spatial[] temp = new Spatial[_currentListSize * 2];
+            System.arraycopy(_currentList, 0, temp, 0, _currentListSize);
+            _currentList = temp;
         }
-        _list[_listSize++] = spatial;
+        _currentList[_currentListSize++] = spatial;
     }
 
     public void clear() {
-        for (int i = 0; i < _listSize; i++) {
-            _list[i] = null;
+        for (int i = 0; i < _currentListSize; i++) {
+            _currentList[i] = null;
         }
         if (_tempList != null) {
             Arrays.fill(_tempList, null);
         }
-        _listSize = 0;
+        _currentListSize = 0;
     }
 
     public void render() {
-        for (int i = 0; i < _listSize; i++) {
-            _list[i].draw(_renderer);
+        for (int i = 0; i < _currentListSize; i++) {
+            _currentList[i].draw(_renderer);
         }
     }
 
     public void sort() {
-        if (_listSize > 1) {
+        if (_currentListSize > 1) {
             // resize or populate our temporary array as necessary
-            if (_tempList == null || _tempList.length != _list.length) {
-                _tempList = _list.clone();
+            if (_tempList == null || _tempList.length != _currentList.length) {
+                _tempList = _currentList.clone();
             } else {
-                System.arraycopy(_list, 0, _tempList, 0, _list.length);
+                System.arraycopy(_currentList, 0, _tempList, 0, _currentList.length);
             }
             // now merge sort tlist into list
-            SortUtil.msort(_tempList, _list, 0, _listSize, _comparator);
+            SortUtil.msort(_tempList, _currentList, 0, _currentListSize, _comparator);
         }
     }
 
-    public void swap() {
-        final Spatial[] tmpList = _list;
-        _list = _backList;
-        _backList = tmpList;
+    public void pushBucket() {
+        _listStack.push(_currentList);
+        if (_listStackPool.isEmpty()) {
+            _currentList = new Spatial[32];
+        } else {
+            _currentList = _listStackPool.pop();
+        }
 
-        final int tmpListSize = _listSize;
-        _listSize = _backListSize;
-        _backListSize = tmpListSize;
+        _listSizeStack.push(_currentListSize);
+        _currentListSize = 0;
+    }
+
+    public void popBucket() {
+        if (_currentList != null) {
+            _listStackPool.push(_currentList);
+        }
+        _currentList = _listStack.pop();
+        _currentListSize = _listSizeStack.pop();
     }
 
     /**

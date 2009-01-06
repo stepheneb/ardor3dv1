@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 
 import com.ardor3d.bounding.BoundingVolume;
 import com.ardor3d.math.MathUtils;
-import com.ardor3d.math.Matrix3;
 import com.ardor3d.math.Matrix4;
 import com.ardor3d.math.Plane;
 import com.ardor3d.math.Ray3;
@@ -419,7 +418,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      *            the position of the camera.
      * @see Camera#setLocation(com.ardor3d.math.Vector3)
      */
-    public void setLocation(final Vector3 location) {
+    public void setLocation(final ReadOnlyVector3 location) {
         _location.set(location);
         onFrameChange();
     }
@@ -432,7 +431,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      *            the direction this camera is facing.
      * @see Camera#setDirection(com.ardor3d.math.Vector3)
      */
-    public void setDirection(final Vector3 direction) {
+    public void setDirection(final ReadOnlyVector3 direction) {
         _direction.set(direction);
         onFrameChange();
     }
@@ -445,7 +444,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      *            the left axis of this camera.
      * @see Camera#setLeft(com.ardor3d.math.Vector3)
      */
-    public void setLeft(final Vector3 left) {
+    public void setLeft(final ReadOnlyVector3 left) {
         _left.set(left);
         onFrameChange();
     }
@@ -458,7 +457,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      *            the up axis of this camera.
      * @see Camera#setUp(com.ardor3d.math.Vector3)
      */
-    public void setUp(final Vector3 up) {
+    public void setUp(final ReadOnlyVector3 up) {
         _up.set(up);
         onFrameChange();
     }
@@ -474,7 +473,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      *            the direction the camera is facing.
      * @see Camera#setAxes(com.ardor3d.math.Vector3,com.ardor3d.math.Vector3,com.ardor3d.math.Vector3)
      */
-    public void setAxes(final Vector3 left, final Vector3 up, final Vector3 direction) {
+    public void setAxes(final ReadOnlyVector3 left, final ReadOnlyVector3 up, final ReadOnlyVector3 direction) {
         _left.set(left);
         _up.set(up);
         _direction.set(direction);
@@ -487,7 +486,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * @param axes
      *            the matrix that defines the orientation of the camera.
      */
-    public void setAxes(final Matrix3 axes) {
+    public void setAxes(final ReadOnlyMatrix3 axes) {
         axes.getColumn(0, _left);
         axes.getColumn(1, _up);
         axes.getColumn(2, _direction);
@@ -568,7 +567,8 @@ public class Camera implements Savable, Externalizable, Cloneable {
      * @see Camera#setFrame(com.ardor3d.math.Vector3, com.ardor3d.math.Vector3, com.ardor3d.math.Vector3,
      *      com.ardor3d.math.Vector3)
      */
-    public void setFrame(final Vector3 location, final Vector3 left, final Vector3 up, final Vector3 direction) {
+    public void setFrame(final ReadOnlyVector3 location, final ReadOnlyVector3 left, final ReadOnlyVector3 up,
+            final ReadOnlyVector3 direction) {
 
         _location.set(location);
         _left.set(left);

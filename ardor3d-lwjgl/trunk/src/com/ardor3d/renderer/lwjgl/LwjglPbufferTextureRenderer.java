@@ -694,7 +694,7 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
         oldHeight = parentRenderer.getHeight();
 
         // swap to rtt settings
-        parentRenderer.getQueue().swapBuckets();
+        parentRenderer.getQueue().pushBuckets();
         parentRenderer.setSize(pBufferWidth, pBufferHeight);
 
         // clear the scene
@@ -712,7 +712,7 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
         parentRenderer.setSize(oldWidth, oldHeight);
 
         // back to the non rtt settings
-        parentRenderer.getQueue().swapBuckets();
+        parentRenderer.getQueue().popBuckets();
     }
 
     private void doDraw(final Spatial spat) {
@@ -731,11 +731,12 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
                 giveBackContext();
                 ContextManager.removeContext(pbuffer);
             }
-            final PixelFormat format = new PixelFormat(alpha, depth, stencil).withSamples(samples).withBitsPerPixel(bpp);
+            final PixelFormat format = new PixelFormat(alpha, depth, stencil).withSamples(samples)
+                    .withBitsPerPixel(bpp);
             pbuffer = new Pbuffer(pBufferWidth, pBufferHeight, format, texture, null);
             final Object contextKey = pbuffer;
             try {
-            	pbuffer.makeCurrent();
+                pbuffer.makeCurrent();
             } catch (final LWJGLException e) {
                 throw new RuntimeException(e);
             }
@@ -791,7 +792,7 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
             try {
                 oldContext = ContextManager.getCurrentContext();
                 pbuffer.makeCurrent();
-                
+
                 final Object contextKey = pbuffer;
 
                 final LwjglContextCapabilities caps = new LwjglContextCapabilities(GLContext.getCapabilities());
@@ -799,7 +800,6 @@ public class LwjglPbufferTextureRenderer implements TextureRenderer {
 
                 ContextManager.addContext(contextKey, currentContext);
 
-                
                 ContextManager.switchContext(pbuffer);
             } catch (final LWJGLException e) {
                 logger.logp(Level.SEVERE, this.getClass().toString(), "activate()", "Exception", e);

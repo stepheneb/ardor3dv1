@@ -43,8 +43,8 @@ public class TransparentRenderBucket extends AbstractRenderBucket {
 
     @Override
     public void render() {
-        for (int i = 0; i < _listSize; i++) {
-            final Spatial spatial = _list[i];
+        for (int i = 0; i < _currentListSize; i++) {
+            final Spatial spatial = _currentList[i];
 
             if (twoPassTransparent
                     && spatial instanceof Mesh

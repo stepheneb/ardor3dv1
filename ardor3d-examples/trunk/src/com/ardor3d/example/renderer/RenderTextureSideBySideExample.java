@@ -22,11 +22,13 @@ import com.ardor3d.input.logical.LogicalLayer;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Quaternion;
 import com.ardor3d.math.Vector3;
+import com.ardor3d.renderer.Camera;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.renderer.TextureRenderer;
 import com.ardor3d.renderer.TextureRendererFactory;
 import com.ardor3d.renderer.queue.RenderBucketType;
 import com.ardor3d.renderer.state.TextureState;
+import com.ardor3d.scenegraph.Spatial.CullHint;
 import com.ardor3d.scenegraph.Spatial.LightCombineMode;
 import com.ardor3d.scenegraph.shape.Quad;
 import com.ardor3d.scenegraph.shape.Sphere;
@@ -39,6 +41,7 @@ public class RenderTextureSideBySideExample extends ExampleBase {
     private double angle = 0;
     private final Vector3 axis = new Vector3(1, 1, 0);
     private Sphere sphere;
+    private Quad orthoQuad;
     private Quad quad;
     private TextureRenderer textureRenderer;
     private Texture2D fakeTex;
@@ -56,10 +59,12 @@ public class RenderTextureSideBySideExample extends ExampleBase {
     }
 
     @Override
-    protected void quit(Renderer r) {
-    	try {
-    		textureRenderer.cleanup();
-    	} catch (Exception e) {e.printStackTrace();}
+    protected void quit(final Renderer r) {
+        try {
+            textureRenderer.cleanup();
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
         super.quit(r);
     }
 
@@ -83,12 +88,20 @@ public class RenderTextureSideBySideExample extends ExampleBase {
             initRtt(renderer);
         }
         if (textureRenderer.isSupported()) {
+            final Camera camera = _canvas.getCanvasRenderer().getCamera();
+            textureRenderer.getCamera().setLocation(camera.getLocation());
+            textureRenderer.getCamera().setUp(camera.getUp());
+            textureRenderer.getCamera().setLeft(camera.getLeft());
+            textureRenderer.getCamera().setDirection(camera.getDirection());
             textureRenderer.render(sphere, fakeTex);
         }
     }
 
     private void initRtt(final Renderer renderer) {
-        textureRenderer = TextureRendererFactory.INSTANCE.createTextureRenderer(_settings, renderer,
+        final DisplaySettings rttSettings = new DisplaySettings(512, 512, _settings.getColorDepth(), _settings
+                .getFrequency(), _settings.getAlphaBits(), _settings.getDepthBits(), _settings.getStencilBits(),
+                _settings.getSamples(), _settings.isFullScreen());
+        textureRenderer = TextureRendererFactory.INSTANCE.createTextureRenderer(rttSettings, renderer,
                 TextureRenderer.Target.Texture2D);
 
         if (!textureRenderer.isSupported()) {
@@ -98,14 +111,14 @@ public class RenderTextureSideBySideExample extends ExampleBase {
             t.setTranslation(new Vector3(0, 20, 0));
             _root.attachChild(t);
         } else {
-            textureRenderer.getCamera().setLocation(new Vector3(-10, 0, 15));
-            textureRenderer.setBackgroundColor(new ColorRGBA(0f, 0f, 0f, 1));
+            textureRenderer.setBackgroundColor(new ColorRGBA(0.3f, 0.3f, 0.4f, 1));
             fakeTex = new Texture2D();
             textureRenderer.setupTexture(fakeTex);
             final TextureState screen = new TextureState();
             screen.setTexture(fakeTex);
             screen.setEnabled(true);
             quad.setRenderState(screen);
+            orthoQuad.setRenderState(screen);
         }
     }
 
@@ -114,13 +127,21 @@ public class RenderTextureSideBySideExample extends ExampleBase {
         _canvas.setTitle("RTT Side By Side");
 
         sphere = new Sphere("Sphere", 25, 25, 5);
-        sphere.setTranslation(new Vector3(-10, 0, 0));
-        sphere.setModelBound(new BoundingBox());
         sphere.updateModelBound();
+        sphere.setTranslation(new Vector3(-6, 0, 0));
         _root.attachChild(sphere);
 
-        quad = new Quad("Quad", 15, 13f);
-        quad.setTranslation(new Vector3(10, 0, 0));
+        orthoQuad = new Quad("OrthoQuad", 150, 150);
+        orthoQuad.setTranslation(new Vector3(80, 80, 0));
+        orthoQuad.setModelBound(new BoundingBox());
+        orthoQuad.setRenderBucketType(RenderBucketType.Ortho);
+        orthoQuad.updateModelBound();
+        orthoQuad.setLightCombineMode(LightCombineMode.Off);
+        orthoQuad.setCullHint(CullHint.Never);
+        _root.attachChild(orthoQuad);
+
+        quad = new Quad("Quad", 10, 10);
+        quad.setTranslation(new Vector3(6, 0, 0));
         quad.setModelBound(new BoundingBox());
         quad.updateModelBound();
         quad.setLightCombineMode(LightCombineMode.Off);

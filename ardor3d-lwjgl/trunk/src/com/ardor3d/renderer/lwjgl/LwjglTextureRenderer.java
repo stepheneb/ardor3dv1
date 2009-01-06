@@ -853,7 +853,7 @@ public class LwjglTextureRenderer implements TextureRenderer {
         oldHeight = parentRenderer.getHeight();
 
         // swap to rtt settings
-        parentRenderer.getQueue().swapBuckets();
+        parentRenderer.getQueue().pushBuckets();
         parentRenderer.setSize(_width, _height);
 
         // clear the scene
@@ -871,7 +871,7 @@ public class LwjglTextureRenderer implements TextureRenderer {
         parentRenderer.setSize(oldWidth, oldHeight);
 
         // back to the non rtt settings
-        parentRenderer.getQueue().swapBuckets();
+        parentRenderer.getQueue().popBuckets();
     }
 
     private void doDraw(final Spatial spat) {

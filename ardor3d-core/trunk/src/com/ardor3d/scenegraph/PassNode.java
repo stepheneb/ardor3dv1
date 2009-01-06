@@ -42,7 +42,7 @@ public class PassNode extends Node {
         }
 
         final RenderContext context = ContextManager.getCurrentContext();
-        r.getQueue().swapBuckets();
+        r.getQueue().pushBuckets();
         for (final PassNodeState pass : passNodeStates) {
             if (!pass.isEnabled()) {
                 continue;
@@ -61,7 +61,7 @@ public class PassNode extends Node {
 
             pass.resetPassNodeStates(r, context);
         }
-        r.getQueue().swapBuckets();
+        r.getQueue().popBuckets();
     }
 
     public void addPass(final PassNodeState toAdd) {
