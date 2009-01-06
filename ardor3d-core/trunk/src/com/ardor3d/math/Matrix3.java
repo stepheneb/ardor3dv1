@@ -957,7 +957,7 @@ public class Matrix3 implements Cloneable, Savable, Externalizable, ReadOnlyMatr
      * @param end
      *            normalized non-zero ending vector
      * @return this matrix, for chaining
-     * @see "Tomas Möller, John Hughes \"Efficiently Building a Matrix to Rotate \ One Vector to
+     * @see "Tomas MÃ¶ller, John Hughes \"Efficiently Building a Matrix to Rotate \ One Vector to
      *      Another\" Journal of Graphics Tools, 4(4):1-4, 1999"
      */
     public Matrix3 fromStartEndLocal(final ReadOnlyVector3 start, final ReadOnlyVector3 end) {
