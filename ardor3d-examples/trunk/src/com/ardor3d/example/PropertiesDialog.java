@@ -336,7 +336,8 @@ public final class PropertiesDialog extends JDialog {
         final int height = Integer.parseInt(display);
 
         final String depthString = (String) colorDepthCombo.getSelectedItem();
-        final int depth = Integer.parseInt(depthString.substring(0, depthString.indexOf(' ')));
+        final int depth = depthString == null ? 0 : Integer
+                .parseInt(depthString.substring(0, depthString.indexOf(' ')));
 
         final String freqString = (String) displayFreqCombo.getSelectedItem();
         int freq = -1;
