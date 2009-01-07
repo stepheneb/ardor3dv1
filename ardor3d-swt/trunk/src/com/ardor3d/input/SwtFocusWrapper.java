@@ -14,8 +14,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
-
-import com.ardor3d.framework.swt.SwtCanvas;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * Focus Listener wrapper class for use with SWT.
@@ -23,10 +22,10 @@ import com.ardor3d.framework.swt.SwtCanvas;
 public class SwtFocusWrapper implements FocusWrapper, FocusListener {
     private volatile boolean focusLost = false;
 
-    private final SwtCanvas canvas;
+    private final Control _control;
 
-    public SwtFocusWrapper(final SwtCanvas canvas) {
-        this.canvas = checkNotNull(canvas, "canvas");
+    public SwtFocusWrapper(final Control control) {
+        _control = checkNotNull(control, "control");
     }
 
     public void focusGained(final FocusEvent focusEvent) {
@@ -46,6 +45,6 @@ public class SwtFocusWrapper implements FocusWrapper, FocusListener {
     }
 
     public void init() {
-        canvas.addFocusListener(this);
+        _control.addFocusListener(this);
     }
 }

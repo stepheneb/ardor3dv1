@@ -15,10 +15,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.LinkedList;
 
 import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.widgets.Control;
 
 import com.ardor3d.annotation.GuardedBy;
 import com.ardor3d.annotation.ThreadSafe;
-import com.ardor3d.framework.swt.SwtCanvas;
 import com.ardor3d.input.KeyEvent;
 import com.ardor3d.input.KeyState;
 import com.ardor3d.input.KeyboardWrapper;
@@ -33,20 +33,20 @@ public class SwtKeyboardWrapper implements KeyboardWrapper, KeyListener {
     @GuardedBy("this")
     private final LinkedList<KeyEvent> upcomingEvents;
 
-    private final SwtCanvas canvas;
+    private final Control _control;
 
     @GuardedBy("this")
     private SwtKeyboardIterator currentIterator = null;
     @GuardedBy("this")
     private int lastKeyPressedCode = -1;
 
-    public SwtKeyboardWrapper(final SwtCanvas canvas) {
+    public SwtKeyboardWrapper(final Control control) {
         upcomingEvents = new LinkedList<KeyEvent>();
-        this.canvas = checkNotNull(canvas, "canvas");
+        _control = checkNotNull(control, "control");
     }
 
     public void init() {
-        canvas.addKeyListener(this);
+        _control.addKeyListener(this);
     }
 
     public synchronized PeekingIterator<KeyEvent> getEvents() {

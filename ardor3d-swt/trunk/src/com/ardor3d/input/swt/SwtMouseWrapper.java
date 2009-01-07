@@ -19,10 +19,10 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.events.MouseWheelListener;
+import org.eclipse.swt.widgets.Control;
 
 import com.ardor3d.annotation.GuardedBy;
 import com.ardor3d.annotation.ThreadSafe;
-import com.ardor3d.framework.swt.SwtCanvas;
 import com.ardor3d.input.ButtonState;
 import com.ardor3d.input.MouseButton;
 import com.ardor3d.input.MouseState;
@@ -38,7 +38,7 @@ public class SwtMouseWrapper implements MouseWrapper, MouseListener, MouseMoveLi
     @GuardedBy("this")
     private final LinkedList<MouseState> upcomingEvents = new LinkedList<MouseState>();
 
-    private final SwtCanvas canvas;
+    private final Control _control;
 
     @GuardedBy("this")
     private SwtMouseIterator currentIterator = null;
@@ -46,14 +46,14 @@ public class SwtMouseWrapper implements MouseWrapper, MouseListener, MouseMoveLi
     @GuardedBy("this")
     private MouseState lastState = null;
 
-    public SwtMouseWrapper(final SwtCanvas canvas) {
-        this.canvas = checkNotNull(canvas, "canvas");
+    public SwtMouseWrapper(final Control control) {
+        _control = checkNotNull(control, "control");
     }
 
     public void init() {
-        canvas.addMouseListener(this);
-        canvas.addMouseMoveListener(this);
-        canvas.addMouseWheelListener(this);
+        _control.addMouseListener(this);
+        _control.addMouseMoveListener(this);
+        _control.addMouseWheelListener(this);
     }
 
     public synchronized PeekingIterator<MouseState> getEvents() {
@@ -65,7 +65,7 @@ public class SwtMouseWrapper implements MouseWrapper, MouseListener, MouseMoveLi
     }
 
     public synchronized void mouseDoubleClick(final MouseEvent mouseEvent) {
-    // TODO: ignoring this for now, not sure if that is correct behavior
+    // TODO: ignoring this for now. We'll handle (multi)click in a uniform way
     }
 
     public synchronized void mouseDown(final MouseEvent e) {
@@ -125,7 +125,7 @@ public class SwtMouseWrapper implements MouseWrapper, MouseListener, MouseMoveLi
 
     private void initState(final MouseEvent mouseEvent) {
         if (lastState == null) {
-            lastState = new MouseState(mouseEvent.x, canvas.getSize().y - mouseEvent.y, 0, 0, 0, null);
+            lastState = new MouseState(mouseEvent.x, _control.getSize().y - mouseEvent.y, 0, 0, 0, null);
         }
     }
 
@@ -133,7 +133,7 @@ public class SwtMouseWrapper implements MouseWrapper, MouseListener, MouseMoveLi
             final EnumMap<MouseButton, ButtonState> buttons) {
 
         // changing the y value, since for SWT, y = 0 at the top of the screen
-        final int fixedY = canvas.getSize().y - mouseEvent.y;
+        final int fixedY = _control.getSize().y - mouseEvent.y;
 
         final MouseState newState = new MouseState(mouseEvent.x, fixedY, mouseEvent.x - lastState.getX(), fixedY
                 - lastState.getY(), mouseDX, buttons);
