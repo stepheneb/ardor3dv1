@@ -242,33 +242,30 @@ public class PickingUtil {
      * @param index
      * @param vertices
      */
-    public static void getTriangle(final Mesh mesh, final int index, Vector3[] vertices) {
-        if (vertices == null) {
-            vertices = new Vector3[3];
-        }
+    public static void getTriangle(final Mesh mesh, final int index, final Vector3[] store) {
         // FIXME: hard coded section 0
         if (index < mesh.getMeshData().getPrimitiveCount(0) && index >= 0) {
             for (int x = 0; x < 3; x++) {
-                if (vertices[x] == null) {
-                    vertices[x] = new Vector3();
+                if (store[x] == null) {
+                    store[x] = new Vector3();
                 }
 
-                BufferUtils.populateFromBuffer(vertices[x], mesh.getMeshData().getVertexBuffer(), mesh.getMeshData()
+                BufferUtils.populateFromBuffer(store[x], mesh.getMeshData().getVertexBuffer(), mesh.getMeshData()
                         .getIndexBuffer().get(mesh.getMeshData().getVertexIndex(index, x, 0)));
             }
         }
     }
 
-    public static int[] getTriangleIndices(final Mesh mesh, int[] indices) {
+    public static int[] getTriangleIndices(final Mesh mesh, int[] store) {
         // FIXME: hard coded section 0
         final int maxCount = mesh.getMeshData().getPrimitiveCount(0);
-        if (indices == null || indices.length != maxCount) {
-            indices = new int[maxCount];
+        if (store == null || store.length != maxCount) {
+            store = new int[maxCount];
         }
 
         for (int i = 0, tLength = maxCount; i < tLength; i++) {
-            indices[i] = i;
+            store[i] = i;
         }
-        return indices;
+        return store;
     }
 }
