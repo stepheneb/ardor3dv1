@@ -22,28 +22,30 @@ import com.ardor3d.scenegraph.Mesh;
  */
 public class PickData {
 
-    private Ray3 ray;
+    protected Ray3 ray;
 
-    private Mesh targetMesh;
+    protected Mesh targetMesh;
 
-    private List<Integer> targetTris;
+    protected List<Integer> targetTris;
 
-    protected double distance;
+    protected IntersectionRecord record;
 
-    public PickData(final Ray3 ray, final Mesh targetMesh, final boolean checkDistance) {
-        this(ray, targetMesh, null, checkDistance);
+    protected double closestDistance;
+
+    public PickData(final Ray3 ray, final Mesh targetMesh, final boolean calcPoints) {
+        this(ray, targetMesh, null, calcPoints);
     }
 
     /**
      * instantiates a new PickData object.
      */
-    public PickData(final Ray3 ray, final Mesh targetMesh, final List<Integer> targetTris, final boolean checkDistance) {
+    public PickData(final Ray3 ray, final Mesh targetMesh, final List<Integer> targetTris, final boolean calcPoints) {
         this.ray = ray;
         this.targetMesh = targetMesh;
         this.targetTris = targetTris;
 
-        if (checkDistance) {
-            distance = calculateDistance();
+        if (calcPoints) {
+            calculateIntersectionPoints();
         }
     }
 
@@ -98,8 +100,8 @@ public class PickData {
         this.ray = ray;
     }
 
-    public double getDistance() {
-        return distance;
+    public IntersectionRecord getRecord() {
+        return record;
     }
 
     /**
@@ -108,8 +110,12 @@ public class PickData {
      * 
      * @return distance to the target
      */
-    protected double calculateDistance() {
-        final IntersectionRecord record = targetMesh.getWorldBound().intersectsWhere(ray);
-        return record.getClosestDistance();
+    protected void calculateIntersectionPoints() {
+        record = targetMesh.getWorldBound().intersectsWhere(ray);
+        closestDistance = record.getClosestDistance();
+    }
+
+    public double getClosestDistance() {
+        return closestDistance;
     }
 }

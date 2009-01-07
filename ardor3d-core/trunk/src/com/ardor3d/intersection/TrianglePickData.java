@@ -27,32 +27,26 @@ public class TrianglePickData extends PickData {
 
     private final Vector3[] worldTriangle = new Vector3[] { new Vector3(), new Vector3(), new Vector3() };
     private final Vector3[] vertices = new Vector3[] { new Vector3(), new Vector3(), new Vector3() };
-    private double[] distances = null;
 
     public TrianglePickData(final Ray3 ray, final Mesh targetMesh, final List<Integer> targetTris,
-            final boolean checkDistance) {
-        super(ray, targetMesh, targetTris, false);
+            final boolean calcPoints) {
+        super(ray, targetMesh, targetTris, calcPoints);
     }
 
     @Override
-    protected double calculateDistance() {
+    protected void calculateIntersectionPoints() {
         final List<Integer> tris = getTargetTris();
         if (tris.isEmpty()) {
-            return Double.POSITIVE_INFINITY;
+            record = new IntersectionRecord(new double[0], new Vector3[0]);
+            return;
         }
 
-        final Mesh mesh = getTargetMesh();
-
-        double distanceSq = Double.POSITIVE_INFINITY;
-        distances = new double[tris.size()];
+        final double[] distances = new double[tris.size()];
         for (int i = 0; i < tris.size(); i++) {
             final int triIndex = tris.get(i);
-            PickingUtil.getTriangle(mesh, triIndex, vertices);
-            final double triDistanceSq = getDistanceSquaredToTriangle(vertices, mesh.getWorldTransform());
+            PickingUtil.getTriangle(targetMesh, triIndex, vertices);
+            final double triDistanceSq = getDistanceToTriangle(vertices, targetMesh.getWorldTransform());
             distances[i] = triDistanceSq;
-            if (triDistanceSq > 0 && triDistanceSq < distanceSq) {
-                distanceSq = triDistanceSq;
-            }
         }
 
         // FIXME: optimize! ugly bubble sort for now
@@ -75,18 +69,15 @@ public class TrianglePickData extends PickData {
             }
         }
 
-        if (Double.isInfinite(distanceSq)) {
-            return distanceSq;
-        } else {
-            return Math.sqrt(distanceSq);
+        final Vector3[] positions = new Vector3[distances.length];
+        for (int i = 0; i < distances.length; i++) {
+            positions[i] = ray.getDirection().multiply(distances[0], new Vector3()).addLocal(ray.getOrigin());
         }
+        record = new IntersectionRecord(distances, positions);
+        closestDistance = record.getClosestDistance();
     }
 
-    public double[] getDistances() {
-        return distances;
-    }
-
-    private double getDistanceSquaredToTriangle(final Vector3[] triangle, final ReadOnlyTransform worldTransform) {
+    private double getDistanceToTriangle(final Vector3[] triangle, final ReadOnlyTransform worldTransform) {
         // Transform triangle to world space
         for (int i = 0; i < 3; i++) {
             worldTransform.applyForward(triangle[i], worldTriangle[i]);
@@ -94,10 +85,13 @@ public class TrianglePickData extends PickData {
         // Intersection test
         final Ray3 ray = getRay();
         final Vector3 intersect = Vector3.fetchTempInstance();
-        if (ray.intersects(worldTriangle[0], worldTriangle[1], worldTriangle[2], intersect, true)) {
-            return ray.getOrigin().distanceSquared(intersect);
+        try {
+            if (ray.intersects(worldTriangle[0], worldTriangle[1], worldTriangle[2], intersect, true)) {
+                return ray.getOrigin().distance(intersect);
+            }
+        } finally {
+            Vector3.releaseTempInstance(intersect);
         }
-        Vector3.releaseTempInstance(intersect);
 
         // Should not happen
         logger.warning("Couldn't detect nearest triangle intersection!");

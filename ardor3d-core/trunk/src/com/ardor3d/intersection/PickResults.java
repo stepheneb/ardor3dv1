@@ -131,7 +131,7 @@ public abstract class PickResults {
     private class DistanceComparator implements Comparator<PickData> {
 
         public int compare(final PickData o1, final PickData o2) {
-            if (o1.getDistance() <= o2.getDistance()) {
+            if (o1.getRecord().getClosestDistance() <= o2.getRecord().getClosestDistance()) {
                 return -1;
             }
 

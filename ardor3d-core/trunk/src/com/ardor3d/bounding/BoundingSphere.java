@@ -701,27 +701,24 @@ public class BoundingSphere extends BoundingVolume {
 
     @Override
     public IntersectionRecord intersectsWhere(final ReadOnlyRay3 ray) {
-        final Vector3 rayDir = Vector3.fetchTempInstance().set(ray.getDirection());
-        final Vector3 rayOrigin = Vector3.fetchTempInstance().set(ray.getOrigin());
 
-        final Vector3 diff = rayOrigin.subtract(getCenter(), Vector3.fetchTempInstance());
+        final Vector3 diff = ray.getOrigin().subtract(getCenter(), Vector3.fetchTempInstance());
         final double a = diff.dot(diff) - (getRadius() * getRadius());
         double a1, discr, root;
         if (a <= 0.0) {
             // inside sphere
-            a1 = rayDir.dot(diff);
+            a1 = ray.getDirection().dot(diff);
             discr = (a1 * a1) - a;
             root = Math.sqrt(discr);
             final double[] distances = new double[] { root - a1 };
-            final Vector3[] points = new Vector3[] { rayDir.multiply(distances[0], new Vector3()).addLocal(rayOrigin) };
+            final Vector3[] points = new Vector3[] { ray.getDirection().multiply(distances[0], new Vector3()).addLocal(
+                    ray.getOrigin()) };
             final IntersectionRecord record = new IntersectionRecord(distances, points);
-            Vector3.releaseTempInstance(rayDir);
-            Vector3.releaseTempInstance(rayOrigin);
             Vector3.releaseTempInstance(diff);
             return record;
         }
 
-        a1 = rayDir.dot(diff);
+        a1 = ray.getDirection().dot(diff);
         Vector3.releaseTempInstance(diff);
         if (a1 >= 0.0) {
             return new IntersectionRecord();
@@ -733,19 +730,17 @@ public class BoundingSphere extends BoundingVolume {
         } else if (discr >= MathUtils.ZERO_TOLERANCE) {
             root = Math.sqrt(discr);
             final double[] distances = new double[] { -a1 - root, -a1 + root };
-            final Vector3[] points = new Vector3[] { rayDir.multiply(distances[0], new Vector3()).addLocal(rayOrigin),
-                    rayDir.multiply(distances[1], new Vector3()).addLocal(rayOrigin) };
+            final Vector3[] points = new Vector3[] {
+                    ray.getDirection().multiply(distances[0], new Vector3()).addLocal(ray.getOrigin()),
+                    ray.getDirection().multiply(distances[1], new Vector3()).addLocal(ray.getOrigin()) };
             final IntersectionRecord record = new IntersectionRecord(distances, points);
-            Vector3.releaseTempInstance(rayDir);
-            Vector3.releaseTempInstance(rayOrigin);
             return record;
         }
 
         final double[] distances = new double[] { -a1 };
-        final Vector3[] points = new Vector3[] { rayDir.multiply(distances[0], new Vector3()).addLocal(rayOrigin) };
+        final Vector3[] points = new Vector3[] { ray.getDirection().multiply(distances[0], new Vector3()).addLocal(
+                ray.getOrigin()) };
         final IntersectionRecord record = new IntersectionRecord(distances, points);
-        Vector3.releaseTempInstance(rayDir);
-        Vector3.releaseTempInstance(rayOrigin);
         return record;
     }
 

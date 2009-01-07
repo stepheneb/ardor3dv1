@@ -13,11 +13,6 @@ package com.ardor3d.intersection;
 import com.ardor3d.math.Vector3;
 import com.ardor3d.util.Ardor3dException;
 
-/**
- * that were intersected, and the distances between these points. Therefore, a 1 to 1 ratio between the distance array
- * and the point array is enforced.
- * 
- */
 public class IntersectionRecord {
 
     private double[] distances;
@@ -47,11 +42,11 @@ public class IntersectionRecord {
     }
 
     /**
-     * Returns the number of intersections that occured.
+     * Returns the number of intersections that occurred.
      * 
-     * @return the number of intersections that occured.
+     * @return the number of intersections that occurred.
      */
-    public int getNumberOfChildren() {
+    public int getNumberOfIntersection() {
         if (points == null) {
             return 0;
         }
@@ -98,43 +93,41 @@ public class IntersectionRecord {
     }
 
     /**
-     * Returns the point that has the smallest associated distance value.
-     * 
-     * @return the point that has the smallest associated distance value.
+     * @return the index in this record with the smallest relative distance or -1 if there are no distances in this
+     *         record.
      */
-    public int getClosestPoint() {
+    public int getClosestIntersection() {
         double min = Double.MAX_VALUE;
-        int point = 0;
+        int index = -1;
         if (distances != null) {
             for (int i = distances.length; --i >= 0;) {
                 final double val = distances[i];
                 if (val < min) {
                     min = val;
-                    point = i;
+                    index = i;
                 }
             }
         }
-        return point;
+        return index;
     }
 
     /**
-     * Returns the point that has the largest associated distance value.
-     * 
-     * @return the point that has the largest associated distance value.
+     * @return the index in this record with the largest relative distance or -1 if there are no distances in this
+     *         record.
      */
-    public int getFarthestPoint() {
+    public int getFurthestIntersection() {
         double max = Double.MIN_VALUE;
-        int point = 0;
+        int index = -1;
         if (distances != null) {
             for (int i = distances.length; --i >= 0;) {
                 final double val = distances[i];
                 if (val > max) {
                     max = val;
-                    point = i;
+                    index = i;
                 }
             }
         }
-        return point;
+        return index;
     }
 
 }
