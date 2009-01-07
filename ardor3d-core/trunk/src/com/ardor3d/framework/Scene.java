@@ -11,14 +11,13 @@
 package com.ardor3d.framework;
 
 import com.ardor3d.annotation.MainThread;
+import com.ardor3d.intersection.PickResults;
 import com.ardor3d.math.Ray3;
 import com.ardor3d.renderer.Renderer;
 
 /**
  * Owns all the data that is related to the scene. This class should not really know anything about rendering or the
- * screen, it's just the scene data. It is possibly a good idea to implement Controllers in the Scene's update method as
- * it is done right now - but I (Petter) think it is a good idea to think a bit about how animation and Controllers
- * relate to each other. It seems like animation is just a more complicated kind of Controller, really.
+ * screen, it's just the scene data.
  */
 public interface Scene {
     /**
@@ -35,5 +34,5 @@ public interface Scene {
      * 
      * @param pickRay
      */
-    void doPick(Ray3 pickRay);
+    PickResults doPick(Ray3 pickRay);
 }

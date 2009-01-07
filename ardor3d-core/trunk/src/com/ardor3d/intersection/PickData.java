@@ -41,7 +41,7 @@ public class PickData {
         this.ray = ray;
         this.targetMesh = targetMesh;
         this.targetTris = targetTris;
-        // FIX ME: this call should not be here, as the method is overridden, causing an uninitialized object!
+
         if (checkDistance) {
             distance = calculateDistance();
         }

@@ -41,6 +41,7 @@ import com.ardor3d.input.logical.LogicalLayer;
 import com.ardor3d.input.logical.MouseButtonReleasedCondition;
 import com.ardor3d.input.logical.TriggerAction;
 import com.ardor3d.intersection.BoundingPickResults;
+import com.ardor3d.intersection.PickResults;
 import com.ardor3d.intersection.PickingUtil;
 import com.ardor3d.light.PointLight;
 import com.ardor3d.math.ColorRGBA;
@@ -95,7 +96,6 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
     protected boolean _showNormals = false;
 
     protected NativeCanvas _canvas;
-
 
     @Inject
     public ExampleBase(final LogicalLayer logicalLayer, final FrameWork frameWork) {
@@ -236,7 +236,7 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
     // does nothing
     }
 
-    public void doPick(final Ray3 pickRay) {
+    public PickResults doPick(final Ray3 pickRay) {
         final BoundingPickResults bpr = new BoundingPickResults();
         bpr.setCheckDistance(true);
         PickingUtil.findPick(_root, pickRay, bpr);
@@ -245,6 +245,7 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
         } else {
             System.err.println("picked: nothing");
         }
+        return bpr;
     }
 
     // FIXME: This method needs to be run in the OpenGL thread!
@@ -266,7 +267,6 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
         // get our framework
         final ArdorModule ardorModule = new ArdorModule();
         Module systemModule = null;
-
 
         if ("LWJGL".equalsIgnoreCase(prefs.getRenderer())) {
             systemModule = new LwjglModule();

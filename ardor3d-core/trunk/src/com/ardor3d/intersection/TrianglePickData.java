@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 
 import com.ardor3d.math.Ray3;
 import com.ardor3d.math.Vector3;
+import com.ardor3d.math.type.ReadOnlyTransform;
 import com.ardor3d.scenegraph.Mesh;
-import com.ardor3d.scenegraph.Spatial;
 
 /**
  * Pick data for triangle accuracy picking including sort by distance to intersection point.
@@ -27,15 +27,11 @@ public class TrianglePickData extends PickData {
 
     private final Vector3[] worldTriangle = new Vector3[] { new Vector3(), new Vector3(), new Vector3() };
     private final Vector3[] vertices = new Vector3[] { new Vector3(), new Vector3(), new Vector3() };
-
-    private final Vector3 intersectionPoint = new Vector3();
+    private double[] distances = null;
 
     public TrianglePickData(final Ray3 ray, final Mesh targetMesh, final List<Integer> targetTris,
             final boolean checkDistance) {
         super(ray, targetMesh, targetTris, false);
-        if (checkDistance) {
-            distance = calculateDistance();
-        }
     }
 
     @Override
@@ -47,15 +43,12 @@ public class TrianglePickData extends PickData {
 
         final Mesh mesh = getTargetMesh();
 
-        // don't update world vectors here - it was has to be done before the intersection
-        // mesh.getParentGeom().updateWorldVectors();
-
         double distanceSq = Double.POSITIVE_INFINITY;
-        final double[] distances = new double[tris.size()];
+        distances = new double[tris.size()];
         for (int i = 0; i < tris.size(); i++) {
             final int triIndex = tris.get(i);
             PickingUtil.getTriangle(mesh, triIndex, vertices);
-            final double triDistanceSq = getDistanceSquaredToTriangle(vertices, mesh);
+            final double triDistanceSq = getDistanceSquaredToTriangle(vertices, mesh.getWorldTransform());
             distances[i] = triDistanceSq;
             if (triDistanceSq > 0 && triDistanceSq < distanceSq) {
                 distanceSq = triDistanceSq;
@@ -89,16 +82,22 @@ public class TrianglePickData extends PickData {
         }
     }
 
-    private double getDistanceSquaredToTriangle(final Vector3[] triangle, final Spatial spatial) {
+    public double[] getDistances() {
+        return distances;
+    }
+
+    private double getDistanceSquaredToTriangle(final Vector3[] triangle, final ReadOnlyTransform worldTransform) {
         // Transform triangle to world space
         for (int i = 0; i < 3; i++) {
-            spatial.localToWorld(triangle[i], worldTriangle[i]);
+            worldTransform.applyForward(triangle[i], worldTriangle[i]);
         }
         // Intersection test
         final Ray3 ray = getRay();
-        if (ray.intersects(worldTriangle[0], worldTriangle[1], worldTriangle[2], intersectionPoint, true)) {
-            return ray.getOrigin().distanceSquared(intersectionPoint);
+        final Vector3 intersect = Vector3.fetchTempInstance();
+        if (ray.intersects(worldTriangle[0], worldTriangle[1], worldTriangle[2], intersect, true)) {
+            return ray.getOrigin().distanceSquared(intersect);
         }
+        Vector3.releaseTempInstance(intersect);
 
         // Should not happen
         logger.warning("Couldn't detect nearest triangle intersection!");

@@ -12,6 +12,7 @@ package com.ardor3d.example.app;
 
 import com.ardor3d.annotation.MainThread;
 import com.ardor3d.framework.Scene;
+import com.ardor3d.intersection.PickResults;
 import com.ardor3d.math.Ray3;
 import com.ardor3d.renderer.Renderer;
 import com.ardor3d.scenegraph.Node;
@@ -37,7 +38,8 @@ public final class DefaultScene implements Scene {
         return true;
     }
 
-    public void doPick(final Ray3 pickRay) {
-    // does nothing.
+    public PickResults doPick(final Ray3 pickRay) {
+        // does nothing.
+        return null;
     }
 }

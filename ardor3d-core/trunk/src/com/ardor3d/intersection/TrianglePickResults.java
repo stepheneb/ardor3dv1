@@ -27,9 +27,8 @@ import com.ardor3d.scenegraph.Mesh;
 public class TrianglePickResults extends PickResults {
 
     /**
-     * <code>addPick</code> adds a Mesh object to the pick list. If the Mesh object is not a Mesh, the process stops
-     * here. However, if the Mesh is a Mesh, further processing occurs to obtain the triangle lists that the ray passes
-     * through.
+     * <code>addPick</code> adds a Mesh object to the pick list. If the mesh has polygons (as opposed to lines or
+     * points) a triangle pick is performed. Otherwise a bounding pick is performed.
      * 
      * @param ray
      *            the ray that is doing the picking.
