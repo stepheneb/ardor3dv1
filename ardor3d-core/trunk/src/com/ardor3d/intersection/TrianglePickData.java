@@ -30,10 +30,14 @@ public class TrianglePickData extends PickData {
 
     public TrianglePickData(final Ray3 ray, final Mesh targetMesh, final List<Integer> targetTris,
             final boolean calcPoints) {
-        super(ray, targetMesh, targetTris, calcPoints);
+        super(ray, targetMesh, targetTris, false); // hard coded to false
+
+        if (calcPoints) {
+            record = targetMesh.getWorldBound().intersectsWhere(ray);
+            closestDistance = record.getClosestDistance();
+        }
     }
 
-    @Override
     protected void calculateIntersectionPoints() {
         final List<Integer> tris = getTargetTris();
         if (tris.isEmpty()) {

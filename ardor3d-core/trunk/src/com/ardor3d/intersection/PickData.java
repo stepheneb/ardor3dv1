@@ -37,7 +37,8 @@ public class PickData {
     }
 
     /**
-     * instantiates a new PickData object.
+     * instantiates a new PickData object. Note: subclasses may want to make calc points null to prevent this extra
+     * work.
      */
     public PickData(final Ray3 ray, final Mesh targetMesh, final List<Integer> targetTris, final boolean calcPoints) {
         this.ray = ray;
@@ -45,7 +46,8 @@ public class PickData {
         this.targetTris = targetTris;
 
         if (calcPoints) {
-            calculateIntersectionPoints();
+            record = targetMesh.getWorldBound().intersectsWhere(ray);
+            closestDistance = record.getClosestDistance();
         }
     }
 
@@ -102,17 +104,6 @@ public class PickData {
 
     public IntersectionRecord getRecord() {
         return record;
-    }
-
-    /**
-     * For bounds picking this method returns the distance of the ray origin to the bound. For triangle picking the it
-     * should return the distance to the closest hit triangle.
-     * 
-     * @return distance to the target
-     */
-    protected void calculateIntersectionPoints() {
-        record = targetMesh.getWorldBound().intersectsWhere(ray);
-        closestDistance = record.getClosestDistance();
     }
 
     public double getClosestDistance() {

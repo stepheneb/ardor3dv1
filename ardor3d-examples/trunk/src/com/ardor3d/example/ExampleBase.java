@@ -40,9 +40,10 @@ import com.ardor3d.input.logical.KeyPressedCondition;
 import com.ardor3d.input.logical.LogicalLayer;
 import com.ardor3d.input.logical.MouseButtonReleasedCondition;
 import com.ardor3d.input.logical.TriggerAction;
-import com.ardor3d.intersection.BoundingPickResults;
+import com.ardor3d.intersection.PickData;
 import com.ardor3d.intersection.PickResults;
 import com.ardor3d.intersection.PickingUtil;
+import com.ardor3d.intersection.TrianglePickResults;
 import com.ardor3d.light.PointLight;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Ray3;
@@ -237,11 +238,16 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
     }
 
     public PickResults doPick(final Ray3 pickRay) {
-        final BoundingPickResults bpr = new BoundingPickResults();
+        final TrianglePickResults bpr = new TrianglePickResults();
         bpr.setCheckDistance(true);
         PickingUtil.findPick(_root, pickRay, bpr);
-        if (bpr.getNumber() > 0) {
-            System.err.println("picked: " + bpr.getPickData(0).getTargetMesh());
+        int i = 0;
+        while (bpr.getNumber() > 0 && bpr.getPickData(i).getRecord().getNumberOfIntersection() == 0
+                && ++i < bpr.getNumber()) {
+        }
+        if (bpr.getNumber() > i) {
+            final PickData pick = bpr.getPickData(i);
+            System.err.println("picked: " + pick.getTargetMesh() + " at " + pick.getRecord().getIntersectionPoint(0));
         } else {
             System.err.println("picked: nothing");
         }
