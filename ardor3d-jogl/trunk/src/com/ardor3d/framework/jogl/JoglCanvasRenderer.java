@@ -43,7 +43,11 @@ public class JoglCanvasRenderer implements CanvasRenderer {
     @Inject
     public JoglCanvasRenderer(final Scene scene) {
         _scene = scene;
-    } 
+    }
+
+    public void setCurrentContext() {
+        _context.makeCurrent();
+    }
 
     @MainThread
     public void init(final DisplaySettings settings, final boolean headless) {
@@ -51,7 +55,7 @@ public class JoglCanvasRenderer implements CanvasRenderer {
         if (_context == null) {
             _context = GLDrawableFactory.getFactory().createExternalGLContext();
         }
-        _context.makeCurrent();
+        setCurrentContext();
 
         final JoglContextCapabilities caps = new JoglContextCapabilities(_context.getGL());
         final RenderContext currentContext = new RenderContext(_context, caps);
@@ -134,8 +138,8 @@ public class JoglCanvasRenderer implements CanvasRenderer {
     public void cleanup() {
         _renderer.cleanup();
     }
-    
+
     public Renderer getRenderer() {
-    	return _renderer;
+        return _renderer;
     }
 }

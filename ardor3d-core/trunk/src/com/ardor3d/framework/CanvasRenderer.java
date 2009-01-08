@@ -48,4 +48,8 @@ public interface CanvasRenderer {
      */
     Renderer getRenderer();
 
+    /**
+     * Have the CanvasRenderer claim the graphics context.
+     */
+    public void setCurrentContext();
 }

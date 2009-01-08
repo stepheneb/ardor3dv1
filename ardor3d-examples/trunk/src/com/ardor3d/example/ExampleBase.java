@@ -112,6 +112,8 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
             while (!exit) {
                 _frameWork.updateFrame();
             }
+            // grab the graphics context so cleanup will work out.
+            _canvas.getCanvasRenderer().setCurrentContext();
             quit(_canvas.getCanvasRenderer().getRenderer());
         } catch (final Throwable t) {
             System.err.println("Throwable caught in MainThread - exiting");
@@ -399,10 +401,9 @@ public abstract class ExampleBase extends Thread implements Updater, Scene, Exit
 
                         final Vector2 pos = Vector2.fetchTempInstance().set(inputState.getMouseState().getX(),
                                 inputState.getMouseState().getY());
-                        final Ray3 pickRay = Ray3.fetchTempInstance();
+                        final Ray3 pickRay = new Ray3();
                         _canvas.getCanvasRenderer().getCamera().getPickRay(pos, false, pickRay);
                         Vector2.releaseTempInstance(pos);
-                        Ray3.releaseTempInstance(pickRay);
                         doPick(pickRay);
                     }
                 }));

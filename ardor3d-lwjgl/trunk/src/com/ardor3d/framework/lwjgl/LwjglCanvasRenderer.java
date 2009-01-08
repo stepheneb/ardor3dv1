@@ -82,11 +82,7 @@ public class LwjglCanvasRenderer implements CanvasRenderer {
         _renderer.setHeadless(_headless);
         _renderer.setSize(_camera.getWidth(), _camera.getHeight());
         ContextManager.switchContext(this);
-        try {
-            GLContext.useContext(this);
-        } catch (final LWJGLException e) {
-            throw new RuntimeException(e);
-        }
+        setCurrentContext();
 
         // render stuff
         if (ContextManager.getCurrentContext().getCurrentCamera() != _camera) {
@@ -116,8 +112,16 @@ public class LwjglCanvasRenderer implements CanvasRenderer {
     public void cleanup() {
         _renderer.cleanup();
     }
-    
+
     public Renderer getRenderer() {
-    	return _renderer;
+        return _renderer;
+    }
+
+    public void setCurrentContext() {
+        try {
+            GLContext.useContext(this);
+        } catch (final LWJGLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
