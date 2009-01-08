@@ -10,10 +10,9 @@
 
 package com.ardor3d.renderer.state.record;
 
-import java.util.Arrays;
-
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Matrix4;
+import com.ardor3d.math.Vector4;
 
 public class LightRecord extends StateRecord {
     public ColorRGBA ambient = new ColorRGBA(-1, -1, -1, -1);
@@ -26,7 +25,7 @@ public class LightRecord extends StateRecord {
     private float spotCutoff = -1;
     private boolean enabled = false;
 
-    public float[] position = new float[4];
+    public Vector4 position = new Vector4();
     public Matrix4 modelViewMatrix = new Matrix4();
 
     private boolean attenuate;
@@ -101,7 +100,7 @@ public class LightRecord extends StateRecord {
         spotCutoff = -1;
         enabled = false;
 
-        Arrays.fill(position, -1.0f);
+        position.set(-1, -1, -1, -1);
         modelViewMatrix.loadIdentity();
     }
 }

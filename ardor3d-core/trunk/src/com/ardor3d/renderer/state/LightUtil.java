@@ -20,7 +20,7 @@ import com.ardor3d.light.PointLight;
 import com.ardor3d.light.SpotLight;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Plane;
-import com.ardor3d.math.Vector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.scenegraph.Mesh;
 import com.ardor3d.scenegraph.Spatial;
 
@@ -66,9 +66,8 @@ public class LightUtil {
             return 0;
         }
         if (l.isAttenuate() && val != null) {
-            final Vector3 location = l.getLocation(Vector3.fetchTempInstance());
+            final ReadOnlyVector3 location = l.getLocation();
             final double dist = val.distanceTo(location);
-            Vector3.releaseTempInstance(location);
 
             final double color = getColorValue(l);
             final double amlat = l.getConstant() + l.getLinear() * dist + l.getQuadratic() * dist * dist;
@@ -83,12 +82,10 @@ public class LightUtil {
         if (val == null) {
             return 0;
         }
-        final Vector3 direction = l.getDirection(Vector3.fetchTempInstance());
-        final Vector3 location = l.getLocation(Vector3.fetchTempInstance());
+        final ReadOnlyVector3 direction = l.getDirection();
+        final ReadOnlyVector3 location = l.getLocation();
         // direction is copied into Plane, not reused.
         final Plane p = new Plane(direction, direction.dot(location));
-        Vector3.releaseTempInstance(direction);
-        Vector3.releaseTempInstance(location);
         if (val.whichSide(p) != Plane.Side.Inside) {
             return getValueFor((PointLight) l, val);
         }

@@ -17,6 +17,7 @@ import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.MathUtils;
 import com.ardor3d.math.Matrix4;
 import com.ardor3d.math.Transform;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.util.TextureKey;
 import com.ardor3d.util.TextureManager;
 import com.ardor3d.util.export.Ardor3DExporter;
@@ -667,7 +668,7 @@ public abstract class Texture implements Savable {
      * 
      * @return the blend color.
      */
-    public ColorRGBA getBlendColor(final ColorRGBA store) {
+    public ReadOnlyColorRGBA getBlendColor() {
         return _blendColor;
     }
 
@@ -676,7 +677,7 @@ public abstract class Texture implements Savable {
      * 
      * @return the border color.
      */
-    public ColorRGBA getBorderColor(final ColorRGBA store) {
+    public ReadOnlyColorRGBA getBorderColor() {
         return _borderColor;
     }
 

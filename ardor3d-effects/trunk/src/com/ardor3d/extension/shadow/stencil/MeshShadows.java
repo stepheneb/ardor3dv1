@@ -223,9 +223,9 @@ public class MeshShadows {
         final Vector3 direction = new Vector3();
         final Vector3 location = new Vector3();
         if (directional) {
-            ((DirectionalLight) light).getDirection(direction);
+            direction.set(((DirectionalLight) light).getDirection());
         } else {
-            ((PointLight) light).getLocation(location);
+            location.set(((PointLight) light).getLocation());
         }
 
         // Loop for each edge
@@ -351,7 +351,7 @@ public class MeshShadows {
         final int[] index = BufferUtils.getIntArray(target.getMeshData().getIndexBuffer());
 
         if (directional) {
-            ((DirectionalLight) light).getDirection(vLight);
+            vLight.set(((DirectionalLight) light).getDirection());
         }
 
         // Loop through each triangle and see if it is back or front facing
@@ -367,7 +367,7 @@ public class MeshShadows {
             // Some kind of bodge for a direction to a point light -
             // TODO: improve this
             if (!directional) {
-                ((PointLight) light).getLocation(vLight);
+                vLight.set(((PointLight) light).getLocation());
                 compVect.subtract(vLight, vLight).normalizeLocal();
             }
             // See if it is back facing
@@ -440,22 +440,20 @@ public class MeshShadows {
             if (v != null) {
                 if (testLight.getType() == Light.Type.Directional) {
                     final DirectionalLight dl = (DirectionalLight) testLight;
-                    final Vector3 direction = dl.getDirection(Vector3.fetchTempInstance());
+                    final ReadOnlyVector3 direction = dl.getDirection();
                     if (!v.direction.equals(direction)) {
                         v.setUpdate(true);
                         v.setDirection(direction);
                         same = false;
                     }
-                    Vector3.releaseTempInstance(direction);
                 } else if (testLight.getType() == Light.Type.Point) {
                     final PointLight pl = (PointLight) testLight;
-                    final Vector3 loc = pl.getLocation(Vector3.fetchTempInstance());
+                    final ReadOnlyVector3 loc = pl.getLocation();
                     if (!v.position.equals(loc)) {
                         v.setUpdate(true);
                         v.setPosition(loc);
                         same = false;
                     }
-                    Vector3.releaseTempInstance(loc);
 
                 }
             } else {

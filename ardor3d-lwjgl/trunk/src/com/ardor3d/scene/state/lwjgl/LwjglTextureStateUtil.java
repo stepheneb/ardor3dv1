@@ -46,8 +46,8 @@ import com.ardor3d.image.Texture.CombinerSource;
 import com.ardor3d.image.Texture.Type;
 import com.ardor3d.image.Texture.WrapAxis;
 import com.ardor3d.image.Texture.WrapMode;
-import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.MathUtils;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.ContextCapabilities;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
@@ -1017,7 +1017,7 @@ public class LwjglTextureStateUtil {
 
     public static void applyBlendColor(final Texture texture, final TextureUnitRecord unitRecord, final int unit,
             final TextureStateRecord record, final ContextCapabilities caps) {
-        final ColorRGBA texBlend = texture.getBlendColor(ColorRGBA.fetchTempInstance());
+        final ReadOnlyColorRGBA texBlend = texture.getBlendColor();
         if (!unitRecord.isValid() || !unitRecord.blendColor.equals(texBlend)) {
             checkAndSetUnit(unit, record, caps);
             TextureRecord.colorBuffer.clear();
@@ -1027,12 +1027,11 @@ public class LwjglTextureStateUtil {
             GL11.glTexEnv(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_COLOR, TextureRecord.colorBuffer);
             unitRecord.blendColor.set(texBlend);
         }
-        ColorRGBA.releaseTempInstance(texBlend);
     }
 
     public static void applyBorderColor(final Texture texture, final TextureRecord texRecord, final int unit,
             final TextureStateRecord record) {
-        final ColorRGBA texBorder = texture.getBorderColor(ColorRGBA.fetchTempInstance());
+        final ReadOnlyColorRGBA texBorder = texture.getBorderColor();
         if (!texRecord.isValid() || !texRecord.borderColor.equals(texBorder)) {
             TextureRecord.colorBuffer.clear();
             TextureRecord.colorBuffer.put(texBorder.getRed()).put(texBorder.getGreen()).put(texBorder.getBlue()).put(
@@ -1041,7 +1040,6 @@ public class LwjglTextureStateUtil {
             GL11.glTexParameter(getGLType(texture.getType()), GL11.GL_TEXTURE_BORDER_COLOR, TextureRecord.colorBuffer);
             texRecord.borderColor.set(texBorder);
         }
-        ColorRGBA.releaseTempInstance(texBorder);
     }
 
     public static void applyTextureTransforms(final Texture texture, final int unit, final TextureStateRecord record,
@@ -1362,18 +1360,18 @@ public class LwjglTextureStateUtil {
         if (caps.isARBShadowSupported()) {
             final int depthCompareMode = LwjglTextureUtil.getGLDepthTextureCompareMode(texture.getDepthCompareMode());
             // set up magnification filter
-            if (!texRecord.isValid() || texRecord.depthTextureFunc != depthCompareMode) {
+            if (!texRecord.isValid() || texRecord.depthTextureCompareMode != depthCompareMode) {
                 checkAndSetUnit(unit, record, caps);
                 GL11.glTexParameteri(getGLType(type), ARBShadow.GL_TEXTURE_COMPARE_MODE_ARB, depthCompareMode);
-                texRecord.depthTextureFunc = depthCompareMode;
+                texRecord.depthTextureCompareMode = depthCompareMode;
             }
 
             final int depthCompareFunc = LwjglTextureUtil.getGLDepthTextureCompareFunc(texture.getDepthCompareFunc());
             // set up magnification filter
-            if (!texRecord.isValid() || texRecord.depthTextureFunc != depthCompareFunc) {
+            if (!texRecord.isValid() || texRecord.depthTextureCompareFunc != depthCompareFunc) {
                 checkAndSetUnit(unit, record, caps);
                 GL11.glTexParameteri(getGLType(type), ARBShadow.GL_TEXTURE_COMPARE_FUNC_ARB, depthCompareFunc);
-                texRecord.depthTextureFunc = depthCompareFunc;
+                texRecord.depthTextureCompareFunc = depthCompareFunc;
             }
         }
     }

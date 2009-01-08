@@ -16,6 +16,7 @@ import com.ardor3d.light.Light;
 import com.ardor3d.light.PointLight;
 import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.Vector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.queue.RenderBucketType;
 import com.ardor3d.renderer.state.BlendState;
 import com.ardor3d.renderer.state.MaterialState;
@@ -49,9 +50,9 @@ public class ShadowVolume extends Mesh {
 
         // Initialize the location and direction of the light
         if (light.getType() == Light.Type.Point) {
-            ((PointLight) light).getLocation(position);
+            position.set(((PointLight) light).getLocation());
         } else if (light.getType() == Light.Type.Directional) {
-            ((DirectionalLight) light).getDirection(direction);
+            direction.set(((DirectionalLight) light).getDirection());
         }
 
         // It will change so make sure VBO is off
@@ -88,7 +89,7 @@ public class ShadowVolume extends Mesh {
      * @param direction
      *            The direction to set.
      */
-    public void setDirection(final Vector3 direction) {
+    public void setDirection(final ReadOnlyVector3 direction) {
         this.direction.set(direction);
     }
 
@@ -103,7 +104,7 @@ public class ShadowVolume extends Mesh {
      * @param position
      *            The position to set.
      */
-    public void setPosition(final Vector3 position) {
+    public void setPosition(final ReadOnlyVector3 position) {
         this.position.set(position);
     }
 

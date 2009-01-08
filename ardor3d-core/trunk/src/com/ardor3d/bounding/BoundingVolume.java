@@ -199,7 +199,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            The point to get the distance to
      * @return distance
      */
-    public final double distanceTo(final Vector3 point) {
+    public final double distanceTo(final ReadOnlyVector3 point) {
         return center.distance(point);
     }
 
@@ -210,7 +210,7 @@ public abstract class BoundingVolume implements Serializable, Savable {
      *            The point to get the distance to
      * @return distance
      */
-    public final double distanceSquaredTo(final Vector3 point) {
+    public final double distanceSquaredTo(final ReadOnlyVector3 point) {
         return center.distanceSquared(point);
     }
 

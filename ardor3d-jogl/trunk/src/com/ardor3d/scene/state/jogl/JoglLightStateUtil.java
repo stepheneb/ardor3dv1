@@ -18,9 +18,9 @@ import com.ardor3d.light.Light;
 import com.ardor3d.light.PointLight;
 import com.ardor3d.light.SpotLight;
 import com.ardor3d.math.ColorRGBA;
-import com.ardor3d.math.Vector3;
 import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.math.type.ReadOnlyMatrix4;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.renderer.ContextCapabilities;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
@@ -131,28 +131,25 @@ public class JoglLightStateUtil {
             case Directional: {
                 final DirectionalLight dirLight = (DirectionalLight) light;
 
-                final Vector3 direction = dirLight.getDirection(Vector3.fetchTempInstance());
+                final ReadOnlyVector3 direction = dirLight.getDirection();
                 setPosition(index, record, direction.getXf(), direction.getYf(), direction.getZf(), 0, lr);
-                Vector3.releaseTempInstance(direction);
                 break;
             }
             case Point:
             case Spot: {
                 final PointLight pointLight = (PointLight) light;
-                final Vector3 location = pointLight.getLocation(Vector3.fetchTempInstance());
+                final ReadOnlyVector3 location = pointLight.getLocation();
                 setPosition(index, record, location.getXf(), location.getYf(), location.getZf(), 1, lr);
-                Vector3.releaseTempInstance(location);
                 break;
             }
         }
 
         if (light.getType() == Light.Type.Spot) {
             final SpotLight spot = (SpotLight) light;
-            final Vector3 direction = spot.getDirection(Vector3.fetchTempInstance());
+            final ReadOnlyVector3 direction = spot.getDirection();
             setSpotCutoff(index, record, spot.getAngle(), lr);
             setSpotDirection(index, record, direction.getXf(), direction.getYf(), direction.getZf(), 0);
             setSpotExponent(index, record, spot.getExponent(), lr);
-            Vector3.releaseTempInstance(direction);
         } else {
             // set the cutoff to 180, which causes the other spot params to be
             // ignored.
@@ -291,7 +288,7 @@ public class JoglLightStateUtil {
     }
 
     private static void setPosition(final int index, final LightStateRecord record, final float positionX,
-            final float positionY, final float positionZ, final float value, final LightRecord lr) {
+            final float positionY, final float positionZ, final float positionW, final LightRecord lr) {
         final GL gl = GLU.getCurrentGL();
 
         // From OpenGL Docs:
@@ -308,22 +305,20 @@ public class JoglLightStateUtil {
         final ReadOnlyMatrix4 modelViewMatrix = ContextManager.getCurrentContext().getCurrentCamera()
                 .getModelViewMatrix();
 
-        if (!record.isValid() || Float.compare(lr.position[0], positionX) != 0
-                || Float.compare(lr.position[0], positionY) != 0 || Float.compare(lr.position[0], positionZ) != 0
-                || Float.compare(lr.position[0], value) != 0 || !lr.modelViewMatrix.equals(modelViewMatrix)) {
+        if (!record.isValid() || Float.compare(lr.position.getXf(), positionX) != 0
+                || Float.compare(lr.position.getYf(), positionY) != 0
+                || Float.compare(lr.position.getZf(), positionZ) != 0
+                || Float.compare(lr.position.getWf(), positionW) != 0 || !lr.modelViewMatrix.equals(modelViewMatrix)) {
 
             record.lightBuffer.clear();
             record.lightBuffer.put(positionX);
             record.lightBuffer.put(positionY);
             record.lightBuffer.put(positionZ);
-            record.lightBuffer.put(value);
+            record.lightBuffer.put(positionW);
             record.lightBuffer.flip();
             gl.glLightfv(GL.GL_LIGHT0 + index, GL.GL_POSITION, record.lightBuffer);
 
-            lr.position[0] = positionX;
-            lr.position[1] = positionY;
-            lr.position[2] = positionZ;
-            lr.position[3] = value;
+            lr.position.set(positionX, positionY, positionZ, positionW);
             lr.modelViewMatrix.set(modelViewMatrix);
         }
     }

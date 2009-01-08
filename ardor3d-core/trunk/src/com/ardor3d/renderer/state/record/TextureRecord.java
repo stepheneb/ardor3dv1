@@ -19,7 +19,7 @@ public class TextureRecord extends StateRecord {
 
     public int wrapS, wrapT, wrapR;
     public int magFilter, minFilter;
-    public int depthTextureMode, depthTextureFunc, depthTextureCompareMode;
+    public int depthTextureMode, depthTextureCompareFunc, depthTextureCompareMode;
     public float anisoLevel = -1;
     public static FloatBuffer colorBuffer = BufferUtils.createColorBuffer(1);
     public ColorRGBA borderColor = new ColorRGBA(-1, -1, -1, -1);
@@ -31,7 +31,7 @@ public class TextureRecord extends StateRecord {
         super.invalidate();
         wrapS = wrapT = wrapR = 0;
         magFilter = minFilter = 0;
-        depthTextureMode = depthTextureFunc = depthTextureCompareMode = 0;
+        depthTextureMode = depthTextureCompareFunc = depthTextureCompareMode = 0;
         anisoLevel = -1;
         borderColor.set(-1, -1, -1, -1);
     }

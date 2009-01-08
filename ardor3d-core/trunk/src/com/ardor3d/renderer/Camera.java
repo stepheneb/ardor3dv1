@@ -196,18 +196,21 @@ public class Camera implements Savable, Externalizable, Cloneable {
      */
     private boolean _parallelProjection;
 
-    private boolean _updateMatrices = true;
-    private boolean _updateSMatrices = true;
-    private final Matrix4 _modelViewProjectionInverse = new Matrix4();
+    private boolean _updateMVMatrix = true;
+    private boolean _updatePMatrix = true;
+    private boolean _updateMVPMatrix = true;
+    private boolean _updateInverseMVPMatrix = true;
+
+    protected final Matrix4 _modelView = new Matrix4();
+    protected final Matrix4 _projection = new Matrix4();
     private final Matrix4 _modelViewProjection = new Matrix4();
+    private final Matrix4 _modelViewProjectionInverse = new Matrix4();
+
+    protected final Matrix4 _transMatrix = new Matrix4();
 
     protected boolean _frustumDirty;
     protected boolean _viewPortDirty;
     protected boolean _frameDirty;
-
-    protected final Matrix4 _transMatrix = new Matrix4();
-    protected final Matrix4 _modelView = new Matrix4();
-    protected final Matrix4 _projection = new Matrix4();
 
     /**
      * A mask value set during contains() that allows fast culling of a Node's children.
@@ -888,7 +891,9 @@ public class Camera implements Savable, Externalizable, Cloneable {
             _coeffTop[1] = 0;
         }
 
-        _updateMatrices = true;
+        _updatePMatrix = true;
+        _updateInverseMVPMatrix = true;
+
         _frustumDirty = true;
     }
 
@@ -958,8 +963,10 @@ public class Camera implements Savable, Externalizable, Cloneable {
 
         Vector3.releaseTempInstance(planeNormal);
 
-        _updateMatrices = true;
-        _updateSMatrices = true;
+        _updateMVMatrix = true;
+        _updateMVPMatrix = true;
+        _updateInverseMVPMatrix = true;
+
         _frameDirty = true;
     }
 
@@ -981,7 +988,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
         _parallelProjection = value;
     }
 
-    public ReadOnlyMatrix4 getProjectionMatrix() {
+    protected void updateProjectionMatrix() {
         if (isParallelProjection()) {
             _projection.loadIdentity();
             _projection.setValue(0, 0, 2.0 / (_frustumRight - _frustumLeft));
@@ -1003,11 +1010,17 @@ public class Camera implements Savable, Externalizable, Cloneable {
             _projection.setValue(2, 3, -1.0);
             _projection.setValue(3, 3, -0.0);
         }
+
+        _updatePMatrix = false;
+    }
+
+    public ReadOnlyMatrix4 getProjectionMatrix() {
+        checkProjection();
+
         return _projection;
     }
 
-    public ReadOnlyMatrix4 getModelViewMatrix() {
-        // XXX: Cache results or is this low cost enough to happen every time it is called?
+    protected void updateModelViewMatrix() {
         _modelView.loadIdentity();
         _modelView.setValue(0, 0, -_left.getX());
         _modelView.setValue(1, 0, -_left.getY());
@@ -1028,6 +1041,10 @@ public class Camera implements Savable, Externalizable, Cloneable {
 
         _transMatrix.multiplyLocal(_modelView);
         _modelView.set(_transMatrix);
+    }
+
+    public ReadOnlyMatrix4 getModelViewMatrix() {
+        checkModelView();
 
         return _modelView;
     }
@@ -1061,11 +1078,8 @@ public class Camera implements Savable, Externalizable, Cloneable {
         if (store == null) {
             store = new Vector3();
         }
-        checkViewProjection();
-        if (_updateMatrices) {
-            _modelViewProjection.invert(_modelViewProjectionInverse);
-            _updateMatrices = false;
-        }
+        checkModelViewProjection();
+        checkInverseModelViewProjection();
         final Vector4 position = Vector4.fetchTempInstance();
         position.set((screenPosition.getX() / getWidth() - _viewPortLeft) / (_viewPortRight - _viewPortLeft) * 2 - 1,
                 (screenPosition.getY() / getHeight() - _viewPortBottom) / (_viewPortTop - _viewPortBottom) * 2 - 1,
@@ -1094,7 +1108,7 @@ public class Camera implements Savable, Externalizable, Cloneable {
         if (store == null) {
             store = new Vector3();
         }
-        checkViewProjection();
+        checkModelViewProjection();
         final Vector4 position = Vector4.fetchTempInstance();
         position.set(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), 1);
         _modelViewProjection.applyPost(position, position);
@@ -1120,12 +1134,45 @@ public class Camera implements Savable, Externalizable, Cloneable {
     }
 
     /**
+     * update modelView if necessary.
+     */
+    private void checkModelView() {
+        if (_updateMVMatrix) {
+            updateModelViewMatrix();
+            _updateMVMatrix = false;
+        }
+    }
+
+    /**
+     * update projection if necessary.
+     */
+    private void checkProjection() {
+        if (_updatePMatrix) {
+            updateProjectionMatrix();
+            _updatePMatrix = false;
+        }
+    }
+
+    /**
      * update modelViewProjection if necessary.
      */
-    private void checkViewProjection() {
-        if (_updateSMatrices) {
+    private void checkModelViewProjection() {
+        if (_updateMVPMatrix) {
+            checkModelView();
+            checkProjection();
             _modelViewProjection.set(getModelViewMatrix()).multiplyLocal(getProjectionMatrix());
-            _updateSMatrices = false;
+            _updateMVPMatrix = false;
+        }
+    }
+
+    /**
+     * update inverse modelViewProjection if necessary.
+     */
+    private void checkInverseModelViewProjection() {
+        if (_updateInverseMVPMatrix) {
+            checkModelViewProjection();
+            _modelViewProjection.invert(_modelViewProjectionInverse);
+            _updateInverseMVPMatrix = false;
         }
     }
 

@@ -13,6 +13,7 @@ package com.ardor3d.light;
 import java.io.IOException;
 
 import com.ardor3d.math.Vector3;
+import com.ardor3d.math.type.ReadOnlyVector3;
 import com.ardor3d.util.Ardor3dException;
 import com.ardor3d.util.export.Ardor3DExporter;
 import com.ardor3d.util.export.Ardor3DImporter;
@@ -44,8 +45,8 @@ public class SpotLight extends PointLight {
     /**
      * @return the direction the spot light is pointing.
      */
-    public Vector3 getDirection(final Vector3 store) {
-        return store.set(_direction);
+    public ReadOnlyVector3 getDirection() {
+        return _direction;
     }
 
     /**

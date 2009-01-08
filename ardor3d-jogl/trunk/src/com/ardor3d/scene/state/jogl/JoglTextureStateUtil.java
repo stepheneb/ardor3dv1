@@ -33,8 +33,8 @@ import com.ardor3d.image.Texture.CombinerSource;
 import com.ardor3d.image.Texture.Type;
 import com.ardor3d.image.Texture.WrapAxis;
 import com.ardor3d.image.Texture.WrapMode;
-import com.ardor3d.math.ColorRGBA;
 import com.ardor3d.math.MathUtils;
+import com.ardor3d.math.type.ReadOnlyColorRGBA;
 import com.ardor3d.renderer.ContextCapabilities;
 import com.ardor3d.renderer.ContextManager;
 import com.ardor3d.renderer.RenderContext;
@@ -948,7 +948,7 @@ public class JoglTextureStateUtil {
             final TextureStateRecord record, final ContextCapabilities caps) {
         final GL gl = GLU.getCurrentGL();
 
-        final ColorRGBA texBlend = texture.getBlendColor(ColorRGBA.fetchTempInstance());
+        final ReadOnlyColorRGBA texBlend = texture.getBlendColor();
         if (!unitRecord.isValid() || !unitRecord.blendColor.equals(texBlend)) {
             checkAndSetUnit(unit, record, caps);
             TextureRecord.colorBuffer.clear();
@@ -958,14 +958,13 @@ public class JoglTextureStateUtil {
             gl.glTexEnvfv(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_COLOR, TextureRecord.colorBuffer);
             unitRecord.blendColor.set(texBlend);
         }
-        ColorRGBA.releaseTempInstance(texBlend);
     }
 
     public static void applyBorderColor(final Texture texture, final TextureRecord texRecord, final int unit,
             final TextureStateRecord record, final ContextCapabilities caps) {
         final GL gl = GLU.getCurrentGL();
 
-        final ColorRGBA texBorder = texture.getBorderColor(ColorRGBA.fetchTempInstance());
+        final ReadOnlyColorRGBA texBorder = texture.getBorderColor();
         if (!texRecord.isValid() || !texRecord.borderColor.equals(texBorder)) {
             TextureRecord.colorBuffer.clear();
             TextureRecord.colorBuffer.put(texBorder.getRed()).put(texBorder.getGreen()).put(texBorder.getBlue()).put(
@@ -974,7 +973,6 @@ public class JoglTextureStateUtil {
             gl.glTexParameterfv(getGLType(texture.getType()), GL.GL_TEXTURE_BORDER_COLOR, TextureRecord.colorBuffer);
             texRecord.borderColor.set(texBorder);
         }
-        ColorRGBA.releaseTempInstance(texBorder);
     }
 
     public static void applyTextureTransforms(final Texture texture, final int unit, final TextureStateRecord record,
